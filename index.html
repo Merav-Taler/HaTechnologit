@@ -266,6 +266,80 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .why-text h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
 .why-text p { font-size: 14px; color: var(--text-sec); line-height: 1.6; }
 
+/* ===== ABOUT ME ===== */
+.about-section {
+  position: relative; overflow: hidden;
+  background: linear-gradient(135deg, #F5F3FF 0%, #FDF2F8 100%);
+}
+.about-grid {
+  display: grid; grid-template-columns: 300px 1fr;
+  gap: 48px; align-items: center; max-width: 900px; margin: 0 auto;
+}
+.about-photo-wrap {
+  position: relative;
+}
+.about-photo {
+  width: 280px; height: 340px; border-radius: var(--r-lg);
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 120px; position: relative; overflow: hidden;
+  box-shadow: var(--sh-xl);
+}
+.about-photo-placeholder {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 100px; color: rgba(255,255,255,.9);
+}
+.about-badge {
+  position: absolute; bottom: -12px; right: -12px;
+  background: var(--accent); color: #fff;
+  padding: 8px 18px; border-radius: var(--r-full);
+  font-size: 13px; font-weight: 700;
+  box-shadow: 0 4px 12px rgba(236,72,153,.3);
+}
+.about-content h2 {
+  font-size: clamp(26px, 4vw, 36px); font-weight: 800; margin-bottom: 6px;
+}
+.about-subtitle {
+  font-size: 17px; color: var(--primary); font-weight: 600; margin-bottom: 18px;
+}
+.about-story {
+  font-size: 16px; color: var(--text-sec); line-height: 1.8; margin-bottom: 24px;
+}
+.about-story strong { color: var(--text); }
+.about-highlights {
+  display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 24px;
+}
+.about-tag {
+  background: var(--bg-card); border: 1px solid var(--border);
+  padding: 8px 16px; border-radius: var(--r-full);
+  font-size: 13px; font-weight: 500; color: var(--text);
+  display: flex; align-items: center; gap: 6px;
+}
+.about-links {
+  display: flex; gap: 12px; flex-wrap: wrap;
+}
+.about-link {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 22px; border-radius: var(--r-full);
+  font-size: 14px; font-weight: 600; transition: all var(--tr);
+}
+.about-link-primary {
+  background: var(--primary); color: #fff;
+}
+.about-link-primary:hover { background: var(--primary-dark); color: #fff; transform: translateY(-2px); }
+.about-link-outline {
+  background: var(--bg-card); color: var(--primary);
+  border: 2px solid var(--primary-light);
+}
+.about-link-outline:hover { background: var(--primary-bg); transform: translateY(-2px); }
+.about-quote {
+  margin-top: 24px; padding: 16px 20px;
+  background: var(--bg-card); border-radius: var(--r);
+  border-right: 4px solid var(--primary);
+  font-style: italic; color: var(--text-sec); font-size: 15px; line-height: 1.7;
+}
+
 /* ===== TESTIMONIALS ===== */
 .testimonials-grid {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -461,11 +535,37 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   .price-card.featured { transform: none; }
   .price-card.featured:hover { transform: translateY(-3px); }
   .hero-btns { flex-direction: column; align-items: center; }
-  .btn { width: 100%; max-width: 280px; justify-content: center; }
+  .btn { width: 100%; max-width: 300px; justify-content: center; }
+  .about-grid { grid-template-columns: 1fr; text-align: center; }
+  .about-photo-wrap { display: flex; justify-content: center; }
+  .about-photo { width: 220px; height: 270px; }
+  .about-photo-placeholder { font-size: 80px; }
+  .about-badge { right: 50%; transform: translateX(50%); bottom: -10px; }
+  .about-highlights { justify-content: center; }
+  .about-links { justify-content: center; }
+  .about-quote { text-align: right; }
+  .services-grid { grid-template-columns: 1fr; }
+  .testimonials-grid { grid-template-columns: 1fr; }
+  .why-grid { grid-template-columns: 1fr; }
+  .audience-grid { grid-template-columns: 1fr 1fr; }
+  .section-title { font-size: clamp(24px, 5vw, 36px); }
+  .hero h1 { font-size: clamp(28px, 7vw, 48px); }
+  .hero { padding: clamp(50px, 10vw, 90px) 16px clamp(60px, 8vw, 80px); }
 }
 @media (max-width: 480px) {
   .section { padding: 50px 16px; }
   .stats-bar { flex-direction: column; gap: 16px; }
+  .audience-grid { grid-template-columns: 1fr; }
+  .process-steps { grid-template-columns: 1fr 1fr; gap: 20px; }
+  .about-photo { width: 180px; height: 220px; }
+  .about-photo-placeholder { font-size: 64px; }
+  .hero-sub { font-size: 15px; }
+  .nav-inner { padding: 0 16px; }
+  .logo { font-size: 20px; }
+  .price-amount { font-size: 34px; }
+  .faq-q { padding: 16px 18px; font-size: 15px; }
+  .contact-form { padding: 20px; }
+  .about-content h2 { font-size: 24px; }
 }
 </style>
 </head>
@@ -480,6 +580,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     </div>
     <div class="nav-links">
       <a class="nav-link active" href="#services">שירותים</a>
+      <a class="nav-link" href="#about">עליי</a>
       <a class="nav-link" href="#audience">למי מתאים</a>
       <a class="nav-link" href="#process">איך זה עובד</a>
       <a class="nav-link" href="#pricing">מחירים</a>
@@ -495,6 +596,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 <!-- Mobile Menu -->
 <div class="mobile-menu" id="mobileMenu">
   <a class="nav-link" href="#services" onclick="closeMenu()">שירותים</a>
+  <a class="nav-link" href="#about" onclick="closeMenu()">עליי</a>
   <a class="nav-link" href="#audience" onclick="closeMenu()">למי מתאים</a>
   <a class="nav-link" href="#process" onclick="closeMenu()">איך זה עובד</a>
   <a class="nav-link" href="#pricing" onclick="closeMenu()">מחירים</a>
@@ -559,6 +661,19 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
       </div>
 
       <div class="service-card">
+        <div class="service-icon">📋</div>
+        <h3>משימות יומיומיות דיגיטליות</h3>
+        <p>כל מה שצריך לעשות אונליין — נלמד אתכם, צעד אחר צעד</p>
+        <ul class="service-list">
+          <li>אפליקציות קופת חולים ותורים</li>
+          <li>הזמנת מוצרים ושירותים אונליין</li>
+          <li>תשלומים, העברות והוראות קבע</li>
+          <li>מילוי טפסים דיגיטליים וביטוחים</li>
+          <li>ניהול חשבונות וביצוע משימות אדמיניסטרטיביות</li>
+        </ul>
+      </div>
+
+      <div class="service-card">
         <div class="service-icon">🖥️</div>
         <h3>תמיכה טכנית מרחוק</h3>
         <p>עזרה מהירה ויעילה ישירות למסך שלכם — בלי לצאת מהבית</p>
@@ -572,6 +687,18 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
       </div>
 
       <div class="service-card">
+        <div class="service-icon">🤖</div>
+        <h3>הדרכות AI ובינה מלאכותית</h3>
+        <p>העולם משתנה — תדעו להשתמש בכלים החכמים שיש היום</p>
+        <ul class="service-list">
+          <li>שימוש ב-ChatGPT וכלי AI לחיי היומיום</li>
+          <li>AI לכתיבה, תמונות ותוכן</li>
+          <li>כלי AI שחוסכים זמן לעסקים</li>
+          <li>אבטחה ופרטיות בשימוש ב-AI</li>
+        </ul>
+      </div>
+
+      <div class="service-card">
         <div class="service-icon">🏪</div>
         <h3>ליווי עסקים קטנים ועצמאיים</h3>
         <p>ליווי טכנולוגי מלא לעסק שלכם — פתרונות חכמים שחוסכים זמן וכסף</p>
@@ -581,6 +708,18 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
           <li>אוטומציה ופתרונות טכנולוגיים יעילים</li>
           <li>אבטחה וגיבוי עסקי</li>
           <li>ליווי שוטף ותמיכה מתמשכת</li>
+        </ul>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon">🛒</div>
+        <h3>ייעוץ ברכישת טכנולוגיה</h3>
+        <p>לפני שקונים — שואלים. נעזור לכם לבחור את המוצר הנכון בתקציב הנכון</p>
+        <ul class="service-list">
+          <li>ייעוץ בקניית מחשב נייד/נייח</li>
+          <li>בחירת טלפון חכם מתאים</li>
+          <li>המלצות על מדפסות, טאבלטים ועוד</li>
+          <li>השוואת מחירים ומפרטים</li>
         </ul>
       </div>
 
@@ -605,18 +744,6 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
           <li>חיבור בין מערכות וכלים</li>
           <li>פתרונות AI לעסקים</li>
           <li>ייעול זרימת עבודה דיגיטלית</li>
-        </ul>
-      </div>
-
-      <div class="service-card">
-        <div class="service-icon">📚</div>
-        <h3>סדנאות וקורסים</h3>
-        <p>למידה קבוצתית בקבוצות קטנות — אווירה נעימה ותומכת</p>
-        <ul class="service-list">
-          <li>קורס מחשבים למתחילים</li>
-          <li>סדנת אבטחה ברשת</li>
-          <li>שימוש חכם ב-AI ובינה מלאכותית</li>
-          <li>ניהול כספים דיגיטלי</li>
         </ul>
       </div>
 
@@ -746,6 +873,52 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
         <div class="why-text">
           <h3>זמינות גבוהה</h3>
           <p>תקועים עם משהו? שלחו הודעה ונחזור אליכם מהר</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== ABOUT ME ===== -->
+<section class="section about-section" id="about">
+  <div class="section-inner">
+    <div class="about-grid">
+
+      <div class="about-photo-wrap">
+        <div class="about-photo">
+          <div class="about-photo-placeholder">👩‍💻</div>
+        </div>
+        <div class="about-badge">+10 שנות ניסיון</div>
+      </div>
+
+      <div class="about-content">
+        <h2>מירב טלר ושדי</h2>
+        <div class="about-subtitle">מדריכה טכנולוגית, גיקית מלידה, בת 31</div>
+
+        <p class="about-story">
+          כבר מגיל צעיר ידעתי שטכנולוגיה זה הדבר שלי. בזמן שכולם שיחקו בחוץ, אני פירקתי מחשבים והרכבתי אותם מחדש.<br><br>
+          <strong>מעל עשור אני מלווה אנשים בעולם הטכנולוגיה</strong> — מסבתות שרצו לדבר עם הנכדים בוידאו, דרך בעלי עסקים שהבינו שהם חייבים דיגיטל, ועד מרצים שעברו להוראה מרחוק ולא ידעו מאיפה להתחיל.<br><br>
+          מה שמניע אותי? <strong>הרגע שמישהו אומר ״וואו, לא ידעתי שזה כל כך פשוט!״</strong><br>
+          אני מאמינה שכל אחד יכול — צריך רק מישהי שתסביר בשפה שלכם, בסבלנות, ובלי להרגיש שאתם מפריעים.
+        </p>
+
+        <div class="about-highlights">
+          <span class="about-tag">🎓 מדריכה טכנולוגית מוסמכת</span>
+          <span class="about-tag">💻 מומחית לפתרונות חכמים</span>
+          <span class="about-tag">🏪 ייעוץ לעסקים קטנים</span>
+          <span class="about-tag">🌍 הדרכה פרונטלית ומרחוק</span>
+          <span class="about-tag">❤️ סבלנות אינסופית</span>
+          <span class="about-tag">🤖 חובבת AI וחדשנות</span>
+        </div>
+
+        <div class="about-links">
+          <a class="about-link about-link-primary" href="tel:050-000-0000">📞 חייגו אליי</a>
+          <a class="about-link about-link-outline" href="https://linkedin.com/in/" target="_blank">💼 לינקדאין</a>
+        </div>
+
+        <div class="about-quote">
+          ״אני לא רק מלמדת טכנולוגיה — אני נותנת ביטחון. כי ברגע שאתם מבינים שאתם יכולים, הכל נפתח.״
         </div>
       </div>
 
@@ -1032,6 +1205,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     <p class="footer-desc">הדרכה טכנולוגית אישית, תמיכה מרחוק, וייעוץ חכם לעסקים — הטכנולוגיה בשבילכם.</p>
     <div class="footer-links">
       <a href="#services">שירותים</a>
+      <a href="#about">עליי</a>
       <a href="#audience">למי מתאים</a>
       <a href="#process">איך זה עובד</a>
       <a href="#pricing">מחירים</a>
