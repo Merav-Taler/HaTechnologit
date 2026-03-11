@@ -340,6 +340,46 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   font-style: italic; color: var(--text-sec); font-size: 15px; line-height: 1.7;
 }
 
+/* ===== BLOG PREVIEW ===== */
+.blog-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+.blog-card {
+  background: var(--bg-card); border-radius: var(--r-lg);
+  box-shadow: var(--sh); border: 1px solid var(--border);
+  overflow: hidden; transition: all var(--tr);
+}
+.blog-card:hover { transform: translateY(-4px); box-shadow: var(--sh-lg); border-color: var(--primary-light); }
+.blog-thumb {
+  width: 100%; height: 180px; object-fit: cover;
+  background: linear-gradient(135deg, var(--primary-bg) 0%, #FDF2F8 100%);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 56px;
+}
+.blog-body { padding: 24px; }
+.blog-tag {
+  display: inline-block; background: var(--primary-bg); color: var(--primary);
+  font-size: 12px; font-weight: 600; padding: 3px 12px;
+  border-radius: var(--r-full); margin-bottom: 10px;
+}
+.blog-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; line-height: 1.4; }
+.blog-card h3 a { color: var(--text); transition: color var(--tr); }
+.blog-card h3 a:hover { color: var(--primary); }
+.blog-excerpt { font-size: 14px; color: var(--text-sec); line-height: 1.6; margin-bottom: 14px; }
+.blog-meta { font-size: 12px; color: var(--text-m); display: flex; align-items: center; gap: 12px; }
+.blog-more {
+  display: inline-flex; align-items: center; gap: 6px;
+  color: var(--primary); font-weight: 600; font-size: 14px;
+  margin-top: 40px; transition: all var(--tr);
+}
+.blog-more:hover { gap: 10px; }
+
+/* ===== ABOUT PHOTO REAL ===== */
+.about-photo img {
+  width: 100%; height: 100%; object-fit: cover;
+}
+
 /* ===== TESTIMONIALS ===== */
 .testimonials-grid {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -545,6 +585,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   .about-links { justify-content: center; }
   .about-quote { text-align: right; }
   .services-grid { grid-template-columns: 1fr; }
+  .blog-grid { grid-template-columns: 1fr; }
   .testimonials-grid { grid-template-columns: 1fr; }
   .why-grid { grid-template-columns: 1fr; }
   .audience-grid { grid-template-columns: 1fr 1fr; }
@@ -887,6 +928,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
       <div class="about-photo-wrap">
         <div class="about-photo">
+          <!-- החליפי את האימוג'י בתמונה שלך: -->
+          <!-- <img src="merav.jpg" alt="מירב טלר ושדי"> -->
           <div class="about-photo-placeholder">👩‍💻</div>
         </div>
         <div class="about-badge">+10 שנות ניסיון</div>
@@ -1105,6 +1148,59 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
         <div class="faq-a">זה תלוי במטרות שלכם. יש כאלה שמספיק להם 2-3 שיעורים כדי להרגיש בנוח, ויש כאלה שאוהבים ליווי שוטף. אנחנו מתאימים את הכמות לצרכים שלכם.</div>
       </div>
 
+    </div>
+  </div>
+</section>
+
+<!-- ===== BLOG PREVIEW ===== -->
+<section class="section" id="blog">
+  <div class="section-inner">
+    <h2 class="section-title">טיפים וידע</h2>
+    <p class="section-sub">מאמרים קצרים שיעזרו לכם להבין טכנולוגיה בלי סיבוכים</p>
+    <div class="blog-grid">
+
+      <div class="blog-card">
+        <div class="blog-thumb">🔒</div>
+        <div class="blog-body">
+          <span class="blog-tag">אבטחה</span>
+          <h3><a href="blog.html#phishing">איך מזהים הודעת הונאה (פישינג)?</a></h3>
+          <p class="blog-excerpt">קיבלתם SMS מ״הבנק״ שמבקש לעדכן פרטים? כנראה שזה לא הבנק. הנה 5 סימנים שיעזרו לכם לזהות הודעות מזויפות ולהגן על עצמכם.</p>
+          <div class="blog-meta">
+            <span>📅 מרץ 2026</span>
+            <span>⏱️ 3 דקות קריאה</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="blog-card">
+        <div class="blog-thumb">🤖</div>
+        <div class="blog-body">
+          <span class="blog-tag">AI</span>
+          <h3><a href="blog.html#chatgpt">מה זה ChatGPT ולמה כולם מדברים על זה?</a></h3>
+          <p class="blog-excerpt">בינה מלאכותית נשמע מפחיד? בכלל לא. הנה הסבר פשוט על מה זה, איך משתמשים בזה, ואיך זה יכול לעזור לכם בחיי היומיום.</p>
+          <div class="blog-meta">
+            <span>📅 מרץ 2026</span>
+            <span>⏱️ 4 דקות קריאה</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="blog-card">
+        <div class="blog-thumb">📱</div>
+        <div class="blog-body">
+          <span class="blog-tag">טיפים</span>
+          <h3><a href="blog.html#phone-tips">5 דברים שכל אחד חייב לדעת לעשות בטלפון</a></h3>
+          <p class="blog-excerpt">מצילום מסך ועד גיבוי תמונות — הדברים הפשוטים שיהפכו את הטלפון שלכם מכשיר מבלבל לחבר הכי טוב שלכם.</p>
+          <div class="blog-meta">
+            <span>📅 פברואר 2026</span>
+            <span>⏱️ 3 דקות קריאה</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div style="text-align:center">
+      <a class="blog-more" href="blog.html">כל המאמרים ←</a>
     </div>
   </div>
 </section>

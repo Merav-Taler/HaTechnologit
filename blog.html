@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>הטכנולוגית | טיפים וידע טכנולוגי</title>
+<meta name="description" content="מאמרים, טיפים ומדריכים טכנולוגיים פשוטים ונגישים — מאבטחת מידע ועד שימוש ב-AI. בשפה שכולם מבינים.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #7C3AED; --primary-light: #A78BFA; --primary-dark: #6D28D9;
+  --primary-bg: #F5F3FF; --primary-glow: rgba(124,58,237,.15);
+  --accent: #EC4899; --accent-light: #F472B6;
+  --success: #10B981;
+  --bg: #FAFAFE; --bg-card: #FFFFFF;
+  --text: #1E1B4B; --text-sec: #6B7280; --text-m: #9CA3AF;
+  --border: #E5E7EB; --border-h: #D1D5DB;
+  --sh: 0 1px 3px rgba(0,0,0,.06); --sh-md: 0 4px 12px rgba(0,0,0,.06);
+  --sh-lg: 0 10px 30px rgba(0,0,0,.08);
+  --r: 14px; --r-lg: 20px; --r-full: 50px;
+  --font: 'Heebo', 'Segoe UI', Tahoma, Arial, sans-serif;
+  --tr: .3s ease; --nav-h: 64px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.7; direction: rtl; text-align: right; min-height: 100vh; }
+a { color: var(--primary); text-decoration: none; transition: color var(--tr); }
+a:hover { color: var(--primary-dark); }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+
+/* NAV */
+.nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); height: var(--nav-h); }
+.nav-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; height: 100%; }
+.logo { font-size: 22px; font-weight: 800; color: var(--primary); display: flex; align-items: center; gap: 8px; cursor: pointer; }
+.logo-icon { font-size: 28px; }
+.nav-links { display: flex; align-items: center; gap: 4px; }
+.nav-link { padding: 8px 18px; border-radius: var(--r-full); font-size: 14px; font-weight: 500; color: var(--text-sec); transition: all var(--tr); }
+.nav-link:hover, .nav-link.active { color: var(--primary); background: var(--primary-bg); }
+.nav-cta { padding: 9px 24px; border-radius: var(--r-full); background: var(--primary); color: #fff; font-size: 14px; font-weight: 600; transition: all var(--tr); }
+.nav-cta:hover { background: var(--primary-dark); }
+.hamburger { display: none; width: 36px; height: 36px; flex-direction: column; align-items: center; justify-content: center; gap: 5px; cursor: pointer; }
+.hamburger span { width: 22px; height: 2px; background: var(--text); transition: all .3s; border-radius: 2px; }
+.mobile-menu { display: none; position: fixed; top: var(--nav-h); left: 0; right: 0; background: var(--bg-card); border-bottom: 1px solid var(--border); box-shadow: var(--sh-lg); z-index: 99; flex-direction: column; padding: 16px; }
+.mobile-menu.open { display: flex; }
+.mobile-menu .nav-link { padding: 14px 16px; font-size: 16px; width: 100%; }
+
+/* HERO */
+.blog-hero {
+  padding: 50px 24px 40px; text-align: center;
+  background: linear-gradient(135deg, #F5F3FF 0%, #FDF2F8 100%);
+}
+.blog-hero h1 { font-size: clamp(28px, 5vw, 42px); font-weight: 800; margin-bottom: 10px; }
+.blog-hero p { font-size: 17px; color: var(--text-sec); max-width: 550px; margin: 0 auto; }
+
+/* CONTENT */
+.blog-content { max-width: 800px; margin: 0 auto; padding: 40px 24px 80px; }
+
+/* ARTICLE */
+.article {
+  background: var(--bg-card); border-radius: var(--r-lg);
+  padding: 40px; box-shadow: var(--sh); border: 1px solid var(--border);
+  margin-bottom: 40px; scroll-margin-top: 80px;
+}
+.article-tag {
+  display: inline-block; background: var(--primary-bg); color: var(--primary);
+  font-size: 12px; font-weight: 600; padding: 4px 14px;
+  border-radius: var(--r-full); margin-bottom: 12px;
+}
+.article h2 {
+  font-size: clamp(22px, 3.5vw, 30px); font-weight: 800;
+  margin-bottom: 8px; line-height: 1.3;
+}
+.article-meta {
+  font-size: 13px; color: var(--text-m); margin-bottom: 24px;
+  display: flex; align-items: center; gap: 16px;
+}
+.article-icon { font-size: 64px; display: block; margin: 0 auto 24px; text-align: center; }
+.article p { font-size: 16px; color: var(--text-sec); line-height: 1.8; margin-bottom: 16px; }
+.article strong { color: var(--text); }
+.article h3 {
+  font-size: 19px; font-weight: 700; margin: 28px 0 12px;
+  color: var(--text); padding-right: 16px;
+  border-right: 4px solid var(--primary);
+}
+.article ul, .article ol {
+  margin: 12px 0 20px; padding-right: 24px;
+}
+.article li {
+  font-size: 15px; color: var(--text-sec); line-height: 1.8;
+  margin-bottom: 6px;
+}
+.article-tip {
+  background: var(--primary-bg); border-radius: var(--r);
+  padding: 16px 20px; margin: 20px 0;
+  border-right: 4px solid var(--primary);
+  font-size: 15px; color: var(--text); line-height: 1.7;
+}
+.article-tip strong { color: var(--primary-dark); }
+.article-warning {
+  background: #FFF7ED; border-radius: var(--r);
+  padding: 16px 20px; margin: 20px 0;
+  border-right: 4px solid #F59E0B;
+  font-size: 15px; color: var(--text); line-height: 1.7;
+}
+.article-cta {
+  text-align: center; margin-top: 28px; padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+.article-cta p { font-size: 15px; color: var(--text-sec); margin-bottom: 12px; }
+.article-cta a {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 28px; border-radius: var(--r-full);
+  background: var(--primary); color: #fff;
+  font-weight: 600; font-size: 14px; transition: all var(--tr);
+}
+.article-cta a:hover { background: var(--primary-dark); color: #fff; transform: translateY(-2px); }
+
+/* BACK */
+.back-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  color: var(--primary); font-weight: 600; font-size: 15px;
+  margin-bottom: 24px; transition: all var(--tr);
+}
+.back-link:hover { gap: 10px; }
+
+/* FOOTER */
+.footer { background: #1E1B4B; color: #C4B5FD; padding: 40px 24px 24px; text-align: center; }
+.footer-inner { max-width: 1100px; margin: 0 auto; }
+.footer-logo { font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 8px; }
+.footer-desc { font-size: 14px; opacity: .7; max-width: 400px; margin: 0 auto 24px; line-height: 1.6; }
+.footer-links { display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; margin-bottom: 24px; }
+.footer-links a { color: #C4B5FD; font-size: 14px; transition: color var(--tr); }
+.footer-links a:hover { color: #fff; }
+.footer-divider { height: 1px; background: rgba(255,255,255,.1); margin-bottom: 20px; }
+.footer-copy { font-size: 13px; opacity: .5; }
+
+/* WhatsApp */
+.whatsapp-float {
+  position: fixed; bottom: 24px; left: 24px; z-index: 90;
+  width: 56px; height: 56px; border-radius: 50%;
+  background: #25D366; color: #fff; font-size: 28px;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 16px rgba(37,211,102,.35); transition: all var(--tr);
+}
+.whatsapp-float:hover { transform: scale(1.1); }
+
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .nav-cta { display: none; }
+  .hamburger { display: flex; }
+  .article { padding: 24px 20px; }
+}
+@media (max-width: 480px) {
+  .article h2 { font-size: 22px; }
+  .blog-hero h1 { font-size: 26px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="logo" href="index.html">
+      <span class="logo-icon">💡</span>
+      הטכנולוגית
+    </a>
+    <div class="nav-links">
+      <a class="nav-link" href="index.html#services">שירותים</a>
+      <a class="nav-link" href="index.html#about">עליי</a>
+      <a class="nav-link active" href="blog.html">בלוג</a>
+      <a class="nav-link" href="index.html#pricing">מחירים</a>
+      <a class="nav-link" href="index.html#contact">צרו קשר</a>
+    </div>
+    <a class="nav-cta" href="index.html#contact">צרו קשר ←</a>
+    <div class="hamburger" onclick="document.getElementById('mm').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+<div class="mobile-menu" id="mm">
+  <a class="nav-link" href="index.html#services" onclick="document.getElementById('mm').classList.remove('open')">שירותים</a>
+  <a class="nav-link" href="index.html#about" onclick="document.getElementById('mm').classList.remove('open')">עליי</a>
+  <a class="nav-link active" href="blog.html">בלוג</a>
+  <a class="nav-link" href="index.html#pricing" onclick="document.getElementById('mm').classList.remove('open')">מחירים</a>
+  <a class="nav-link" href="index.html#contact" onclick="document.getElementById('mm').classList.remove('open')">צרו קשר</a>
+</div>
+
+<section class="blog-hero">
+  <h1>טיפים וידע טכנולוגי</h1>
+  <p>מאמרים קצרים בשפה פשוטה — כדי שתרגישו בטוחים יותר בעולם הדיגיטלי</p>
+</section>
+
+<div class="blog-content">
+
+  <a class="back-link" href="index.html">→ חזרה לעמוד הראשי</a>
+
+  <!-- ===== ARTICLE 1: PHISHING ===== -->
+  <article class="article" id="phishing">
+    <span class="article-tag">אבטחה</span>
+    <h2>איך מזהים הודעת הונאה (פישינג)?</h2>
+    <div class="article-meta">
+      <span>📅 מרץ 2026</span>
+      <span>⏱️ 3 דקות קריאה</span>
+      <span>✍️ מירב טלר ושדי</span>
+    </div>
+    <div class="article-icon">🔒</div>
+
+    <p>כל יום, אלפי ישראלים מקבלים הודעות SMS או מיילים שנראים כאילו הם מגיעים מהבנק, מדואר ישראל, או מביטוח לאומי. <strong>ברוב המקרים — אלה הונאות.</strong></p>
+
+    <p>פישינג (Phishing) זו שיטת הונאה שבה מישהו מתחזה לגורם רשמי כדי לגרום לכם ללחוץ על קישור ולמסור פרטים אישיים. הנה איך להימנע:</p>
+
+    <h3>5 סימנים שזו הודעה מזויפת</h3>
+    <ol>
+      <li><strong>דחיפות מוגזמת</strong> — ״החשבון שלך ייחסם תוך 24 שעות!״ גורם רשמי לא מאיים.</li>
+      <li><strong>קישור מוזר</strong> — במקום bank.co.il רואים bank-security-update.com. תמיד בדקו את הכתובת.</li>
+      <li><strong>שגיאות כתיב</strong> — בנקים ומוסדות רשמיים לא שולחים הודעות עם שגיאות.</li>
+      <li><strong>בקשה למידע אישי</strong> — אף בנק לא יבקש סיסמה או מספר כרטיס ב-SMS.</li>
+      <li><strong>שולח לא מוכר</strong> — מספר טלפון לא מוכר, או כתובת מייל מוזרה.</li>
+    </ol>
+
+    <div class="article-tip">
+      <strong>💡 טיפ זהב:</strong> אם קיבלתם הודעה חשודה מ״הבנק״ — לא ללחוץ! במקום זאת, פתחו את אפליקציית הבנק ישירות או התקשרו למספר שמופיע בגב כרטיס האשראי.
+    </div>
+
+    <div class="article-warning">
+      <strong>⚠️ שימו לב:</strong> גם הודעות וואטסאפ מאנשים ״שמכירים אתכם״ יכולות להיות הונאה. אם חבר מבקש ממכם כסף בהודעה — התקשרו אליו ישירות לוודא.
+    </div>
+
+    <h3>מה לעשות אם לחצתם בטעות?</h3>
+    <ul>
+      <li>אל תמלאו שום פרטים באתר שנפתח</li>
+      <li>סגרו את הדפדפן מיד</li>
+      <li>שנו סיסמאות לחשבונות חשובים</li>
+      <li>בדקו תנועות חריגות בחשבון הבנק</li>
+      <li>דווחו לבנק שלכם</li>
+    </ul>
+
+    <div class="article-cta">
+      <p>רוצים ללמוד עוד על אבטחה ברשת? אני מעבירה שיעור אישי שמכסה את כל מה שצריך לדעת.</p>
+      <a href="index.html#contact">לתיאום שיעור אבטחה →</a>
+    </div>
+  </article>
+
+  <!-- ===== ARTICLE 2: CHATGPT ===== -->
+  <article class="article" id="chatgpt">
+    <span class="article-tag">AI</span>
+    <h2>מה זה ChatGPT ולמה כולם מדברים על זה?</h2>
+    <div class="article-meta">
+      <span>📅 מרץ 2026</span>
+      <span>⏱️ 4 דקות קריאה</span>
+      <span>✍️ מירב טלר ושדי</span>
+    </div>
+    <div class="article-icon">🤖</div>
+
+    <p>אם שמעתם על ChatGPT או ״בינה מלאכותית״ ולא ממש הבנתם על מה כולם מתרגשים — אתם לא לבד. בואו נפשט את זה.</p>
+
+    <h3>בקצרה: מה זה?</h3>
+    <p><strong>ChatGPT זה בעצם תוכנת מחשב חכמה שאפשר לשוחח איתה.</strong> כותבים לה שאלה — והיא עונה. אפשר לשאול אותה הכל: מתכון, עזרה במכתב, הסבר על תרופה, ואפילו בדיחה.</p>
+
+    <h3>דוגמאות לשימוש יומיומי</h3>
+    <ul>
+      <li>״תכתוב לי מכתב רשמי לוועד הבית על רעש מהשכנים״</li>
+      <li>״מה ההבדל בין ביטוח חיים לביטוח מנהלים?״</li>
+      <li>״תמליץ על מתכון קל לארוחת ערב בריאה״</li>
+      <li>״תסביר לי מה זה VPN בשפה פשוטה״</li>
+      <li>״תעזור לי לכתוב פוסט לאינסטגרם לעסק שלי״</li>
+    </ul>
+
+    <h3>איך מתחילים?</h3>
+    <ol>
+      <li>נכנסים ל-<strong>chat.openai.com</strong> (חינם!)</li>
+      <li>נרשמים עם מייל</li>
+      <li>כותבים שאלה בעברית — וזהו!</li>
+    </ol>
+
+    <div class="article-tip">
+      <strong>💡 טיפ:</strong> ככל שתהיו יותר ספציפיים בשאלה, התשובה תהיה יותר טובה. במקום ״תכתוב מכתב״, כתבו ״תכתוב מכתב רשמי בעברית לחברת ביטוח בנושא ביטול פוליסה, בטון נעים אבל נחרץ״.
+    </div>
+
+    <h3>על מה צריך להיזהר?</h3>
+    <ul>
+      <li>AI לפעמים ממציא מידע — תמיד תבדקו עובדות חשובות</li>
+      <li>אל תשלחו מידע רגיש (סיסמאות, מספרי תעודת זהות)</li>
+      <li>זה כלי שעוזר — לא מחליף מומחים (רופאים, עורכי דין)</li>
+    </ul>
+
+    <div class="article-cta">
+      <p>רוצים שאלמד אתכם להשתמש ב-AI כמו מקצוענים? שיעור אחד וזה ברור.</p>
+      <a href="index.html#contact">לשיעור AI אישי →</a>
+    </div>
+  </article>
+
+  <!-- ===== ARTICLE 3: PHONE TIPS ===== -->
+  <article class="article" id="phone-tips">
+    <span class="article-tag">טיפים</span>
+    <h2>5 דברים שכל אחד חייב לדעת לעשות בטלפון</h2>
+    <div class="article-meta">
+      <span>📅 פברואר 2026</span>
+      <span>⏱️ 3 דקות קריאה</span>
+      <span>✍️ מירב טלר ושדי</span>
+    </div>
+    <div class="article-icon">📱</div>
+
+    <p>הטלפון החכם שלכם יכול לעשות דברים מדהימים — ורובנו משתמשים רק בחלק קטן מהיכולות שלו. <strong>הנה 5 דברים בסיסיים שכל אחד צריך לדעת:</strong></p>
+
+    <h3>1. צילום מסך</h3>
+    <p>רוצים לשמור מידע שראיתם על המסך? לחצו בו-זמנית על <strong>כפתור ההפעלה + כפתור עוצמת הקול למעלה</strong>. התמונה תישמר בגלריה.</p>
+
+    <h3>2. גיבוי תמונות</h3>
+    <p>אל תפחדו לאבד תמונות! התקינו את <strong>Google Photos</strong> (גוגל תמונות) — זה מגבה את כל התמונות שלכם אוטומטית לענן. גם אם הטלפון נשבר, התמונות בטוחות.</p>
+
+    <div class="article-tip">
+      <strong>💡 טיפ:</strong> בהגדרות של Google Photos, ודאו ש״גיבוי ותיאום״ מופעל. ככה זה עובד ברקע בלי שתצטרכו לחשוב על זה.
+    </div>
+
+    <h3>3. הגדלת הכתב</h3>
+    <p>הטקסט קטן מדי? היכנסו ל<strong>הגדרות → תצוגה → גודל גופן</strong> והגדילו. אפשר גם להגדיל את כל מה שעל המסך בהגדרות תצוגה.</p>
+
+    <h3>4. חסימת שיחות ספאם</h3>
+    <p>עייפתם מטלפונים של טלמרקטינג? התקינו את אפליקציית <strong>Truecaller</strong> — היא מזהה מספרים לא ידועים וחוסמת ספאם אוטומטית.</p>
+
+    <h3>5. שליחת מיקום בוואטסאפ</h3>
+    <p>צריכים לספר למישהו איפה אתם? בוואטסאפ, לחצו על <strong>אייקון הסיכה (📎) → מיקום → שלח את מיקומך הנוכחי</strong>. יותר קל מלהסביר ״ליד הבניין עם הגינה״.</p>
+
+    <div class="article-cta">
+      <p>רוצים ללמוד עוד טריקים לטלפון? אני מלמדת בדיוק את הדברים שאתם צריכים.</p>
+      <a href="index.html#contact">לשיעור טלפון חכם →</a>
+    </div>
+  </article>
+
+</div>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-logo">💡 הטכנולוגית</div>
+    <p class="footer-desc">הדרכה טכנולוגית אישית, תמיכה מרחוק, וייעוץ חכם לעסקים — הטכנולוגיה בשבילכם.</p>
+    <div class="footer-links">
+      <a href="index.html#services">שירותים</a>
+      <a href="index.html#about">עליי</a>
+      <a href="blog.html">בלוג</a>
+      <a href="index.html#pricing">מחירים</a>
+      <a href="index.html#contact">צרו קשר</a>
+    </div>
+    <div class="footer-divider"></div>
+    <p class="footer-copy">© 2026 הטכנולוגית — כל הזכויות שמורות</p>
+  </div>
+</footer>
+
+<a class="whatsapp-float" href="https://wa.me/972500000000" target="_blank" title="שלחו לנו וואטסאפ">💬</a>
+
+</body>
+</html>
