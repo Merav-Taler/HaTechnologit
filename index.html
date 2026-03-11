@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>הטכנולוגית | הדרכה טכנולוגית, תמיכה וייעוץ לעסקים</title>
+<meta name="description" content="הטכנולוגית - הדרכה טכנולוגית אישית לכל הגילאים, תמיכה טכנית מרחוק, וייעוץ טכנולוגי לעסקים קטנים. פתרונות חכמים ויעילים.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ===== CSS VARIABLES ===== */
+:root {
+  --primary: #7C3AED;
+  --primary-light: #A78BFA;
+  --primary-dark: #6D28D9;
+  --primary-deeper: #5B21B6;
+  --primary-bg: #F5F3FF;
+  --primary-glow: rgba(124,58,237,.15);
+  --accent: #EC4899;
+  --accent-light: #F472B6;
+  --accent-bg: #FDF2F8;
+  --success: #10B981;
+  --bg: #FAFAFE;
+  --bg-card: #FFFFFF;
+  --text: #1E1B4B;
+  --text-sec: #6B7280;
+  --text-m: #9CA3AF;
+  --border: #E5E7EB;
+  --border-h: #D1D5DB;
+  --sh: 0 1px 3px rgba(0,0,0,.06);
+  --sh-md: 0 4px 12px rgba(0,0,0,.06);
+  --sh-lg: 0 10px 30px rgba(0,0,0,.08);
+  --sh-xl: 0 20px 50px rgba(0,0,0,.12);
+  --r: 14px;
+  --r-lg: 20px;
+  --r-full: 50px;
+  --font: 'Heebo', 'Segoe UI', Tahoma, Arial, sans-serif;
+  --tr: .3s ease;
+  --nav-h: 64px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.7; direction: rtl; text-align: right; min-height: 100vh; }
+img { max-width: 100%; display: block; }
+a { color: var(--primary); text-decoration: none; transition: color var(--tr); }
+a:hover { color: var(--primary-dark); }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+
+/* ===== NAVBAR ===== */
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(255,255,255,.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  height: var(--nav-h);
+}
+.nav-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 24px; height: 100%;
+}
+.logo {
+  font-size: 22px; font-weight: 800; color: var(--primary);
+  display: flex; align-items: center; gap: 8px; cursor: pointer;
+}
+.logo-icon { font-size: 28px; }
+.nav-links { display: flex; align-items: center; gap: 4px; }
+.nav-link {
+  padding: 8px 18px; border-radius: var(--r-full);
+  font-size: 14px; font-weight: 500; color: var(--text-sec);
+  transition: all var(--tr); cursor: pointer;
+}
+.nav-link:hover, .nav-link.active { color: var(--primary); background: var(--primary-bg); }
+.nav-cta {
+  padding: 9px 24px; border-radius: var(--r-full);
+  background: var(--primary); color: #fff;
+  font-size: 14px; font-weight: 600; transition: all var(--tr);
+}
+.nav-cta:hover { background: var(--primary-dark); transform: translateY(-1px); box-shadow: 0 4px 12px var(--primary-glow); }
+.hamburger {
+  display: none; width: 36px; height: 36px;
+  flex-direction: column; align-items: center; justify-content: center;
+  gap: 5px; cursor: pointer;
+}
+.hamburger span { width: 22px; height: 2px; background: var(--text); transition: all .3s; border-radius: 2px; }
+.mobile-menu {
+  display: none; position: fixed; top: var(--nav-h); left: 0; right: 0;
+  background: var(--bg-card); border-bottom: 1px solid var(--border);
+  box-shadow: var(--sh-lg); z-index: 99;
+  flex-direction: column; padding: 16px;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu .nav-link { padding: 14px 16px; font-size: 16px; width: 100%; }
+
+/* ===== HERO ===== */
+.hero {
+  position: relative; overflow: hidden;
+  padding: clamp(70px, 12vw, 120px) 24px clamp(80px, 10vw, 110px);
+  text-align: center; color: #fff;
+  background: linear-gradient(135deg, #5B21B6 0%, #7C3AED 35%, #A78BFA 100%);
+}
+.hero::before {
+  content: ''; position: absolute; top: -40%; left: -30%; width: 160%; height: 180%;
+  background: radial-gradient(ellipse at 25% 50%, rgba(255,255,255,.1) 0%, transparent 55%),
+              radial-gradient(ellipse at 75% 30%, rgba(236,72,153,.12) 0%, transparent 40%);
+  pointer-events: none;
+}
+.hero::after {
+  content: ''; position: absolute; bottom: -2px; left: 0; right: 0;
+  height: 70px; background: var(--bg);
+  clip-path: ellipse(55% 100% at 50% 100%);
+}
+.hero-content { position: relative; z-index: 1; max-width: 780px; margin: 0 auto; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,.15); backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,.2);
+  padding: 6px 24px; border-radius: var(--r-full);
+  font-size: 14px; font-weight: 500; margin-bottom: 24px;
+}
+.hero h1 {
+  font-size: clamp(34px, 6vw, 58px); font-weight: 900;
+  margin-bottom: 18px; line-height: 1.2;
+}
+.hero h1 em { font-style: normal; color: #FBBF24; }
+.hero-sub {
+  font-size: clamp(16px, 2.5vw, 20px); opacity: .92;
+  max-width: 600px; margin: 0 auto 36px;
+  font-weight: 300; line-height: 1.7;
+}
+.hero-btns { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; }
+
+/* ===== BUTTONS ===== */
+.btn {
+  padding: 14px 34px; border-radius: var(--r-full);
+  font-size: 16px; font-weight: 600;
+  display: inline-flex; align-items: center; gap: 8px;
+  transition: all var(--tr); cursor: pointer;
+}
+.btn-primary { background: #fff; color: var(--primary); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.15); }
+.btn-outline { background: transparent; color: #fff; border: 2px solid rgba(255,255,255,.4); }
+.btn-outline:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.7); }
+.btn-purple { background: var(--primary); color: #fff; }
+.btn-purple:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 6px 20px var(--primary-glow); }
+.btn-accent { background: var(--accent); color: #fff; }
+.btn-accent:hover { background: #DB2777; transform: translateY(-2px); }
+
+/* ===== SECTIONS ===== */
+.section { padding: 80px 24px; }
+.section-title {
+  text-align: center; font-size: clamp(28px, 4vw, 40px);
+  font-weight: 800; margin-bottom: 12px;
+}
+.section-sub {
+  text-align: center; font-size: 17px; color: var(--text-sec);
+  max-width: 600px; margin: 0 auto 50px; line-height: 1.7;
+}
+.section-inner { max-width: 1100px; margin: 0 auto; }
+
+/* ===== STATS BAR ===== */
+.stats-bar {
+  display: flex; justify-content: center; gap: 50px; flex-wrap: wrap;
+  padding: 40px 24px; max-width: 900px; margin: -30px auto 0;
+  position: relative; z-index: 2;
+  background: var(--bg-card); border-radius: var(--r-lg);
+  box-shadow: var(--sh-lg);
+}
+.stat { text-align: center; }
+.stat-num { font-size: 36px; font-weight: 800; color: var(--primary); }
+.stat-label { font-size: 14px; color: var(--text-sec); font-weight: 500; }
+
+/* ===== SERVICES ===== */
+.services-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+.service-card {
+  background: var(--bg-card); border-radius: var(--r-lg);
+  padding: 36px 28px; box-shadow: var(--sh);
+  border: 1px solid var(--border);
+  transition: all var(--tr); position: relative; overflow: hidden;
+}
+.service-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--sh-lg);
+  border-color: var(--primary-light);
+}
+.service-card::before {
+  content: ''; position: absolute; top: 0; right: 0; left: 0;
+  height: 4px; background: linear-gradient(90deg, var(--primary), var(--accent));
+  opacity: 0; transition: opacity var(--tr);
+}
+.service-card:hover::before { opacity: 1; }
+.service-icon {
+  width: 60px; height: 60px; border-radius: 16px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px; margin-bottom: 20px;
+  background: var(--primary-bg);
+}
+.service-card h3 { font-size: 20px; font-weight: 700; margin-bottom: 10px; }
+.service-card p { font-size: 15px; color: var(--text-sec); line-height: 1.7; }
+.service-list {
+  list-style: none; margin-top: 14px; padding: 0;
+}
+.service-list li {
+  padding: 6px 0; font-size: 14px; color: var(--text-sec);
+  display: flex; align-items: center; gap: 8px;
+}
+.service-list li::before {
+  content: '✓'; color: var(--success); font-weight: 700;
+}
+
+/* ===== AUDIENCE ===== */
+.audience-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+}
+.audience-card {
+  background: var(--bg-card); border-radius: var(--r-lg);
+  padding: 32px 24px; text-align: center;
+  box-shadow: var(--sh); border: 1px solid var(--border);
+  transition: all var(--tr);
+}
+.audience-card:hover { transform: translateY(-3px); box-shadow: var(--sh-lg); }
+.audience-emoji { font-size: 48px; margin-bottom: 16px; display: block; }
+.audience-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+.audience-card p { font-size: 14px; color: var(--text-sec); line-height: 1.6; }
+
+/* ===== PROCESS ===== */
+.process-steps {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 30px; max-width: 960px; margin: 0 auto;
+}
+.step {
+  text-align: center; position: relative;
+}
+.step-num {
+  width: 52px; height: 52px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: #fff; font-size: 22px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 16px;
+}
+.step h3 { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
+.step p { font-size: 14px; color: var(--text-sec); line-height: 1.6; }
+
+/* ===== WHY US ===== */
+.why-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+.why-item {
+  display: flex; gap: 16px; align-items: flex-start;
+  background: var(--bg-card); padding: 24px;
+  border-radius: var(--r); box-shadow: var(--sh);
+  border: 1px solid var(--border); transition: all var(--tr);
+}
+.why-item:hover { border-color: var(--primary-light); box-shadow: var(--sh-md); }
+.why-icon {
+  width: 48px; height: 48px; min-width: 48px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; background: var(--primary-bg);
+}
+.why-text h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+.why-text p { font-size: 14px; color: var(--text-sec); line-height: 1.6; }
+
+/* ===== TESTIMONIALS ===== */
+.testimonials-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+.testimonial {
+  background: var(--bg-card); border-radius: var(--r-lg);
+  padding: 28px; box-shadow: var(--sh);
+  border: 1px solid var(--border); position: relative;
+}
+.testimonial::before {
+  content: '"'; position: absolute; top: 16px; left: 20px;
+  font-size: 60px; font-weight: 900; color: var(--primary-light); opacity: .2;
+  line-height: 1;
+}
+.testimonial p { font-size: 15px; color: var(--text-sec); line-height: 1.7; margin-bottom: 16px; font-style: italic; }
+.testimonial-author { display: flex; align-items: center; gap: 12px; }
+.testimonial-avatar {
+  width: 42px; height: 42px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary-light), var(--accent-light));
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-weight: 700; font-size: 16px;
+}
+.testimonial-name { font-size: 14px; font-weight: 600; }
+.testimonial-role { font-size: 12px; color: var(--text-m); }
+
+/* ===== PRICING ===== */
+.pricing-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px; max-width: 960px; margin: 0 auto;
+}
+.price-card {
+  background: var(--bg-card); border-radius: var(--r-lg);
+  padding: 36px 28px; box-shadow: var(--sh);
+  border: 2px solid var(--border); text-align: center;
+  transition: all var(--tr); position: relative;
+}
+.price-card.featured {
+  border-color: var(--primary);
+  box-shadow: var(--sh-lg);
+  transform: scale(1.03);
+}
+.price-card.featured::before {
+  content: 'הכי פופולרי'; position: absolute;
+  top: -14px; right: 50%; transform: translateX(50%);
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: #fff; font-size: 12px; font-weight: 700;
+  padding: 4px 20px; border-radius: var(--r-full);
+}
+.price-card:hover { transform: translateY(-3px); box-shadow: var(--sh-lg); }
+.price-card.featured:hover { transform: scale(1.03) translateY(-3px); }
+.price-emoji { font-size: 36px; margin-bottom: 12px; display: block; }
+.price-card h3 { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
+.price-desc { font-size: 14px; color: var(--text-sec); margin-bottom: 20px; }
+.price-amount {
+  font-size: 42px; font-weight: 900; color: var(--primary); margin-bottom: 4px;
+}
+.price-amount span { font-size: 16px; font-weight: 400; color: var(--text-sec); }
+.price-note { font-size: 13px; color: var(--text-m); margin-bottom: 20px; }
+.price-features {
+  list-style: none; padding: 0; margin: 0 0 24px; text-align: right;
+}
+.price-features li {
+  padding: 8px 0; font-size: 14px; color: var(--text-sec);
+  display: flex; align-items: center; gap: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.price-features li:last-child { border: none; }
+.price-features li::before { content: '✓'; color: var(--success); font-weight: 700; }
+
+/* ===== FAQ ===== */
+.faq-list { max-width: 720px; margin: 0 auto; }
+.faq-item {
+  background: var(--bg-card); border-radius: var(--r);
+  margin-bottom: 12px; box-shadow: var(--sh);
+  border: 1px solid var(--border); overflow: hidden;
+}
+.faq-q {
+  width: 100%; padding: 20px 24px; text-align: right;
+  font-size: 16px; font-weight: 600; color: var(--text);
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; transition: all var(--tr); cursor: pointer;
+  background: none; border: none; font-family: var(--font);
+}
+.faq-q:hover { color: var(--primary); }
+.faq-arrow {
+  font-size: 18px; transition: transform .3s;
+  min-width: 20px; text-align: center;
+}
+.faq-item.open .faq-arrow { transform: rotate(180deg); }
+.faq-a {
+  max-height: 0; overflow: hidden; transition: max-height .4s ease, padding .3s;
+  padding: 0 24px; font-size: 15px; color: var(--text-sec); line-height: 1.7;
+}
+.faq-item.open .faq-a { max-height: 300px; padding: 0 24px 20px; }
+
+/* ===== CTA SECTION ===== */
+.cta-section {
+  text-align: center; padding: 80px 24px;
+  background: linear-gradient(135deg, #5B21B6 0%, #7C3AED 40%, #A78BFA 100%);
+  color: #fff; position: relative; overflow: hidden;
+}
+.cta-section::before {
+  content: ''; position: absolute; top: -2px; left: 0; right: 0;
+  height: 60px; background: var(--bg);
+  clip-path: ellipse(55% 100% at 50% 0%);
+}
+.cta-section h2 {
+  font-size: clamp(26px, 4vw, 38px); font-weight: 800; margin-bottom: 14px;
+  position: relative;
+}
+.cta-section p {
+  font-size: 17px; opacity: .9; max-width: 500px;
+  margin: 0 auto 30px; line-height: 1.7;
+}
+.cta-btns { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; position: relative; }
+
+/* ===== CONTACT ===== */
+.contact-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 40px; max-width: 900px; margin: 0 auto;
+}
+.contact-info { display: flex; flex-direction: column; gap: 20px; }
+.contact-item {
+  display: flex; align-items: center; gap: 14px;
+  background: var(--bg-card); padding: 20px;
+  border-radius: var(--r); box-shadow: var(--sh);
+  border: 1px solid var(--border); transition: all var(--tr);
+}
+.contact-item:hover { border-color: var(--primary-light); }
+.contact-icon {
+  width: 48px; height: 48px; min-width: 48px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; background: var(--primary-bg);
+}
+.contact-item h3 { font-size: 15px; font-weight: 600; margin-bottom: 2px; }
+.contact-item p { font-size: 14px; color: var(--text-sec); }
+.contact-form {
+  background: var(--bg-card); padding: 32px;
+  border-radius: var(--r-lg); box-shadow: var(--sh);
+  border: 1px solid var(--border);
+}
+.contact-form h3 { font-size: 20px; font-weight: 700; margin-bottom: 20px; }
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+.form-group input, .form-group textarea, .form-group select {
+  width: 100%; padding: 12px 16px;
+  border: 2px solid var(--border); border-radius: var(--r);
+  font-family: var(--font); font-size: 15px;
+  color: var(--text); background: var(--bg);
+  transition: border-color var(--tr), box-shadow var(--tr);
+  direction: rtl; outline: none;
+}
+.form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+  border-color: var(--primary); box-shadow: 0 0 0 4px var(--primary-glow);
+}
+.form-group textarea { resize: vertical; min-height: 100px; }
+
+/* ===== FOOTER ===== */
+.footer {
+  background: #1E1B4B; color: #C4B5FD; padding: 40px 24px 24px;
+  text-align: center;
+}
+.footer-inner { max-width: 1100px; margin: 0 auto; }
+.footer-logo { font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 8px; }
+.footer-desc { font-size: 14px; opacity: .7; max-width: 400px; margin: 0 auto 24px; line-height: 1.6; }
+.footer-links { display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; margin-bottom: 24px; }
+.footer-links a { color: #C4B5FD; font-size: 14px; transition: color var(--tr); }
+.footer-links a:hover { color: #fff; }
+.footer-divider { height: 1px; background: rgba(255,255,255,.1); margin-bottom: 20px; }
+.footer-copy { font-size: 13px; opacity: .5; }
+
+/* ===== FLOATING WHATSAPP ===== */
+.whatsapp-float {
+  position: fixed; bottom: 24px; left: 24px; z-index: 90;
+  width: 56px; height: 56px; border-radius: 50%;
+  background: #25D366; color: #fff; font-size: 28px;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 16px rgba(37,211,102,.35);
+  transition: all var(--tr); cursor: pointer;
+}
+.whatsapp-float:hover { transform: scale(1.1); box-shadow: 0 6px 24px rgba(37,211,102,.5); }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .nav-cta { display: none; }
+  .hamburger { display: flex; }
+  .stats-bar { gap: 30px; padding: 30px 20px; margin-top: -20px; }
+  .stat-num { font-size: 28px; }
+  .contact-grid { grid-template-columns: 1fr; }
+  .pricing-grid { grid-template-columns: 1fr; max-width: 380px; }
+  .price-card.featured { transform: none; }
+  .price-card.featured:hover { transform: translateY(-3px); }
+  .hero-btns { flex-direction: column; align-items: center; }
+  .btn { width: 100%; max-width: 280px; justify-content: center; }
+}
+@media (max-width: 480px) {
+  .section { padding: 50px 16px; }
+  .stats-bar { flex-direction: column; gap: 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="logo" onclick="scrollToTop()">
+      <span class="logo-icon">💡</span>
+      הטכנולוגית
+    </div>
+    <div class="nav-links">
+      <a class="nav-link active" href="#services">שירותים</a>
+      <a class="nav-link" href="#audience">למי מתאים</a>
+      <a class="nav-link" href="#process">איך זה עובד</a>
+      <a class="nav-link" href="#pricing">מחירים</a>
+      <a class="nav-link" href="#faq">שאלות נפוצות</a>
+    </div>
+    <a class="nav-cta" href="#contact">צרו קשר ←</a>
+    <div class="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a class="nav-link" href="#services" onclick="closeMenu()">שירותים</a>
+  <a class="nav-link" href="#audience" onclick="closeMenu()">למי מתאים</a>
+  <a class="nav-link" href="#process" onclick="closeMenu()">איך זה עובד</a>
+  <a class="nav-link" href="#pricing" onclick="closeMenu()">מחירים</a>
+  <a class="nav-link" href="#faq" onclick="closeMenu()">שאלות נפוצות</a>
+  <a class="nav-link" href="#contact" onclick="closeMenu()">צרו קשר</a>
+</div>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">💡 הדרכה טכנולוגית אישית ומקצועית</div>
+    <h1>הטכנולוגיה לא חייבת<br>להיות <em>מסובכת</em></h1>
+    <p class="hero-sub">
+      הדרכה טכנולוגית אישית לכל הגילאים, תמיכה טכנית מרחוק, וייעוץ חכם לעסקים קטנים.
+      <strong>אנחנו כאן כדי לפשט לכם את החיים הדיגיטליים.</strong>
+    </p>
+    <div class="hero-btns">
+      <a class="btn btn-primary" href="#contact">בואו נתחיל →</a>
+      <a class="btn btn-outline" href="#services">מה אנחנו מציעים</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== STATS BAR ===== -->
+<div class="stats-bar">
+  <div class="stat">
+    <div class="stat-num">+500</div>
+    <div class="stat-label">לקוחות מרוצים</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">98%</div>
+    <div class="stat-label">שביעות רצון</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">5+</div>
+    <div class="stat-label">שנות ניסיון</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">24/7</div>
+    <div class="stat-label">תמיכה זמינה</div>
+  </div>
+</div>
+
+<!-- ===== SERVICES ===== -->
+<section class="section" id="services">
+  <div class="section-inner">
+    <h2 class="section-title">השירותים שלנו</h2>
+    <p class="section-sub">פתרונות טכנולוגיים מותאמים אישית — מלמידה בסיסית ועד ייעוץ עסקי מתקדם</p>
+    <div class="services-grid">
+
+      <div class="service-card">
+        <div class="service-icon">📱</div>
+        <h3>הדרכות טכנולוגיה</h3>
+        <p>שיעורים פרטיים מותאמים לקצב שלכם — מחשב, טלפון, מדפסת וכל כלי טכנולוגי</p>
+        <ul class="service-list">
+          <li>שימוש בסמארטפון ואפליקציות</li>
+          <li>עבודה עם מחשב נייד ונייח</li>
+          <li>חיבור והפעלת מדפסות וסורקים</li>
+          <li>שיחות וידאו, מייל ולוח שנה</li>
+          <li>רשתות חברתיות ותקשורת דיגיטלית</li>
+        </ul>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon">🖥️</div>
+        <h3>תמיכה טכנית מרחוק</h3>
+        <p>עזרה מהירה ויעילה ישירות למסך שלכם — בלי לצאת מהבית</p>
+        <ul class="service-list">
+          <li>פתרון תקלות מחשב ואינטרנט</li>
+          <li>התקנה והגדרת תוכנות</li>
+          <li>גיבוי ואבטחת מידע</li>
+          <li>חיבור מדפסות וציוד היקפי מרחוק</li>
+          <li>ליווי מרצים ומרצות בהדרכה מרחוק</li>
+        </ul>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon">🏪</div>
+        <h3>ליווי עסקים קטנים ועצמאיים</h3>
+        <p>ליווי טכנולוגי מלא לעסק שלכם — פתרונות חכמים שחוסכים זמן וכסף</p>
+        <ul class="service-list">
+          <li>מיפוי צרכים ובחירת כלים דיגיטליים</li>
+          <li>הקמת נוכחות דיגיטלית לעסק</li>
+          <li>אוטומציה ופתרונות טכנולוגיים יעילים</li>
+          <li>אבטחה וגיבוי עסקי</li>
+          <li>ליווי שוטף ותמיכה מתמשכת</li>
+        </ul>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon">🎓</div>
+        <h3>ליווי מרצים מרחוק</h3>
+        <p>תמיכה טכנולוגית למרצים ומדריכים שעובדים עם פלטפורמות דיגיטליות</p>
+        <ul class="service-list">
+          <li>הכנת סביבת הדרכה מרחוק</li>
+          <li>שימוש בכלי הוראה דיגיטליים</li>
+          <li>פתרון תקלות בזמן אמת</li>
+          <li>ייעול תהליכי הוראה ולמידה</li>
+        </ul>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon">⚙️</div>
+        <h3>יצירת פתרונות טכנולוגיים</h3>
+        <p>פתרונות מותאמים אישית — יעילים, חכמים, ובדיוק מה שאתם צריכים</p>
+        <ul class="service-list">
+          <li>אוטומציה של תהליכים ידניים</li>
+          <li>חיבור בין מערכות וכלים</li>
+          <li>פתרונות AI לעסקים</li>
+          <li>ייעול זרימת עבודה דיגיטלית</li>
+        </ul>
+      </div>
+
+      <div class="service-card">
+        <div class="service-icon">📚</div>
+        <h3>סדנאות וקורסים</h3>
+        <p>למידה קבוצתית בקבוצות קטנות — אווירה נעימה ותומכת</p>
+        <ul class="service-list">
+          <li>קורס מחשבים למתחילים</li>
+          <li>סדנת אבטחה ברשת</li>
+          <li>שימוש חכם ב-AI ובינה מלאכותית</li>
+          <li>ניהול כספים דיגיטלי</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== AUDIENCE ===== -->
+<section class="section" id="audience" style="background: var(--primary-bg);">
+  <div class="section-inner">
+    <h2 class="section-title">למי מתאימים השירותים?</h2>
+    <p class="section-sub">אנחנו עובדים עם כולם — כל גיל, כל רמה, בלי שיפוטיות</p>
+    <div class="audience-grid">
+
+      <div class="audience-card">
+        <span class="audience-emoji">👵</span>
+        <h3>מבוגרים וגיל הזהב</h3>
+        <p>הדרכה סבלנית ומותאמת — לשלוט בטלפון, לשמור על קשר עם המשפחה, ולדעת מה קורה בעולם הדיגיטלי</p>
+      </div>
+
+      <div class="audience-card">
+        <span class="audience-emoji">👨‍👩‍👧</span>
+        <h3>הורים ומשפחות</h3>
+        <p>הגנה על הילדים ברשת, ניהול מסכים, שימוש מושכל בטכנולוגיה לכל המשפחה</p>
+      </div>
+
+      <div class="audience-card">
+        <span class="audience-emoji">💼</span>
+        <h3>בעלי עסקים קטנים</h3>
+        <p>ייעוץ טכנולוגי שמותאם לתקציב שלכם — כלים חכמים שעובדים בשבילכם</p>
+      </div>
+
+      <div class="audience-card">
+        <span class="audience-emoji">🌟</span>
+        <h3>כל מי שרוצה ללמוד</h3>
+        <p>לא משנה הגיל או הרמה — אם יש רצון ללמוד, אנחנו כאן ללוות אתכם</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROCESS ===== -->
+<section class="section" id="process">
+  <div class="section-inner">
+    <h2 class="section-title">איך זה עובד?</h2>
+    <p class="section-sub">תהליך פשוט ונוח — מהשיחה הראשונה ועד הפתרון</p>
+    <div class="process-steps">
+
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>שיחת היכרות</h3>
+        <p>נבין מה אתם צריכים, מה הרמה שלכם, ונתאים לכם את המסלול המושלם</p>
+      </div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>תוכנית אישית</h3>
+        <p>נבנה תוכנית מותאמת בדיוק לצרכים שלכם — בקצב שלכם, בזמן שנוח לכם</p>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>למידה או תמיכה</h3>
+        <p>שיעור פרונטלי, תמיכה מרחוק, או ייעוץ — הכל באווירה נעימה ובסבלנות</p>
+      </div>
+
+      <div class="step">
+        <div class="step-num">4</div>
+        <h3>ליווי מתמשך</h3>
+        <p>לא נעלמים אחרי השיעור — תמיד אפשר לשלוח שאלה, ואנחנו כאן לעזור</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== WHY US ===== -->
+<section class="section" style="background: var(--primary-bg);">
+  <div class="section-inner">
+    <h2 class="section-title">למה דווקא הטכנולוגית?</h2>
+    <p class="section-sub">כי אנחנו לא סתם מלמדים — אנחנו באמת אכפת לנו שתצליחו</p>
+    <div class="why-grid">
+
+      <div class="why-item">
+        <div class="why-icon">🎯</div>
+        <div class="why-text">
+          <h3>התאמה אישית מלאה</h3>
+          <p>כל שיעור מותאם בדיוק לכם — לרמה, לקצב, ולמטרה שלכם</p>
+        </div>
+      </div>
+
+      <div class="why-item">
+        <div class="why-icon">❤️</div>
+        <div class="why-text">
+          <h3>סבלנות אינסופית</h3>
+          <p>אין שאלות טיפשיות. מסבירים שוב ושוב עד שזה ברור</p>
+        </div>
+      </div>
+
+      <div class="why-item">
+        <div class="why-icon">🏠</div>
+        <div class="why-text">
+          <h3>מהנוחות של הבית</h3>
+          <p>שיעורים ותמיכה מרחוק — לא צריך לנסוע לשום מקום</p>
+        </div>
+      </div>
+
+      <div class="why-item">
+        <div class="why-icon">💰</div>
+        <div class="why-text">
+          <h3>מחירים הוגנים</h3>
+          <p>פתרונות לכל כיס — בלי עלויות נסתרות ובלי התחייבויות</p>
+        </div>
+      </div>
+
+      <div class="why-item">
+        <div class="why-icon">🔒</div>
+        <div class="why-text">
+          <h3>אבטחה ובטיחות</h3>
+          <p>מלמדים אתכם לזהות הונאות ולשמור על עצמכם ברשת</p>
+        </div>
+      </div>
+
+      <div class="why-item">
+        <div class="why-icon">⚡</div>
+        <div class="why-text">
+          <h3>זמינות גבוהה</h3>
+          <p>תקועים עם משהו? שלחו הודעה ונחזור אליכם מהר</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== TESTIMONIALS ===== -->
+<section class="section">
+  <div class="section-inner">
+    <h2 class="section-title">לקוחות ממליצים</h2>
+    <p class="section-sub">שמענו את זה מאות פעמים — ועדיין מתרגשים כל פעם מחדש</p>
+    <div class="testimonials-grid">
+
+      <div class="testimonial">
+        <p>״לפני חצי שנה לא ידעתי לשלוח הודעה בוואטסאפ. היום אני מזמינה תורים לרופא מהטלפון, עושה שיחות וידאו עם הנכדים, ומרגישה שהעולם נפתח לי.״</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">ר</div>
+          <div>
+            <div class="testimonial-name">רחל, 72</div>
+            <div class="testimonial-role">הדרכה אישית</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial">
+        <p>״יש לי חנות קטנה ולא ידעתי איך להגיע ללקוחות באונליין. תוך חודש הייתה לי נוכחות דיגיטלית ומערכת ניהול לקוחות שחוסכת לי שעות ביום.״</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">מ</div>
+          <div>
+            <div class="testimonial-name">מוטי</div>
+            <div class="testimonial-role">ליווי עסקי</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial">
+        <p>״ההורים שלי חיו בפחד מהטכנולוגיה. אחרי כמה שיעורים הם עצמאיים לגמרי — ואני כבר לא צריכה לבוא כל שבוע לסדר להם את המחשב.״</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">ש</div>
+          <div>
+            <div class="testimonial-name">שירה</div>
+            <div class="testimonial-role">בת של לקוחות</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial">
+        <p>״אני מרצה באוניברסיטה ועברתי להוראה מרחוק. בלי הליווי הטכנולוגי לא הייתי מצליחה. היום אני מעבירה שיעורים בזום ברמה מקצועית.״</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">ד</div>
+          <div>
+            <div class="testimonial-name">ד״ר דנה</div>
+            <div class="testimonial-role">ליווי מרצים</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial">
+        <p>״הקמתי עסק עצמאי של אפייה ולא ידעתי מאיפה להתחיל דיגיטלית. היום יש לי דף אינסטגרם מטורף, אתר, ומערכת הזמנות אוטומטית. הכל בזכות הליווי.״</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">נ</div>
+          <div>
+            <div class="testimonial-name">נועה</div>
+            <div class="testimonial-role">עצמאית, עסק קטן</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial">
+        <p>״קיבלתי מדפסת חדשה במתנה ולא הצלחתי לחבר אותה. בשיחה אחת מרחוק הכל עבד. ומאז אני יודע גם לסרוק ולשלוח מסמכים במייל. תודה!״</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">י</div>
+          <div>
+            <div class="testimonial-name">יוסי, 68</div>
+            <div class="testimonial-role">תמיכה מרחוק</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== PRICING ===== -->
+<section class="section" id="pricing" style="background: var(--primary-bg);">
+  <div class="section-inner">
+    <h2 class="section-title">מחירון שירותים</h2>
+    <p class="section-sub">מחירים שקופים והוגנים — בלי הפתעות</p>
+    <div class="pricing-grid">
+
+      <div class="price-card">
+        <span class="price-emoji">📱</span>
+        <h3>שיעור בודד</h3>
+        <p class="price-desc">הדרכה אישית אחד-על-אחד</p>
+        <div class="price-amount">₪150 <span>/ שעה</span></div>
+        <p class="price-note">מרחוק או פרונטלי</p>
+        <ul class="price-features">
+          <li>שיעור מותאם אישית</li>
+          <li>סיכום כתוב אחרי כל שיעור</li>
+          <li>תמיכה בוואטסאפ בין שיעורים</li>
+        </ul>
+        <a class="btn btn-purple" href="#contact" style="width:100%;justify-content:center">לתיאום שיעור</a>
+      </div>
+
+      <div class="price-card featured">
+        <span class="price-emoji">⭐</span>
+        <h3>חבילת 5 שיעורים</h3>
+        <p class="price-desc">הדרכה מתמשכת עם ליווי</p>
+        <div class="price-amount">₪650 <span>/ חבילה</span></div>
+        <p class="price-note">חיסכון של ₪100!</p>
+        <ul class="price-features">
+          <li>5 שיעורים אישיים</li>
+          <li>תוכנית למידה מותאמת</li>
+          <li>תמיכה מרחוק ללא הגבלה</li>
+          <li>סיכום ומעקב התקדמות</li>
+        </ul>
+        <a class="btn btn-purple" href="#contact" style="width:100%;justify-content:center">הצטרפו עכשיו</a>
+      </div>
+
+      <div class="price-card">
+        <span class="price-emoji">🏪</span>
+        <h3>ייעוץ עסקי</h3>
+        <p class="price-desc">פתרונות טכנולוגיים לעסק שלכם</p>
+        <div class="price-amount">₪200 <span>/ שעה</span></div>
+        <p class="price-note">כולל דוח המלצות כתוב</p>
+        <ul class="price-features">
+          <li>מיפוי צרכים טכנולוגיים</li>
+          <li>המלצות כלים ופתרונות</li>
+          <li>ליווי בהטמעה</li>
+          <li>תמיכה שוטפת</li>
+        </ul>
+        <a class="btn btn-purple" href="#contact" style="width:100%;justify-content:center">לפגישת ייעוץ</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section class="section" id="faq">
+  <div class="section-inner">
+    <h2 class="section-title">שאלות נפוצות</h2>
+    <p class="section-sub">תשובות לשאלות שכולם שואלים</p>
+    <div class="faq-list">
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span>אין לי מושג בטכנולוגיה — זה בכלל מתאים לי?</span>
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-a">בהחלט! רוב הלקוחות שלנו מתחילים מאפס. אנחנו מתאימים את הקצב והתוכן בדיוק לרמה שלכם, בלי הנחות מראש ובלי שיפוטיות.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span>איך עובדת התמיכה מרחוק?</span>
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-a">אנחנו מתחברים למחשב או לטלפון שלכם בצורה מאובטחת (בהסכמה שלכם כמובן) ופותרים את הבעיה ביחד. אתם רואים הכל על המסך ולומדים תוך כדי.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span>יש לי עסק קטן — מה תוכלו לעשות בשבילי?</span>
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-a">נמפה את הצרכים הטכנולוגיים של העסק, נמליץ על כלים שיחסכו לכם זמן וכסף, ונלווה אתכם בהטמעה. מנוכחות דיגיטלית ועד ניהול לקוחות ואוטומציה.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span>האם אפשר לקבל שיעורים גם בערב או בשישי?</span>
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-a">כן! אנחנו גמישים בשעות. נתאם יחד זמנים שנוחים לכם — כולל ערבים וימי שישי בבוקר.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span>כמה שיעורים צריך בדרך כלל?</span>
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-a">זה תלוי במטרות שלכם. יש כאלה שמספיק להם 2-3 שיעורים כדי להרגיש בנוח, ויש כאלה שאוהבים ליווי שוטף. אנחנו מתאימים את הכמות לצרכים שלכם.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="cta-section">
+  <h2>מוכנים לקחת שליטה על הטכנולוגיה?</h2>
+  <p>שיחת ההיכרות הראשונה חינם — בואו נבין יחד מה אתם צריכים</p>
+  <div class="cta-btns">
+    <a class="btn btn-primary" href="#contact">לשיחת היכרות חינם →</a>
+    <a class="btn btn-outline" href="https://wa.me/972500000000" target="_blank">💬 שלחו לנו וואטסאפ</a>
+  </div>
+</section>
+
+<!-- ===== CONTACT ===== -->
+<section class="section" id="contact">
+  <div class="section-inner">
+    <h2 class="section-title">צרו קשר</h2>
+    <p class="section-sub">השאירו פרטים ונחזור אליכם תוך זמן קצר</p>
+    <div class="contact-grid">
+
+      <div class="contact-info">
+        <div class="contact-item">
+          <div class="contact-icon">📞</div>
+          <div>
+            <h3>טלפון</h3>
+            <p id="phone-placeholder">050-000-0000</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📧</div>
+          <div>
+            <h3>אימייל</h3>
+            <p id="email-placeholder">info@hatechnologit.co.il</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">💬</div>
+          <div>
+            <h3>וואטסאפ</h3>
+            <p>שלחו הודעה ונחזור מהר</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">🕐</div>
+          <div>
+            <h3>שעות פעילות</h3>
+            <p>ראשון-חמישי 9:00-20:00 | שישי 9:00-13:00</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-form">
+        <h3>השאירו פרטים</h3>
+        <form onsubmit="handleSubmit(event)">
+          <div class="form-group">
+            <label>שם מלא</label>
+            <input type="text" placeholder="איך קוראים לכם?" required>
+          </div>
+          <div class="form-group">
+            <label>טלפון</label>
+            <input type="tel" placeholder="050-000-0000" required>
+          </div>
+          <div class="form-group">
+            <label>מה מעניין אתכם?</label>
+            <select>
+              <option value="">בחרו נושא...</option>
+              <option>הדרכה טכנולוגית אישית</option>
+              <option>תמיכה טכנית מרחוק</option>
+              <option>ייעוץ לעסק קטן</option>
+              <option>סדנה או קורס</option>
+              <option>אחר</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>ספרו לנו קצת</label>
+            <textarea placeholder="מה אתם מחפשים? איך נוכל לעזור?"></textarea>
+          </div>
+          <button type="submit" class="btn btn-purple" style="width:100%;justify-content:center;font-size:17px;padding:16px">
+            שלחו פנייה →
+          </button>
+        </form>
+        <div id="formSuccess" style="display:none;text-align:center;padding:30px 0;">
+          <div style="font-size:48px;margin-bottom:12px;">✅</div>
+          <h3 style="color:var(--success);margin-bottom:6px;">הפנייה נשלחה בהצלחה!</h3>
+          <p style="color:var(--text-sec);">נחזור אליכם בהקדם</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-logo">💡 הטכנולוגית</div>
+    <p class="footer-desc">הדרכה טכנולוגית אישית, תמיכה מרחוק, וייעוץ חכם לעסקים — הטכנולוגיה בשבילכם.</p>
+    <div class="footer-links">
+      <a href="#services">שירותים</a>
+      <a href="#audience">למי מתאים</a>
+      <a href="#process">איך זה עובד</a>
+      <a href="#pricing">מחירים</a>
+      <a href="#faq">שאלות נפוצות</a>
+      <a href="#contact">צרו קשר</a>
+    </div>
+    <div class="footer-divider"></div>
+    <p class="footer-copy">© 2026 הטכנולוגית — כל הזכויות שמורות</p>
+  </div>
+</footer>
+
+<!-- WhatsApp Float -->
+<a class="whatsapp-float" href="https://wa.me/972500000000" target="_blank" title="שלחו לנו וואטסאפ">
+  💬
+</a>
+
+<script>
+/* ===== NAVIGATION ===== */
+function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+
+function toggleMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+function closeMenu() {
+  document.getElementById('mobileMenu').classList.remove('open');
+}
+
+/* Active nav link on scroll */
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-link');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 100) current = s.getAttribute('id');
+  });
+  navLinks.forEach(l => {
+    l.classList.remove('active');
+    if (l.getAttribute('href') === '#' + current) l.classList.add('active');
+  });
+});
+
+/* ===== FAQ ===== */
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  const wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!wasOpen) item.classList.add('open');
+}
+
+/* ===== FORM ===== */
+function handleSubmit(e) {
+  e.preventDefault();
+  const form = e.target;
+  form.style.display = 'none';
+  document.getElementById('formSuccess').style.display = 'block';
+}
+
+/* ===== SCROLL ANIMATIONS ===== */
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.service-card, .audience-card, .step, .why-item, .testimonial, .price-card').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(20px)';
+  el.style.transition = 'opacity .6s ease, transform .6s ease';
+  observer.observe(el);
+});
+
+/* ===== STATS COUNTER ===== */
+const statsObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      document.querySelectorAll('.stat-num').forEach(el => {
+        const text = el.textContent;
+        const num = parseInt(text.replace(/[^0-9]/g, ''));
+        if (isNaN(num)) return;
+        const prefix = text.match(/^[^0-9]*/)[0];
+        const suffix = text.match(/[^0-9]*$/)[0];
+        let current = 0;
+        const step = Math.ceil(num / 40);
+        const timer = setInterval(() => {
+          current += step;
+          if (current >= num) { current = num; clearInterval(timer); }
+          el.textContent = prefix + current + suffix;
+        }, 30);
+      });
+      statsObserver.disconnect();
+    }
+  });
+}, { threshold: 0.5 });
+statsObserver.observe(document.querySelector('.stats-bar'));
+</script>
+
+</body>
+</html>
