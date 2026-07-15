@@ -379,7 +379,7 @@ def send_events_response(chat_id, events, header=""):
     events.sort(key=lambda e: (e.get("event_date_iso") or "9999-12-31",
                                e.get("event_time") or "99:99"))
 
-    MAX_EVENTS = 12
+    MAX_EVENTS = 15  # ~3100 תווים גלויים במקרה הגרוע — בטוח מתחת ל-4096 של טלגרם
     shown = events[:MAX_EVENTS]
     rest = len(events) - len(shown)
 
@@ -685,18 +685,33 @@ def query_events(text, user_id=None, chat_id=None):
         # "מונדיאל", בדיוק כמו במעקבים — ונבדק גם בלי תחיליות עבריות נפוצות
         # (ל, ב, מ, ש, ו, ה) — "לאורלי" יזהה "אורלי".
         if text_terms:
-            ev_haystack = ((ev.get("title") or "") + " " + (ev.get("raw_text") or "")).lower()
-            def _term_found(t_lower):
+            ev_title = (ev.get("title") or "").lower()
+            ev_haystack = (ev_title + " " + (ev.get("raw_text") or "")).lower()
+            def _term_found(t_lower, haystack):
                 for variant in db.keyword_terms(t_lower):
-                    if variant in ev_haystack:
+                    if variant in haystack:
                         return True
-                    if len(variant) > 3 and variant[0] in "לבמשוה" and variant[1:] in ev_haystack:
+                    if len(variant) > 3 and variant[0] in "לבמשוה" and variant[1:] in haystack:
                         return True
                 return False
-            if not all(_term_found(t.lower()) for t in text_terms):
+            if not all(_term_found(t.lower(), ev_haystack) for t in text_terms):
                 continue
+            # התאמה "חזקה" = המונח מופיע בכותרת האירוע עצמה (לא רק אי-שם בטקסט),
+            # או שהאירוע הוא הופעה חיה מובהקת: העירייה כותבת "על הבמה: ריטה, ברי
+            # סחרוף..." בגוף האירוע — סמן אמין גם כשהכותרת גנרית ("קבלת שבת חגיגית").
+            STAGE_SIGNALS = ("על הבמה", "במופע מלא", "הופעה מרכזית", "הופעה חיה")
+            ev["_strong"] = (all(_term_found(t.lower(), ev_title) for t in text_terms)
+                             or any(s in ev_haystack for s in STAGE_SIGNALS))
 
         filtered.append(ev)
+
+    # קטגוריה רחבה ("מוזיקה") מחזירה עשרות התאמות-טקסט חלשות שדוחקות את
+    # ההופעות הגדולות מעבר לגבול התצוגה. אם יש יותר מדי תוצאות ויש התאמות
+    # כותרת — מציגים אותן; השאר נשארות בספירה ובאתר.
+    if text_terms and len(filtered) > 12:
+        strong = [ev for ev in filtered if ev.get("_strong")]
+        if strong:
+            filtered = strong
 
     # Build header
     header_parts = [f"📋 <b>פעילויות {date_label}</b>"]

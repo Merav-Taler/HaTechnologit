@@ -35,7 +35,7 @@ def normalize_text(text):
 KEYWORD_SYNONYMS = {
     "מוזיקה": ["מוסיקה", "מוזיקלי", "מופע", "הופעה", "קונצרט", "זמר", "זמרת", "להקה",
                 "פסטיבל", "שירה בציבור", "ערב שירה", "live", "לייב", "דיגיי", "תקליטן",
-                "אמפי", "מארח את"],
+                "אמפי", "מארח את", "על הבמה"],
     "ספורט": ["כדורגל", "כדורסל", "מונדיאל", "ריצה", "יוגה", "זומבה", "פילאטיס",
                "התעמלות", "כושר", "אופניים", "שחייה", "טניס", "גודו", "קרטה",
                "ספורטיבי", "ספורטיבית", "מרוץ", "צעדה"],
@@ -53,10 +53,31 @@ KEYWORD_SYNONYMS = {
 }
 
 
+# כתיבים וניסוחים שונים לאותה קטגוריה — "מוסיקה" חייבת להתנהג כמו "מוזיקה".
+KEYWORD_ALIASES = {
+    "מוסיקה": "מוזיקה", "הופעות": "מוזיקה", "הופעה": "מוזיקה",
+    "זמרים": "מוזיקה", "זמר": "מוזיקה", "קונצרט": "מוזיקה", "מופעים": "מוזיקה",
+    "הצגות": "תרבות", "תיאטרון": "תרבות",
+    "סדנאות": "יצירה", "סדנה": "יצירה", "סדנת": "יצירה",
+    "ריקודים": "ריקוד", "מחול": "ריקוד",
+    "הרצאה": "הרצאות",
+    "מקלטים": "הפגה", "מקלט": "הפגה",
+}
+
+
 def keyword_terms(keyword):
-    """All normalized search terms for a tracker keyword (the word + synonyms)."""
+    """All normalized search terms for a tracker keyword (the word + synonyms).
+
+    Aliases first ("מוסיקה"→"מוזיקה"), then synonym expansion. The original
+    word is always included so nothing gets narrower than a literal match.
+    """
     kw = normalize_text(keyword).strip()
-    return [kw] + [normalize_text(t) for t in KEYWORD_SYNONYMS.get(kw, [])]
+    canon = KEYWORD_ALIASES.get(kw, kw)
+    terms = [kw]
+    if canon != kw:
+        terms.append(canon)
+    terms += [normalize_text(t) for t in KEYWORD_SYNONYMS.get(canon, [])]
+    return terms
 
 
 def event_matches_keyword(keyword, event):
