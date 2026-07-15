@@ -574,7 +574,10 @@ _FILTER_STOPWORDS = {
 
 def get_text_filter(text):
     """Extract free-text search terms (e.g., a presenter's name like 'אורלי')."""
-    cleaned = re.sub(r'[?!.,;:"\'()\[\]/\\]', ' ', text)
+    # גרש/אפוסטרוף נמחקים (לא הופכים לרווח!) — "ג'ימבורי" חייב להישאר מילה
+    # אחת "גימבורי", אחרת הוא מתפצל ל"ג"+"ימבורי" ולא נמצא כלום.
+    cleaned = re.sub(r"['׳’`]", '', text)
+    cleaned = re.sub(r'[?!.,;:"()\[\]/\\]', ' ', cleaned)
     words = [w.strip() for w in cleaned.split() if w.strip()]
     search_terms = []
     for w in words:
@@ -685,15 +688,12 @@ def query_events(text, user_id=None, chat_id=None):
         # "מונדיאל", בדיוק כמו במעקבים — ונבדק גם בלי תחיליות עבריות נפוצות
         # (ל, ב, מ, ש, ו, ה) — "לאורלי" יזהה "אורלי".
         if text_terms:
-            ev_title = (ev.get("title") or "").lower()
-            ev_haystack = (ev_title + " " + (ev.get("raw_text") or "")).lower()
-            def _term_found(t_lower, haystack):
-                for variant in db.keyword_terms(t_lower):
-                    if variant in haystack:
-                        return True
-                    if len(variant) > 3 and variant[0] in "לבמשוה" and variant[1:] in haystack:
-                        return True
-                return False
+            # אותו מנוע התאמה כמו המעקבים: נרמול (מתקן חיפוש "גימבורי" מול
+            # "ג'ימבורי"), ניקוי שם המארגן, מילים נרדפות, וגבולות מילה עבריים.
+            ev_title = db.normalize_text(ev.get("title") or "")
+            ev_haystack = db.matchable_text(ev)
+            def _term_found(t, haystack):
+                return any(db.term_in_text(v, haystack) for v in db.keyword_terms(t))
             if not all(_term_found(t.lower(), ev_haystack) for t in text_terms):
                 continue
             # התאמה "חזקה" = המונח מופיע בכותרת האירוע עצמה (לא רק אי-שם בטקסט),
