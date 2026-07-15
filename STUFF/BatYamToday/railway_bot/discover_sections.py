@@ -11,35 +11,36 @@ import batyam_db as db
 BASE_URL = "https://www.coing.co"
 CITY_SLUG = "batya"
 
-# Patterns to test for new sections
+# Patterns to test for new sections — coing.co slugs are PascalCase or lowercase,
+# usually one of: language-agnostic English, Hebrew transliteration, or a holiday/topic.
+# This list grows whenever we hit a missing section in the wild — see
+# communities_data.json for the canonical confirmed list.
 PATTERNS = [
+    # Confirmed in production (kept for reachability checks)
     "BatYam_Main",
     "BatYam_culture",
     "BatYam_shelters",
     "BatYam_south",
-    "BatYam_North",
-    "BatYam_PLUSI_Hagim",
+    "BatYam_Kehilot",          # קהילות — confirmed 2026-05-07
     "plusi_all",
-    # Try other variations
-    "BatYam_East",
-    "BatYam_West",
-    "BatYam_Central",
-    "BatYam_Sports",
-    "BatYam_Kids",
-    "BatYam_Teen",
-    "BatYam_Elderly",
-    "BatYam_Education",
-    "BatYam_Health",
-    "BatYam_Culture",
-    "BatYam_Environment",
-    "BatYam_Community",
-    "BatYam_Volunteering",
-    "BatYam_Business",
-    "BatYam_Events",
-    "BatYam_Workshops",
-    "BatYam_Art",
-    "BatYam_Music",
-    "BatYam_Theater",
+    "BatYam_PLUSI_Hagim",
+    # Likely English-named sections
+    "BatYam_North", "BatYam_East", "BatYam_West", "BatYam_Central",
+    "BatYam_Sports", "BatYam_Kids", "BatYam_Teen", "BatYam_Elderly",
+    "BatYam_Education", "BatYam_Health", "BatYam_Environment",
+    "BatYam_Community", "BatYam_Volunteering", "BatYam_Business",
+    "BatYam_Events", "BatYam_Workshops", "BatYam_Art", "BatYam_Music",
+    "BatYam_Theater", "BatYam_Family", "BatYam_Senior", "BatYam_Youth",
+    "BatYam_Women", "BatYam_Men", "BatYam_Disability", "BatYam_Russian",
+    # Hebrew-transliterated (coing.co frequently uses these)
+    "BatYam_Toranut", "BatYam_Mishpacha", "BatYam_Gilaim",
+    "BatYam_Tinokot", "BatYam_Peutot", "BatYam_Yeladim",
+    "BatYam_Mitnasim", "BatYam_Sport", "BatYam_Tarbut",
+    "BatYam_Hagim", "BatYam_Shabbat", "BatYam_Klitah",
+    "BatYam_Olim", "BatYam_Vatikim", "BatYam_GilHaZahav",
+    # Sub-locations
+    "BatYam_RamatYosef", "BatYam_RamatHanasi", "BatYam_Amidar",
+    "BatYam_LevHair", "BatYam_ParkHayam",
 ]
 
 def discover_sections():
@@ -57,9 +58,14 @@ def discover_sections():
             resp = requests.get(url, headers={"User-Agent": "Mozilla/5.0"}, timeout=5)
 
             if resp.status_code == 200 and 'var community' in resp.text:
-                match = re.search(r'"id":(\d+)', resp.text)
-                if match:
-                    cid = int(match.group(1))
+                # Try multiple cid patterns; reject single-digit hits as noise.
+                cid = None
+                for pat in (r'"cid"\s*:\s*(\d+)', r'cid=(\d+)', r'"id"\s*:\s*(\d+)'):
+                    m2 = re.search(pat, resp.text)
+                    if m2 and int(m2.group(1)) > 100:
+                        cid = int(m2.group(1))
+                        break
+                if cid is not None:
                     name_match = re.search(r'"name":"([^"]+)"', resp.text)
                     name = name_match.group(1) if name_match else slug
 

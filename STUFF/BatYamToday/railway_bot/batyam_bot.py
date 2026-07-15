@@ -95,7 +95,22 @@ def send_typing(chat_id):
         pass
 
 
+def _ensure_credit(text, parse_mode="HTML"):
+    """Every outgoing message carries Merav's credit + site link, always.
+
+    מירב ביקשה במפורש: קרדיט בכל סוג הודעה. במקום לסמוך על כל פורמט בנפרד
+    (וכל פורמט חדש שיישכח), הקרדיט מתווסף כאן — בשכבת השליחה — לכל הודעה
+    שעדיין אין בה אחד. טקסט רגיל + דומיין גלוי, כדי שישרוד העתקה לוואטסאפ.
+    """
+    if "הטכנולוגית" in text:
+        return text  # message already carries its own credit
+    if parse_mode == "HTML":
+        return text + "\n\n<i>✍️ נוצר על ידי מירב טלר ושדי | הטכנולוגית</i>\nmeravtech.com"
+    return text + "\n\n✍️ נוצר על ידי מירב טלר ושדי | הטכנולוגית\nmeravtech.com"
+
+
 def send_telegram(chat_id, text, parse_mode="HTML", reply_markup=None):
+    text = _ensure_credit(text, parse_mode)
     if not TELEGRAM_BOT_TOKEN:
         log(f"  [DRY] -> {chat_id}: {text[:80]}")
         return True
@@ -116,6 +131,7 @@ def send_telegram(chat_id, text, parse_mode="HTML", reply_markup=None):
 
 def edit_telegram(chat_id, message_id, text, parse_mode="HTML", reply_markup=None):
     """Edit an existing message in place (for settings menu)."""
+    text = _ensure_credit(text, parse_mode)
     if not TELEGRAM_BOT_TOKEN:
         return True
     try:
@@ -242,11 +258,13 @@ def _clean_event_title(raw_title):
     return title or "פעילות"
 
 
-def format_event_card(ev, include_inline_links=True):
+def format_event_card(ev, include_inline_links=True, show_date=True):
     """Format a single event as Telegram-flavored HTML.
 
     include_inline_links=False produces a button-friendly message body — the
     register/share links live in a separate inline_keyboard, not in the text.
+    show_date=False omits the date from the meta row — used when events are
+    already grouped under a date header (avoids '📅 יום רביעי' + '📅 29/07' twice).
     """
     time_str = ev.get("event_time") or ""
     location = ev.get("location") or ""
@@ -263,7 +281,7 @@ def format_event_card(ev, include_inline_links=True):
     if time_str:
         meta.append(f"🕐 {time_str}")
     date_str = ev.get("event_date") or ""
-    if date_str:
+    if date_str and show_date:
         meta.append(f"📅 {date_str}")
     if location:
         meta.append(f"📍 {location}")
@@ -282,7 +300,10 @@ def format_event_card(ev, include_inline_links=True):
 
     if include_inline_links:
         if link:
-            line += f"\n👉 <a href=\"{link}\">להרשמה</a>"
+            # Plain URL — users copy these messages into WhatsApp; an <a> anchor
+            # loses the link on paste. The wa.me share stays an anchor (its URL
+            # is huge and only useful as a click action, never as copied text).
+            line += f"\n👉 להרשמה: {link}"
         if link and not is_full:
             line += f"\n📲 <a href=\"{_event_whatsapp_url(ev)}\">שתפו בוואטסאפ</a>"
 
@@ -329,33 +350,70 @@ def event_buttons(ev):
     return [row] if row else []
 
 
+def _date_group_header(ev):
+    """'📅 יום רביעי, 29/07' — date header for grouped event lists."""
+    day_names = {0: "שני", 1: "שלישי", 2: "רביעי", 3: "חמישי", 4: "שישי", 5: "שבת", 6: "ראשון"}
+    iso = ev.get("event_date_iso")
+    date_str = ev.get("event_date") or ""
+    try:
+        d = datetime.date.fromisoformat(iso)
+        return f"יום {day_names.get(d.weekday(), '')}, {d.strftime('%d/%m')}"
+    except Exception:
+        return date_str or "ללא תאריך מוגדר"
+
+
 def send_events_response(chat_id, events, header=""):
     """Send a list of events as a single consolidated message (no spam).
 
     Empty list → one consolation message.
-    Any events → header + consolidated list in ONE message.
-    Returns None (always sends directly).
+    Any events → header + date-grouped list in ONE message, capped so long
+    free-text searches (3 weeks of results) stay inside Telegram's 4096-char
+    limit — the rest is one click away on the site.
     """
     if not events:
         send_telegram(chat_id, header + "\n\n📭 לא נמצאו פעילויות מתאימות\n\n💡 נסו /week לראות את כל השבוע או /recommend להמלצות אישיות")
         return None
 
-    events.sort(key=lambda e: e.get("event_time") or "99:99")
+    # מיון לפי תאריך ואז שעה — חיפוש חופשי מחזיר שבועות קדימה, ומיון לפי
+    # שעה בלבד עירבב תאריכים (אירוע של 20.8 הופיע לפני אירוע של 19.7).
+    events.sort(key=lambda e: (e.get("event_date_iso") or "9999-12-31",
+                               e.get("event_time") or "99:99"))
 
-    # Always send as a single consolidated message to avoid spam
+    MAX_EVENTS = 12
+    shown = events[:MAX_EVENTS]
+    rest = len(events) - len(shown)
+
     lines = []
     if header:
         lines.append(header)
-        if len(events) > 1:
-            lines.append(f"📊 {len(events)} פעילויות:")
         lines.append("")
-    for ev in events:
-        lines.append(format_event_card(ev, include_inline_links=True))
+    last_date = None
+    for ev in shown:
+        group = _date_group_header(ev)
+        if group != last_date:
+            lines.append(f"📅 <b>{group}</b>")
+            lines.append("")
+            last_date = group
+        # Date lives in the group header — keep the card itself compact
+        lines.append(format_event_card(ev, include_inline_links=True, show_date=False))
         lines.append("")
+    if rest > 0:
+        lines.append(f"…ועוד {rest} פעילויות נוספות — כולן באתר 👇")
+        lines.append("")
+    # Attribution — plain text so it survives copy-paste to WhatsApp.
+    # Don't remove without asking Merav.
+    lines.append("<i>✍️ נוצר על ידי מירב טלר ושדי | הטכנולוגית</i>")
+    lines.append("meravtech.com")
     keyboard = {"inline_keyboard": [[
         {"text": "🔗 פתחו רשימה מלאה באתר", "url": DASHBOARD_URL},
     ]]}
-    send_telegram(chat_id, "\n".join(lines), reply_markup=keyboard)
+    ok = send_telegram(chat_id, "\n".join(lines), reply_markup=keyboard)
+    if not ok:
+        # לעולם לא משאירים משתמש בלי תגובה: אם ההודעה המלאה נכשלה (ארוכה
+        # מדי / HTML בעייתי), שולחים גרסה קצרה עם קישור לאתר.
+        send_telegram(chat_id,
+            f"{header}\n\n📊 נמצאו {len(events)} פעילויות — הרשימה ארוכה מכדי להציג כאן.",
+            reply_markup=keyboard)
     return None
 
 
@@ -446,9 +504,21 @@ def get_target_date(text):
     elif any(w in text_lower for w in ["שבת"]):
         days_ahead = (5 - today.weekday()) % 7
         return today + datetime.timedelta(days=days_ahead), "שבת"
-    elif any(w in text_lower for w in ["ראשון"]):
+    elif any(w in text_lower for w in ["ראשון", "ביום ראשון"]):
         days_ahead = (6 - today.weekday()) % 7 or 7
         return today + datetime.timedelta(days=days_ahead), "יום ראשון"
+    elif any(w in text_lower for w in ["שני", "ביום שני", "בשני"]):
+        days_ahead = (0 - today.weekday()) % 7 or 7
+        return today + datetime.timedelta(days=days_ahead), "יום שני"
+    elif any(w in text_lower for w in ["שלישי", "ביום שלישי", "בשלישי"]):
+        days_ahead = (1 - today.weekday()) % 7 or 7
+        return today + datetime.timedelta(days=days_ahead), "יום שלישי"
+    elif any(w in text_lower for w in ["רביעי", "ביום רביעי", "ברביעי"]):
+        days_ahead = (2 - today.weekday()) % 7 or 7
+        return today + datetime.timedelta(days=days_ahead), "יום רביעי"
+    elif any(w in text_lower for w in ["חמישי", "ביום חמישי", "בחמישי"]):
+        days_ahead = (3 - today.weekday()) % 7 or 7
+        return today + datetime.timedelta(days=days_ahead), "יום חמישי"
 
     return today, "היום"
 
@@ -481,6 +551,45 @@ def get_age_filter(text):
     return None
 
 
+_FILTER_STOPWORDS = {
+    # מילות שאלה ופניה
+    "מה", "מי", "איזה", "איזו", "איפה", "מתי", "האם", "יש", "יהיה", "משהו",
+    "לי", "לך", "אתה", "את", "אתם", "הבוט", "בבוט", "תגיד", "תגידי", "תאמר", "ספר", "תספר",
+    "אנא", "בבקשה", "אפשר", "בא", "אהבתי", "רוצה", "צריך", "יודע",
+    "תוכל", "אולי", "כן", "לא", "תודה",
+    # ברכות
+    "שלום", "היי", "הי", "טוב", "ערב",
+    # מילות תאריך/זמן (מטופלות בנפרד)
+    "היום", "מחר", "מחרתיים", "שבוע", "השבוע",
+    "ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת",
+    "בראשון", "בשני", "בשלישי", "ברביעי", "בחמישי", "בשישי",
+    "ביום",
+    "בוקר", "ערב", "בערב", "בבוקר", "בצהריים", "צהריים", "צהרים", "אחהצ", "עכשיו", "כרגע",
+    # קישוריות
+    "של", "על", "עם", "אל", "מן",
+    "או", "ואת", "בעיר", "בבת", "ים", "פעילויות", "אירועים", "פעילות",
+    "אירוע", "מופע", "מופעים", "חוג", "חוגים", "מפגש", "מפגשים",
+}
+
+
+def get_text_filter(text):
+    """Extract free-text search terms (e.g., a presenter's name like 'אורלי')."""
+    cleaned = re.sub(r'[?!.,;:"\'()\[\]/\\]', ' ', text)
+    words = [w.strip() for w in cleaned.split() if w.strip()]
+    search_terms = []
+    for w in words:
+        if w.lower() in _FILTER_STOPWORDS:
+            continue
+        if w.isdigit():
+            continue
+        if len(w) <= 2:
+            continue
+        if any(prefix in w for prefix in ("מתנס", "מתנ")):
+            continue
+        search_terms.append(w)
+    return search_terms if search_terms else None
+
+
 def get_location_filter(text):
     """Extract location from text."""
     text_norm = normalize(text)
@@ -510,9 +619,19 @@ def query_events(text, user_id=None, chat_id=None):
     time_label, time_range = get_time_filter(text)
     age = get_age_filter(text)
     location = get_location_filter(text)
+    text_terms = get_text_filter(text)
 
-    # Get events from DB
-    if isinstance(target_date, tuple) and len(target_date) == 3 and target_date[0] == "range":
+    # אם יש חיפוש חופשי (שם של מורה/נושא) ואין תאריך ספציפי בשאלה — חפש בכל
+    # האירועים הקרובים. חלון של 60 יום: אירועי הקיץ הגדולים (אמפי, חגיגות
+    # המאה) מתפרסמים חודש-חודשיים מראש, ו-21 יום פספסו אותם.
+    has_explicit_date = any(w in text.lower() for w in [
+        "היום", "מחר", "מחרתיים", "שישי", "שבת", "ראשון", "שבוע"
+    ])
+    if text_terms and not has_explicit_date:
+        rows = db.get_upcoming_events(days=60)
+        date_label = "הקרובות"
+        target_date = None
+    elif isinstance(target_date, tuple) and len(target_date) == 3 and target_date[0] == "range":
         # Custom date range (e.g. "next week")
         _, start_d, end_d = target_date
         all_upcoming = db.get_upcoming_events(days=21)
@@ -559,6 +678,24 @@ def query_events(text, user_id=None, chat_id=None):
             if loc_norm not in ev_loc and loc_norm not in ev_text:
                 continue
 
+        # Free-text filter (presenter name, topic, etc.) — כל המונחים חייבים
+        # להופיע באירוע (AND). קודם היה מספיק מונח אחד (OR), ואז "חנן בן ארי"
+        # החזיר 30+ אירועים לא קשורים כי "ארי" הופיע איפשהו.
+        # כל מונח מורחב במילים נרדפות (db.keyword_terms) — "ספורט" מוצא גם
+        # "מונדיאל", בדיוק כמו במעקבים — ונבדק גם בלי תחיליות עבריות נפוצות
+        # (ל, ב, מ, ש, ו, ה) — "לאורלי" יזהה "אורלי".
+        if text_terms:
+            ev_haystack = ((ev.get("title") or "") + " " + (ev.get("raw_text") or "")).lower()
+            def _term_found(t_lower):
+                for variant in db.keyword_terms(t_lower):
+                    if variant in ev_haystack:
+                        return True
+                    if len(variant) > 3 and variant[0] in "לבמשוה" and variant[1:] in ev_haystack:
+                        return True
+                return False
+            if not all(_term_found(t.lower()) for t in text_terms):
+                continue
+
         filtered.append(ev)
 
     # Build header
@@ -566,6 +703,8 @@ def query_events(text, user_id=None, chat_id=None):
     if time_label:
         time_labels = {"morning": "בוקר", "noon": "צהריים", "afternoon": "אחה\"צ", "evening": "ערב"}
         header_parts[0] += f" ({time_labels.get(time_label, '')})"
+    if text_terms:
+        header_parts.append(f"🔍 חיפוש: {' '.join(text_terms)}")
     if location:
         header_parts.append(f"📍 {location}")
     if age:
@@ -591,10 +730,9 @@ def get_recommendations(user_id):
     for ev in events:
         if ev.get("is_full"):
             continue
-        text = normalize(ev.get("raw_text", "") + " " + ev.get("title", ""))
         for pref in prefs:
-            kw = normalize(pref["keyword"])
-            if kw in text:
+            # Same matcher as dispatcher/list — synonyms, age ranges, רוסית
+            if db.event_matches_keyword(pref["keyword"], ev):
                 ev["_matched_kw"] = pref["keyword"]
                 matched.append(ev)
                 break
@@ -778,32 +916,54 @@ def handle_list(chat_id, user):
     all_events = db.get_all_events_for_matching()
 
     lines = ["📋 <b>המעקבים שלך:</b>", ""]
+    today_iso = datetime.datetime.now(IL_TZ).strftime("%Y-%m-%d")
+    show_buttons = []  # one button per tracker with matches — tap to see the events
     for p in prefs:
-        kw = db.normalize_text(p["keyword"])
-        matches = []
-        for ev in all_events:
-            ev_text = db.normalize_text((ev["title"] or "") + " " + (ev["raw_text"] or ""))
-            if kw in ev_text:
-                matches.append(ev)
+        # Same matcher the dispatcher uses (synonyms, age ranges, רוסית) — so the
+        # counts here always agree with what notifications will actually fire.
+        matches = [ev for ev in all_events if db.event_matches_keyword(p["keyword"], ev)]
 
         if matches:
             available = [m for m in matches if not m["is_full"]]
-            next_ev = matches[0]
-            time_str = f" {next_ev['event_time']}" if next_ev.get("event_time") else ""
+            # "הקרובה" = nearest FUTURE dated event (matches[0] was arbitrary DB
+            # order and often dateless, which rendered an empty line).
+            upcoming = sorted(
+                (m for m in matches if (m.get("event_date_iso") or "") >= today_iso),
+                key=lambda m: (m["event_date_iso"], m.get("event_time") or ""))
             status = f"🟢 {len(available)} פנויות" if available else "🔴 הכל מלא"
             lines.append(f"• <b>{p['keyword']}</b> — {len(matches)} פעילויות ({status})")
-            lines.append(f"  הקרובה: {next_ev['event_date']}{time_str}")
+            if upcoming:
+                next_ev = upcoming[0]
+                time_str = f" {next_ev['event_time']}" if next_ev.get("event_time") else ""
+                lines.append(f"  הקרובה: {next_ev['event_date']}{time_str}")
+            cb = f"showkw:{p['keyword']}"
+            if len(cb.encode("utf-8")) <= 64:  # Telegram callback_data hard limit
+                show_buttons.append({"text": f"👀 {p['keyword']} ({len(matches)})", "callback_data": cb})
         else:
             lines.append(f"• <b>{p['keyword']}</b> — אין פעילויות כרגע")
 
-    send_telegram(chat_id, "\n".join(lines),
-        reply_markup={"inline_keyboard": [
-            [{"text": "➕ הוסיפו", "callback_data": "cmd:start_tracks"},
-             {"text": "🗑 הסירו", "callback_data": "cmd:mytracks"}],
-            [{"text": "🎯 המלצות", "callback_data": "cmd:recommend"},
-             {"text": "⚙️ הגדרות", "callback_data": "cmd:settings"}],
-        ]})
+    lines.append("")
+    if show_buttons:
+        lines.append("👇 לחצו על מעקב כדי לראות את הפעילויות עצמן:")
+
+    # Tracker buttons in rows of 2, then the management row
+    keyboard_rows = [show_buttons[i:i + 2] for i in range(0, len(show_buttons), 2)]
+    keyboard_rows += [
+        [{"text": "➕ הוסיפו", "callback_data": "cmd:start_tracks"},
+         {"text": "🗑 הסירו", "callback_data": "cmd:mytracks"}],
+        [{"text": "🎯 המלצות", "callback_data": "cmd:recommend"},
+         {"text": "⚙️ הגדרות", "callback_data": "cmd:settings"}],
+    ]
+    send_telegram(chat_id, "\n".join(lines), reply_markup={"inline_keyboard": keyboard_rows})
     return None
+
+
+def show_tracker_events(chat_id, keyword):
+    """Show the actual events behind a tracker count (from the /list buttons)."""
+    events = [ev for ev in db.get_upcoming_events(days=60)
+              if db.event_matches_keyword(keyword, ev)]
+    header = f"👀 <b>פעילויות במעקב: {keyword}</b>"
+    send_events_response(chat_id, events, header)
 
 
 def handle_recommend(chat_id, user):
@@ -1013,29 +1173,16 @@ def handle_add_event(chat_id, text, user):
     event_date = f"{int(d):02d}/{int(m):02d}/{y}"
     event_date_iso = f"{y}-{int(m):02d}-{int(d):02d}"
 
-    # Detect age from title (use same patterns as scraper)
-    age_group = None
-    age_patterns = [
-        (r'גילאי?\s*(\d+\.?\d*)\s*[-–]\s*(\d+\.?\d*)', lambda m: f"{m.group(1)}-{m.group(2)}"),
-        (r'לגיל\s*(\d+\.?\d*)\s*[-–]\s*(\d+\.?\d*)', lambda m: f"{m.group(1)}-{m.group(2)}"),
-        (r'גיל\s*(\d+)\+', lambda m: f"{m.group(1)}+"),
-        (r'(\d+)\s*[-–]\s*(\d+)\s*שנ', lambda m: f"{m.group(1)}-{m.group(2)}"),
-        (r'מגיל\s*(\d+)', lambda m: f"{m.group(1)}+"),
-        (r'עד\s*גיל\s*(\d+)', lambda m: f"0-{m.group(1)}"),
-        (r'בני\s*(\d+)\s*[-–]\s*(\d+)', lambda m: f"{m.group(1)}-{m.group(2)}"),
-    ]
-    for pat, fmt in age_patterns:
-        am = _re.search(pat, title)
-        if am:
-            age_group = fmt(am)
-            break
-    if not age_group:
-        if 'קטנטנים' in title or 'פעוטות' in title or 'תינוקות' in title:
-            age_group = "0-3"
-        elif 'ילדים' in title:
-            age_group = "3-12"
-        elif 'נוער' in title or 'מתבגרים' in title:
-            age_group = "12-18"
+    # Detect age from title — שימוש בלוגיקת הזיהוי המרכזית של הסקרייפר,
+    # כדי שגם פקודת /add (אירועים ידניים של מנהלים) תזהה גילאים באותה
+    # שיטה כמו אירועים שנגרפים מהקוינג. אסור להסיק גיל ממילים כמו
+    # "תינוקות"/"פעוטות" — רק מספרים מפורשים או מילות מספר בעברית
+    # (שנה, שלוש שנים) בהקשר תווית גיל מובהקת.
+    try:
+        from batyam_scraper import detect_age_group as _scraper_detect_age
+        age_group = _scraper_detect_age(title)
+    except Exception:
+        age_group = None
 
     # Detect neighborhood from title + location
     neighborhoods = ["רמת הנשיא", "רמת יוסף", "לב העיר", "רובע דרום", "רמת דרום", "רובע צפון", "צפון", "עמידר", "פארק הים"]
@@ -1205,7 +1352,11 @@ def process_message(chat_id, text, user_name=None):
     if any(w in text_lower for w in ["מה יש", "מה קורה", "מה עושים", "מה אפשר",
                                        "יש משהו", "פעילויות", "אירועים", "מה היום",
                                        "מה מחר", "מה בשבוע"]):
-        query_events(text, user_id=user["id"], chat_id=chat_id)
+        try:
+            query_events(text, user_id=user["id"], chat_id=chat_id)
+        except Exception as e:
+            log(f"  שגיאת חיפוש [{chat_id}] '{text}': {e}")
+            return f"😕 משהו השתבש בחיפוש. נסו שוב, או כל הפעילויות באתר:\n{DASHBOARD_URL}"
         return None
 
     # Greetings and thank-yous — respond nicely, don't search
@@ -1215,7 +1366,11 @@ def process_message(chat_id, text, user_name=None):
 
     # Default — try to answer as a query if it looks like one
     if len(text) > 4:
-        query_events(text, user_id=user["id"], chat_id=chat_id)
+        try:
+            query_events(text, user_id=user["id"], chat_id=chat_id)
+        except Exception as e:
+            log(f"  שגיאת חיפוש [{chat_id}] '{text}': {e}")
+            return f"😕 משהו השתבש בחיפוש. נסו שוב, או כל הפעילויות באתר:\n{DASHBOARD_URL}"
         return None
 
     return "🤔 לא הבנתי. נסו:\n/today — מה קורה היום\n/help — כל האפשרויות\n\nאו שאלו בעברית: \"מה יש מחר?\""
@@ -1306,6 +1461,11 @@ def handle_callback(callback_query):
         db.remove_preference(user["id"], keyword)
         answer_callback(callback_id, f"🗑 הוסר: {keyword}")
         send_my_tracks(chat_id, user["id"])
+    elif data.startswith("showkw:"):
+        # /list button: show the actual events behind a tracker count
+        keyword = data.split(":", 1)[1]
+        answer_callback(callback_id, f"👀 {keyword}")
+        show_tracker_events(chat_id, keyword)
     elif data.startswith("rmpref:"):
         # Preferred path: callback_data has the preference id (always under 64 bytes)
         try:
