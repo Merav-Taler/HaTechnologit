@@ -2,13 +2,26 @@
 
 > **מסמך ההמשך המרכזי.** פותחים סשן חדש של Claude Code? מפנים אותו לכאן:
 > "קרא את docs/STATUS.md ואת CLAUDE.md והמשך משם."
-> עודכן: 18.9.2026. הנתונים למטה נאספו ב-17.8.2026 — לרענן לפני החלטות.
+> עודכן: 24.9.2026 (מעבר דומיין הושלם). הנתונים למטה נאספו ב-17.8.2026 — לרענן לפני החלטות.
 
 ## מה זה הפרויקט (בשורה)
 
 אתר (batyamtoday.meravtech.com) + בוט טלגרם (@BatYamTodayBot) שמרכזים את כל פעילויות
 קוינג העירוניות בבת ים ושולחים התראות מותאמות. רץ בפרודקשן על Railway + SiteGround.
 המטרה עכשיו: להפוך את זה לעסק. הפרטים הטכניים המלאים — ב-`CLAUDE.md`.
+
+## איך פורסים היום (אחרי המעבר, 24.9.2026) — הקיצור
+
+| מה שינית | מה עושים |
+|---|---|
+| `preview.html` (האתר) | להעתיק ל-`deploy/upload/index.html` → File Manager → `batyamtoday.meravtech.com/public_html/` → Upload (Overwrite). מירב עושה את ההעלאה; SSH לא עובד. |
+| `dashboard.html` (דשבורד אדמין) | להעתיק ל-`deploy/upload/admin/index.html` → אותה תיקייה בשרת, תת-תיקייה `admin/` |
+| `railway_bot/*` (בוט/סקרייפר) | `gh repo clone Merav-Taler/batyam-bot-railway` ל-scratchpad → להעתיק את הקבצים ששונו → commit → push = דיפלוי. אימות: `https://web-production-7e8ff.up.railway.app/` מחזיר `"commit":"<sha>"`. |
+| משהו באתר העסקי meravtech.com | הדף החי הוא המקור (אין עותק מקומי מסודר). `deploy/meravtech-root/` מכיל את `index.html` ו-`sitemap.xml` כפי שהועלו ב-24.9. |
+| `.htaccess` בכל מקום | File Manager לא יוצר קבצי נקודה — לארוז ב-zip (`deploy/htaccess-for-new-site.zip` כדוגמה) → Upload → Extract. |
+
+בדיקות מבחוץ שעובדות בלי גישה לשרת: `curl -sI <url>` (כותרות, 301), `curl -s <url> | grep` (תוכן). הדפדפן של מירב זוכר 301 ישנים — לבדוק ב-curl או בחלון פרטי.
+
 
 ## המספרים (baseline 17.8.2026)
 
@@ -60,7 +73,9 @@
 
 חומרים להכין (לא קוד): עמוד פיץ' לעירייה, דף הצעת חסות, עלון QR.
 
-## מעבר דומיין (24.9.2026) — הושלם ואומת מבחוץ
+**פתוח אחרי המעבר (לא קוד, של מירב):** לעדכן את הכתובת החדשה בביו ובהודעות מוצמדות בקבוצות וואטסאפ/פייסבוק; אופציונלי — חידוש טוקן הבוט.
+
+## מעבר דומיין (24.9.2026) — הושלם ואומת מבחוץ, קומיט `2cafd23` נדחף ל-HaTechnologit
 האתר עבר ל-**https://batyamtoday.meravtech.com** (סאב-דומיין ב-SiteGround, תיקייה נפרדת
 `batyamtoday.meravtech.com/public_html/`). הצ׳קליסט המלא: `docs/DOMAIN_MIGRATION.md`.
 
@@ -77,6 +92,8 @@
 | Search Console — נכס חדש | ✅ אומת |
 | בוט מציג כתובת חדשה (`/help`, כפתור "פתחו רשימה מלאה") | ✅ נבדק ע"י מירב |
 | HTTPS Enforce לשני האתרים | ✅ הודלק ב-SSL Manager, אומת: http:// → 301 → https:// בשניהם, וה-301 הישן שרד את הכתיבה מחדש של ה-htaccess |
+| האתר העסקי meravtech.com: 2 קישורים בדף הבית → הדומיין החדש; `sitemap.xml` שוחזר (הוחלף בטעות בזה של בת ים) | ✅ אומת |
+| סודות (טוקן בוט, webhook secret, API key) שהיו בטקסט גלוי ב-`docs/` | ✅ הוסרו לפני הקומיט; `.gitignore` חדש. אופציונלי: לחדש טוקן ב-@BotFather |
 
 ## כיסוי פעילויות — מה תוקן ב-24.9.2026 (railway_bot + preview.html)
 

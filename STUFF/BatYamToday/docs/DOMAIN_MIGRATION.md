@@ -87,6 +87,12 @@
 - `sitemap.xml` של האתר העסקי כלל `/batyam/` ו-`/batyam/privacy.html` — גרסה נקייה ב-`deploy/meravtech-root/sitemap.xml`.
 - לאתר החדש נוספו `sitemap.xml` + `robots.txt` (חוסם `/admin/`) ב-`deploy/upload/`.
 
+### 4ג. סיום (24.9 אחה"צ)
+- ✅ `sitemap.xml` של meravtech.com שוחזר (`deploy/meravtech-root/sitemap.xml`) — בהעלאה קודמת עלה בטעות ה-sitemap של בת ים לשורש העסקי.
+- ✅ דף הבית של meravtech.com: 2 קישורים → batyamtoday (`deploy/meravtech-root/index.html`, נגזר מהדף החי).
+- ✅ קומיט `2cafd23` (TECH WOMEN/HaTechnologit) נדחף; סודות הוסרו מ-`docs/` לפני כן.
+- **מצב סופי אומת מבחוץ**: אתר, admin, privacy, כותרות אבטחה, 301 מכל צורת כתובת ישנה, HTTPS enforce, בוט (`/help` + כפתור), Railway commit, sitemap/robots בשני האתרים.
+
 ### 5. מקומות חיצוניים שמכילים את הכתובת הישנה (ידני)
 - ביו/קישורים בקבוצות וואטסאפ ופייסבוק, `track_link_generator.html` (בודק — אין שם דומיין), הודעת ה-pin בקבוצות.
 - הודעות שכבר נשלחו ימשיכו לעבוד דרך ה-301.
