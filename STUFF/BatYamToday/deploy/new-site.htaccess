@@ -1,0 +1,37 @@
+# ===== batyamtoday.meravtech.com =====
+# הקובץ הזה יושב ב-public_html/ של הסאב-דומיין בשם ".htaccess".
+# הועבר מ-meravtech.com/batyam (כותרות אבטחה, קאשינג, דחיסה, חסימת קבצים רגישים).
+
+# Security headers
+Header always set X-Frame-Options "SAMEORIGIN"
+Header always set X-Content-Type-Options "nosniff"
+Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+# Cache control — index.html short cache so updates show within 5 minutes
+<FilesMatch "index\.html$">
+  Header always unset Cache-Control
+  Header always set Cache-Control "max-age=300"
+</FilesMatch>
+
+# Long cache for images and icons (rarely change)
+<FilesMatch "\.(png|jpg|jpeg|gif|webp|svg|ico)$">
+  Header set Cache-Control "public, max-age=604800"
+</FilesMatch>
+
+# GZIP compression
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/javascript
+  AddOutputFilterByType DEFLATE application/javascript application/json
+  AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+# Block sensitive files
+<FilesMatch "\.(py|db|json|log|sqlite|jsonl)$">
+  Require all denied
+</FilesMatch>
+<FilesMatch "^\.">
+  Require all denied
+</FilesMatch>
+<Files "php_errorlog">
+  Require all denied
+</Files>

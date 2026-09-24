@@ -34,7 +34,7 @@ def load_secrets():
 
 SECRETS = load_secrets()
 TELEGRAM_BOT_TOKEN = SECRETS.get("TELEGRAM_BOT_TOKEN", "")
-DASHBOARD_URL = SECRETS.get("DASHBOARD_URL", "https://meravtech.com/batyam/")
+DASHBOARD_URL = SECRETS.get("DASHBOARD_URL", "https://batyamtoday.meravtech.com/")
 
 LOG_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "batyam_digest.log")
 

@@ -1,0 +1,13 @@
+# ===== meravtech.com/batyam → batyamtoday.meravtech.com (301) =====
+# ⚠️ בפועל (24.9.2026) השורות האלה יושבות ב-.htaccess של **השורש** של האתר העסקי:
+#     meravtech.com/public_html/.htaccess
+# ולא בתוך public_html/batyam/. הכלל תופס רק כתובות שמתחילות ב-batyam/ ומעביר
+# את מה שאחרי, אז שאר meravtech.com לא מושפע:
+#   /batyam/              → https://batyamtoday.meravtech.com/
+#   /batyam/privacy.html  → https://batyamtoday.meravtech.com/privacy.html
+# תיקיית public_html/batyam/ עצמה צריכה להיות ריקה: SiteGround מגיש קבצים סטטיים
+# (html/png) ישירות מ-nginx בלי לעבור דרך כללי ה-rewrite, אז קובץ ישן שנשאר שם
+# יוגש במקום להיות מופנה.
+RewriteEngine On
+# ^batyam(?:/(.*))?$ — תופס גם /batyam בלי לוכסן בסוף (הגרסה עם ^batyam/ החזירה שם 404)
+RewriteRule ^batyam(?:/(.*))?$ https://batyamtoday.meravtech.com/$1 [R=301,L,QSA]

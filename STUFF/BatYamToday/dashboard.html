@@ -143,7 +143,7 @@ body { font-family:'Heebo',sans-serif; background:#f1f5f9; color:#1e293b; direct
                 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px;">
                     <div><h4 style="font-size:14px;margin-bottom:4px;" id="gaUsersTitle">מבקרים</h4><p class="chart-explain">כמה אנשים נכנסו לאתר. כתום=משתמשים, כחול=ביקורים</p><canvas id="chartGA7"></canvas></div>
                     <div><h4 style="font-size:14px;margin-bottom:4px;">מקורות תנועה</h4><p class="chart-explain">מאיפה הגיעו — Direct=הקלידו URL, Organic=גוגל, Social=וואטסאפ/פייסבוק, Referral=מאתר אחר</p><canvas id="chartGASources"></canvas></div>
-                    <div><h4 style="font-size:14px;margin-bottom:4px;">דפים פופולריים</h4><p class="chart-explain">איזה עמודים הכי צפו בהם. / = דף ראשי, /batyam/ = אתר בת ים</p><canvas id="chartGAPages"></canvas></div>
+                    <div><h4 style="font-size:14px;margin-bottom:4px;">דפים פופולריים</h4><p class="chart-explain">איזה עמודים הכי צפו בהם. מסונן לאתר בת ים בלבד (batyamtoday.meravtech.com, וגם /batyam/ הישן)</p><canvas id="chartGAPages"></canvas></div>
                     <div><h4 style="font-size:14px;margin-bottom:4px;">אירועים (לחיצות)</h4><p class="chart-explain">מה אנשים עשו באתר — click_register=עברו לקוינג, filter=סיננו, search=חיפשו</p><canvas id="chartGAEvents"></canvas></div>
                 </div>
             </div>
@@ -406,6 +406,12 @@ async function gaFetch(body) {
         console.error('GA Property ID not found');
         return {rows:[]};
     }
+    // הנכס ב-GA משותף עם meravtech.com — מסננים לאתר בת ים בלבד:
+    // הדומיין החדש batyamtoday.meravtech.com, או הנתיב הישן /batyam/ (היסטוריה שלפני המעבר).
+    if(!body.dimensionFilter) body.dimensionFilter = {orGroup: {expressions: [
+        {filter: {fieldName: 'hostName', stringFilter: {matchType: 'EXACT', value: 'batyamtoday.meravtech.com'}}},
+        {filter: {fieldName: 'pagePath', stringFilter: {matchType: 'BEGINS_WITH', value: '/batyam/'}}}
+    ]}};
     var resp = await fetch('https://analyticsdata.googleapis.com/v1beta/properties/' + GA_PROPERTY_ID + ':runReport', {
         method: 'POST',
         headers: {'Authorization': 'Bearer ' + gaToken, 'Content-Type': 'application/json'},

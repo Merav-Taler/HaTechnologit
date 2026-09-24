@@ -1,0 +1,1723 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QZRFH6TJG6"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-QZRFH6TJG6');</script>
+<title>הטכנולוגית | הדרכה טכנולוגית, תמיכה וייעוץ לעסקים</title>
+<meta name="description" content="הטכנולוגית — מירב טלר ושדי. הדרכה טכנולוגית אישית לכל הגילאים, תמיכה טכנית מרחוק, וייעוץ טכנולוגי לעסקים קטנים בבת ים והסביבה.">
+<meta name="keywords" content="הדרכה טכנולוגית, תמיכה טכנית, ייעוץ טכנולוגי, עסקים קטנים, בת ים, AI, בינה מלאכותית, מחשב, טלפון, מבוגרים">
+<link rel="canonical" href="https://meravtech.com/">
+<meta name="google-site-verification" content="S8I5ktv1Lpr5l9UxxVqPEIVs0uWc0JOat9e-NZwqHhE">
+
+<!-- Open Graph -->
+<meta property="og:title" content="הטכנולוגית — הדרכה טכנולוגית, תמיכה וייעוץ">
+<meta property="og:description" content="הדרכה טכנולוגית אישית לכל הגילאים, תמיכה טכנית מרחוק, וייעוץ לעסקים קטנים. מירב טלר ושדי — בת ים והסביבה.">
+<meta property="og:image" content="https://meravtech.com/logo.png">
+<meta property="og:url" content="https://meravtech.com/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="he_IL">
+
+<!-- Structured Data -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"ProfessionalService","name":"הטכנולוגית","url":"https://meravtech.com","description":"הדרכה טכנולוגית אישית, תמיכה טכנית מרחוק, וייעוץ טכנולוגי לעסקים קטנים","founder":{"@type":"Person","name":"מירב טלר ושדי"},"areaServed":{"@type":"City","name":"בת ים"},"serviceType":["הדרכה טכנולוגית","תמיכה טכנית מרחוק","ייעוץ טכנולוגי לעסקים","הדרכות AI"],"telephone":"054-246-4448","email":"tech.merav@gmail.com","priceRange":"₪"}
+</script>
+
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="apple-touch-icon" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+/* ===== CSS VARIABLES ===== */
+:root {
+  --primary: #2a6f8a;
+  --primary-light: #9ecbd6;
+  --primary-dark: #1e5a73;
+  --primary-deeper: #174a5e;
+  --primary-bg: #f0f7fa;
+  --primary-glow: rgba(42,111,138,.12);
+  --accent: #d4a5c9;
+  --accent-light: #e8c8e0;
+  --accent-bg: #fdf5fb;
+  --success: #10B981;
+  --bg: #FAFAFE;
+  --bg-card: #FFFFFF;
+  --text: #1E1B4B;
+  --text-sec: #6B7280;
+  --text-m: #9CA3AF;
+  --border: #E5E7EB;
+  --border-h: #D1D5DB;
+  --sh: 0 1px 3px rgba(0,0,0,.06);
+  --sh-md: 0 4px 12px rgba(0,0,0,.06);
+  --sh-lg: 0 10px 30px rgba(0,0,0,.08);
+  --sh-xl: 0 20px 50px rgba(0,0,0,.12);
+  --r: 14px;
+  --r-lg: 20px;
+  --r-full: 50px;
+  --font: 'Heebo', 'Segoe UI', Tahoma, Arial, sans-serif;
+  --tr: .3s ease;
+  --nav-h: 64px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.7; direction: rtl; text-align: right; min-height: 100vh; }
+img { max-width: 100%; display: block; }
+a { color: var(--primary); text-decoration: none; transition: color var(--tr); }
+a:hover { color: var(--primary-dark); }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+
+/* ===== NAVBAR ===== */
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(255,255,255,.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  height: var(--nav-h);
+}
+.nav-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 24px; height: 100%;
+}
+.logo {
+  font-size: 22px; font-weight: 800; color: var(--primary);
+  display: flex; align-items: center; gap: 8px; cursor: pointer;
+}
+.logo-icon { font-size: 28px; }
+.nav-links { display: flex; align-items: center; gap: 4px; }
+.nav-link {
+  padding: 8px 18px; border-radius: var(--r-full);
+  font-size: 14px; font-weight: 500; color: var(--text-sec);
+  transition: all var(--tr); cursor: pointer;
+}
+.nav-link:hover, .nav-link.active { color: var(--primary); background: var(--primary-bg); }
+.nav-cta {
+  padding: 9px 24px; border-radius: var(--r-full);
+  background: var(--primary); color: #fff;
+  font-size: 14px; font-weight: 600; transition: all var(--tr);
+}
+.nav-cta:hover { background: var(--primary-dark); transform: translateY(-1px); box-shadow: 0 4px 12px var(--primary-glow); }
+.hamburger {
+  display: none; width: 36px; height: 36px;
+  flex-direction: column; align-items: center; justify-content: center;
+  gap: 5px; cursor: pointer;
+}
+.hamburger span { width: 22px; height: 2px; background: var(--text); transition: all .3s; border-radius: 2px; }
+.mobile-menu {
+  display: none; position: fixed; top: var(--nav-h); left: 0; right: 0;
+  background: var(--bg-card); border-bottom: 1px solid var(--border);
+  box-shadow: var(--sh-lg); z-index: 99;
+  flex-direction: column; padding: 16px;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu .nav-link { padding: 14px 16px; font-size: 16px; width: 100%; }
+
+/* ===== HERO ===== */
+.hero {
+  position: relative; overflow: hidden;
+  padding: clamp(70px, 12vw, 120px) 24px clamp(80px, 10vw, 110px);
+  text-align: center; color: #fff;
+  background: linear-gradient(135deg, #174a5e 0%, #2a6f8a 50%, #9ecbd6 100%);
+}
+.hero::before {
+  content: ''; position: absolute; top: -40%; left: -30%; width: 160%; height: 180%;
+  background: radial-gradient(ellipse at 25% 50%, rgba(255,255,255,.1) 0%, transparent 55%),
+              radial-gradient(ellipse at 75% 30%, rgba(212,165,201,.15) 0%, transparent 40%);
+  pointer-events: none;
+}
+.hero::after {
+  content: ''; position: absolute; bottom: -2px; left: 0; right: 0;
+  height: 70px; background: var(--bg);
+  clip-path: ellipse(55% 100% at 50% 100%);
+}
+.hero-content { position: relative; z-index: 1; max-width: 780px; margin: 0 auto; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,.15); backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,.2);
+  padding: 6px 24px; border-radius: var(--r-full);
+  font-size: 14px; font-weight: 500; margin-bottom: 24px;
+}
+.hero h1 {
+  font-size: clamp(34px, 6vw, 58px); font-weight: 900;
+  margin-bottom: 18px; line-height: 1.2;
+}
+.hero h1 em { font-style: normal; color: #FBBF24; }
+.hero-sub {
+  font-size: clamp(16px, 2.5vw, 20px); opacity: .92;
+  max-width: 600px; margin: 0 auto 36px;
+  font-weight: 300; line-height: 1.7;
+}
+.hero-btns { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; }
+
+/* ===== BUTTONS ===== */
+.btn {
+  padding: 14px 34px; border-radius: var(--r-full);
+  font-size: 16px; font-weight: 600;
+  display: inline-flex; align-items: center; gap: 8px;
+  transition: all var(--tr); cursor: pointer;
+}
+.btn-primary { background: #fff; color: var(--primary); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.15); }
+.btn-outline { background: transparent; color: #fff; border: 2px solid rgba(255,255,255,.4); }
+.btn-outline:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.7); }
+.btn-purple { background: var(--primary); color: #fff; }
+.btn-purple:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 6px 20px var(--primary-glow); }
+.btn-accent { background: var(--accent); color: #fff; }
+.btn-accent:hover { background: #DB2777; transform: translateY(-2px); }
+
+/* ===== SECTIONS ===== */
+.section { padding: 80px 24px; }
+.section-title {
+  text-align: center; font-size: clamp(28px, 4vw, 40px);
+  font-weight: 800; margin-bottom: 12px;
+}
+.section-sub {
+  text-align: center; font-size: 17px; color: var(--text-sec);
+  max-width: 600px; margin: 0 auto 50px; line-height: 1.7;
+}
+.section-inner { max-width: 1100px; margin: 0 auto; }
+
+/* ===== STATS BAR ===== */
+.stats-bar {
+  display: flex; justify-content: center; gap: 50px; flex-wrap: wrap;
+  padding: 40px 24px; max-width: 900px; margin: -30px auto 0;
+  position: relative; z-index: 2;
+  background: var(--bg-card); border-radius: var(--r-lg);
+  box-shadow: var(--sh-lg);
+}
+.stat { text-align: center; }
+.stat-num { font-size: 36px; font-weight: 800; color: var(--primary); }
+.stat-label { font-size: 14px; color: var(--text-sec); font-weight: 500; }
+
+/* ===== SERVICES ===== */
+.services-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+.service-card {
+  background: var(--bg-card); border-radius: var(--r-lg);
+  padding: 24px 24px; box-shadow: var(--sh);
+  border: 1px solid var(--border);
+  transition: all var(--tr); position: relative; overflow: hidden;
+  cursor: pointer;
+}
+.service-card:hover {
+  box-shadow: var(--sh-md);
+  border-color: var(--primary-light);
+}
+.service-card::before {
+  content: ''; position: absolute; top: 0; right: 0; left: 0;
+  height: 4px; background: linear-gradient(90deg, var(--primary), var(--accent));
+  opacity: 0; transition: opacity var(--tr);
+}
+.service-card:hover::before, .service-card.open::before { opacity: 1; }
+.service-header {
+  display: flex; align-items: center; gap: 14px;
+}
+.service-icon {
+  width: 50px; height: 50px; border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; flex-shrink: 0;
+  background: var(--primary-bg); color: var(--primary);
+}
+.service-icon svg { width: 26px; height: 26px; }
+.service-header-text { flex: 1; }
+.service-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 2px; }
+.service-card .service-brief { font-size: 13px; color: var(--text-m); line-height: 1.5; margin: 0; }
+.service-toggle {
+  width: 32px; height: 32px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--primary); flex-shrink: 0;
+  background: var(--primary-bg); transition: all var(--tr);
+}
+.service-toggle svg { width: 18px; height: 18px; }
+.service-card.open .service-toggle { transform: rotate(180deg); }
+.service-details {
+  max-height: 0; overflow: hidden; transition: max-height .35s ease, opacity .25s ease;
+  opacity: 0;
+}
+.service-card.open .service-details {
+  max-height: 400px; opacity: 1;
+}
+.service-details p { font-size: 14px; color: var(--text-sec); line-height: 1.7; margin-top: 16px; }
+.service-list {
+  list-style: none; margin-top: 12px; padding: 0;
+}
+.service-list li {
+  padding: 5px 0; font-size: 14px; color: var(--text-sec);
+  display: flex; align-items: center; gap: 8px;
+}
+.service-list li::before {
+  content: '✓'; color: var(--success); font-weight: 700;
+}
+
+/* ===== AUDIENCE ===== */
+.audience-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+}
+.audience-card {
+  background: var(--bg-card); border-radius: var(--r-lg);
+  padding: 32px 24px; text-align: center;
+  box-shadow: var(--sh); border: 1px solid var(--border);
+  transition: all var(--tr);
+}
+.audience-card:hover { transform: translateY(-3px); box-shadow: var(--sh-lg); }
+.audience-emoji { font-size: 48px; margin-bottom: 16px; display: block; }
+.audience-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+.audience-card p { font-size: 14px; color: var(--text-sec); line-height: 1.6; }
+
+/* ===== PROCESS ===== */
+.process-steps {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 30px; max-width: 700px; margin: 0 auto;
+}
+.step {
+  text-align: center; position: relative;
+}
+.step-num {
+  width: 52px; height: 52px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: #fff; font-size: 22px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 16px;
+}
+.step h3 { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
+.step p { font-size: 14px; color: var(--text-sec); line-height: 1.6; }
+
+/* ===== WHY US ===== */
+.why-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+.why-item {
+  display: flex; gap: 16px; align-items: flex-start;
+  background: var(--bg-card); padding: 24px;
+  border-radius: var(--r); box-shadow: var(--sh);
+  border: 1px solid var(--border); transition: all var(--tr);
+}
+.why-item:hover { border-color: var(--primary-light); box-shadow: var(--sh-md); }
+.why-icon {
+  width: 48px; height: 48px; min-width: 48px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; background: var(--primary-bg); color: var(--primary);
+}
+.why-icon svg { width: 24px; height: 24px; }
+.why-text h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+.why-text p { font-size: 14px; color: var(--text-sec); line-height: 1.6; }
+
+/* ===== ABOUT ME ===== */
+.about-section {
+  position: relative; overflow: hidden;
+  background: linear-gradient(135deg, #F5F3FF 0%, #FDF2F8 100%);
+}
+.about-grid {
+  display: grid; grid-template-columns: 300px 1fr;
+  gap: 48px; align-items: center; max-width: 900px; margin: 0 auto;
+}
+.about-photo-wrap {
+  position: relative;
+}
+.about-photo {
+  width: 280px; height: 340px; border-radius: var(--r-lg);
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 120px; position: relative; overflow: hidden;
+  box-shadow: var(--sh-xl);
+}
+.about-photo-placeholder {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 100px; color: rgba(255,255,255,.9);
+}
+.about-badge {
+  position: absolute; bottom: -12px; right: -12px;
+  background: var(--accent); color: #fff;
+  padding: 8px 18px; border-radius: var(--r-full);
+  font-size: 13px; font-weight: 700;
+  box-shadow: 0 4px 12px rgba(236,72,153,.3);
+}
+.about-content h2 {
+  font-size: clamp(26px, 4vw, 36px); font-weight: 800; margin-bottom: 6px;
+}
+.about-subtitle {
+  font-size: 17px; color: var(--primary); font-weight: 600; margin-bottom: 18px;
+}
+.about-story {
+  font-size: 16px; color: var(--text-sec); line-height: 1.8; margin-bottom: 24px;
+}
+.about-story strong { color: var(--text); }
+.about-highlights {
+  display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 24px;
+}
+.about-tag {
+  background: var(--bg-card); border: 1px solid var(--border);
+  padding: 8px 16px; border-radius: var(--r-full);
+  font-size: 13px; font-weight: 500; color: var(--text);
+  display: flex; align-items: center; gap: 6px;
+}
+.about-links {
+  display: flex; gap: 12px; flex-wrap: wrap;
+}
+.about-link {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 22px; border-radius: var(--r-full);
+  font-size: 14px; font-weight: 600; transition: all var(--tr);
+}
+.about-link-primary {
+  background: var(--primary); color: #fff;
+}
+.about-link-primary:hover { background: var(--primary-dark); color: #fff; transform: translateY(-2px); }
+.about-link-outline {
+  background: var(--bg-card); color: var(--primary);
+  border: 2px solid var(--primary-light);
+}
+.about-link-outline:hover { background: var(--primary-bg); transform: translateY(-2px); }
+.about-quote {
+  margin-top: 24px; padding: 16px 20px;
+  background: var(--bg-card); border-radius: var(--r);
+  border-right: 4px solid var(--primary);
+  font-style: italic; color: var(--text-sec); font-size: 15px; line-height: 1.7;
+}
+
+/* ===== BLOG PREVIEW ===== */
+.blog-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+.blog-card {
+  background: var(--bg-card); border-radius: var(--r-lg);
+  box-shadow: var(--sh); border: 1px solid var(--border);
+  overflow: hidden; transition: all var(--tr);
+}
+.blog-card:hover { transform: translateY(-4px); box-shadow: var(--sh-lg); border-color: var(--primary-light); }
+.blog-thumb {
+  width: 100%; height: 180px; object-fit: cover;
+  background: linear-gradient(135deg, var(--primary-bg) 0%, #FDF2F8 100%);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 56px;
+}
+.blog-body { padding: 24px; }
+.blog-tag {
+  display: inline-block; background: var(--primary-bg); color: var(--primary);
+  font-size: 12px; font-weight: 600; padding: 3px 12px;
+  border-radius: var(--r-full); margin-bottom: 10px;
+}
+.blog-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; line-height: 1.4; }
+.blog-card h3 a { color: var(--text); transition: color var(--tr); }
+.blog-card h3 a:hover { color: var(--primary); }
+.blog-excerpt { font-size: 14px; color: var(--text-sec); line-height: 1.6; margin-bottom: 14px; }
+.blog-meta { font-size: 12px; color: var(--text-m); display: flex; align-items: center; gap: 12px; }
+.blog-more {
+  display: inline-flex; align-items: center; gap: 6px;
+  color: var(--primary); font-weight: 600; font-size: 14px;
+  margin-top: 40px; transition: all var(--tr);
+}
+.blog-more:hover { gap: 10px; }
+
+/* ===== ABOUT PHOTO REAL ===== */
+.about-photo img {
+  width: 100%; height: 100%; object-fit: cover;
+}
+
+/* ===== PORTFOLIO ===== */
+.portfolio-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+.portfolio-card {
+  background: var(--bg-card); border-radius: var(--r-lg);
+  box-shadow: var(--sh); border: 1px solid var(--border);
+  overflow: hidden; transition: all var(--tr); position: relative;
+}
+.portfolio-card:hover {
+  transform: translateY(-5px); box-shadow: var(--sh-lg);
+  border-color: var(--primary-light);
+}
+.portfolio-thumb {
+  width: 100%; height: 200px; position: relative; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+.portfolio-thumb-placeholder {
+  width: 100%; height: 100%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 8px; color: rgba(255,255,255,.9); font-size: 14px; font-weight: 500;
+}
+.portfolio-thumb-placeholder .portfolio-emoji { font-size: 52px; }
+.portfolio-thumb-placeholder .portfolio-label {
+  background: rgba(255,255,255,.2); backdrop-filter: blur(6px);
+  padding: 4px 16px; border-radius: var(--r-full); font-size: 12px;
+}
+.portfolio-thumb img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform .4s ease;
+}
+.portfolio-card:hover .portfolio-thumb img { transform: scale(1.05); }
+.portfolio-body { padding: 22px; }
+.portfolio-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+.portfolio-tag {
+  background: var(--primary-bg); color: var(--primary);
+  font-size: 11px; font-weight: 600; padding: 3px 10px;
+  border-radius: var(--r-full);
+}
+.portfolio-tag.accent { background: var(--accent-bg); color: #c26db2; }
+.portfolio-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+.portfolio-card p { font-size: 14px; color: var(--text-sec); line-height: 1.6; margin-bottom: 16px; }
+.portfolio-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  color: var(--primary); font-size: 14px; font-weight: 600;
+  transition: all var(--tr);
+}
+.portfolio-link:hover { gap: 10px; color: var(--primary-dark); }
+.portfolio-cta {
+  text-align: center; margin-top: 40px;
+  padding: 28px; background: var(--primary-bg);
+  border-radius: var(--r-lg); border: 2px dashed var(--primary-light);
+}
+.portfolio-cta p { font-size: 16px; color: var(--text-sec); margin-bottom: 14px; line-height: 1.7; }
+.portfolio-cta p strong { color: var(--text); }
+
+/* ===== TESTIMONIALS ===== */
+.testimonials-swiper { padding-bottom: 48px; overflow: hidden; }
+.testimonials-swiper .swiper-pagination { bottom: 0; }
+.testimonials-swiper .swiper-pagination-bullet { background: var(--primary-light); opacity: .4; width: 10px; height: 10px; }
+.testimonials-swiper .swiper-pagination-bullet-active { background: var(--primary); opacity: 1; }
+.testimonial {
+  background: var(--bg-card); border-radius: var(--r-lg);
+  padding: 28px; box-shadow: var(--sh);
+  border: 1px solid var(--border); position: relative;
+  height: auto;
+}
+.testimonial::before {
+  content: '"'; position: absolute; top: 16px; left: 20px;
+  font-size: 60px; font-weight: 900; color: var(--primary-light); opacity: .2;
+  line-height: 1;
+}
+.testimonial p { font-size: 15px; color: var(--text-sec); line-height: 1.7; margin-bottom: 16px; font-style: italic; }
+.testimonial-author { display: flex; align-items: center; gap: 12px; }
+.testimonial-avatar {
+  width: 42px; height: 42px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary-light), var(--accent-light));
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-weight: 700; font-size: 16px;
+}
+.testimonial-name { font-size: 14px; font-weight: 600; }
+.testimonial-role { font-size: 12px; color: var(--text-m); }
+
+/* ===== PRICING ===== */
+.pricing-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px; max-width: 960px; margin: 0 auto;
+}
+.price-card {
+  background: var(--bg-card); border-radius: var(--r-lg);
+  padding: 36px 28px; box-shadow: var(--sh);
+  border: 2px solid var(--border); text-align: center;
+  transition: all var(--tr); position: relative;
+  display: flex; flex-direction: column;
+}
+.price-card.featured {
+  border-color: var(--primary);
+  box-shadow: var(--sh-lg);
+  transform: scale(1.03);
+}
+.price-card.featured::before {
+  content: 'הכי פופולרי'; position: absolute;
+  top: -14px; right: 50%; transform: translateX(50%);
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: #fff; font-size: 12px; font-weight: 700;
+  padding: 4px 20px; border-radius: var(--r-full);
+}
+.price-card:hover { transform: translateY(-3px); box-shadow: var(--sh-lg); }
+.price-card.featured:hover { transform: scale(1.03) translateY(-3px); }
+.price-emoji { font-size: 36px; margin-bottom: 12px; display: block; }
+.price-card h3 { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
+.price-desc { font-size: 14px; color: var(--text-sec); margin-bottom: 20px; }
+.price-amount {
+  font-size: 42px; font-weight: 900; color: var(--primary); margin-bottom: 4px;
+}
+.price-amount span { font-size: 16px; font-weight: 400; color: var(--text-sec); }
+.price-note { font-size: 13px; color: var(--text-m); margin-bottom: 20px; }
+.price-features {
+  list-style: none; padding: 0; margin: 0 0 24px; text-align: right;
+  flex: 1;
+}
+.price-features li {
+  padding: 8px 0; font-size: 14px; color: var(--text-sec);
+  display: flex; align-items: center; gap: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.price-features li:last-child { border: none; }
+.price-features li::before { content: '✓'; color: var(--success); font-weight: 700; }
+
+/* ===== FAQ ===== */
+.faq-list { max-width: 720px; margin: 0 auto; }
+.faq-item {
+  background: var(--bg-card); border-radius: var(--r);
+  margin-bottom: 12px; box-shadow: var(--sh);
+  border: 1px solid var(--border); overflow: hidden;
+}
+.faq-q {
+  width: 100%; padding: 20px 24px; text-align: right;
+  font-size: 16px; font-weight: 600; color: var(--text);
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; transition: all var(--tr); cursor: pointer;
+  background: none; border: none; font-family: var(--font);
+}
+.faq-q:hover { color: var(--primary); }
+.faq-arrow {
+  font-size: 18px; transition: transform .3s;
+  min-width: 20px; text-align: center;
+}
+.faq-item.open .faq-arrow { transform: rotate(180deg); }
+.faq-a {
+  max-height: 0; overflow: hidden; transition: max-height .4s ease, padding .3s;
+  padding: 0 24px; font-size: 15px; color: var(--text-sec); line-height: 1.7;
+}
+.faq-item.open .faq-a { max-height: 300px; padding: 0 24px 20px; }
+
+/* ===== CTA SECTION ===== */
+.cta-section {
+  text-align: center; padding: 80px 24px;
+  background: linear-gradient(135deg, #174a5e 0%, #2a6f8a 50%, #9ecbd6 100%);
+  color: #fff; position: relative; overflow: hidden;
+}
+.cta-section::before {
+  content: ''; position: absolute; top: -2px; left: 0; right: 0;
+  height: 60px; background: var(--bg);
+  clip-path: ellipse(55% 100% at 50% 0%);
+}
+.cta-section h2 {
+  font-size: clamp(26px, 4vw, 38px); font-weight: 800; margin-bottom: 14px;
+  position: relative;
+}
+.cta-section p {
+  font-size: 17px; opacity: .9; max-width: 500px;
+  margin: 0 auto 30px; line-height: 1.7;
+}
+.cta-btns { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; position: relative; }
+
+/* ===== CONTACT ===== */
+.contact-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 40px; max-width: 900px; margin: 0 auto;
+}
+.contact-info { display: flex; flex-direction: column; gap: 20px; }
+.contact-item {
+  display: flex; align-items: center; gap: 14px;
+  background: var(--bg-card); padding: 20px;
+  border-radius: var(--r); box-shadow: var(--sh);
+  border: 1px solid var(--border); transition: all var(--tr);
+}
+.contact-item:hover { border-color: var(--primary-light); }
+.contact-icon {
+  width: 48px; height: 48px; min-width: 48px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; background: var(--primary-bg);
+}
+.contact-item h3 { font-size: 15px; font-weight: 600; margin-bottom: 2px; }
+.contact-item p { font-size: 14px; color: var(--text-sec); }
+.contact-form {
+  background: var(--bg-card); padding: 32px;
+  border-radius: var(--r-lg); box-shadow: var(--sh);
+  border: 1px solid var(--border);
+}
+.contact-form h3 { font-size: 20px; font-weight: 700; margin-bottom: 20px; }
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+.form-group input, .form-group textarea, .form-group select {
+  width: 100%; padding: 12px 16px;
+  border: 2px solid var(--border); border-radius: var(--r);
+  font-family: var(--font); font-size: 15px;
+  color: var(--text); background: var(--bg);
+  transition: border-color var(--tr), box-shadow var(--tr);
+  direction: rtl; outline: none;
+}
+.form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+  border-color: var(--primary); box-shadow: 0 0 0 4px var(--primary-glow);
+}
+.form-group textarea { resize: vertical; min-height: 100px; }
+
+/* ===== FOOTER ===== */
+.footer {
+  background: #1E1B4B; color: #C4B5FD; padding: 40px 24px 24px;
+  text-align: center;
+}
+.footer-inner { max-width: 1100px; margin: 0 auto; }
+.footer-logo { font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 8px; }
+.footer-desc { font-size: 14px; opacity: .7; max-width: 400px; margin: 0 auto 24px; line-height: 1.6; }
+.footer-links { display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; margin-bottom: 24px; }
+.footer-links a { color: #C4B5FD; font-size: 14px; transition: color var(--tr); }
+.footer-links a:hover { color: #fff; }
+.footer-divider { height: 1px; background: rgba(255,255,255,.1); margin-bottom: 20px; }
+.footer-legal { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 12px; font-size: 13px; }
+.footer-legal a { color: rgba(255,255,255,.7); text-decoration: none; }
+.footer-legal a:hover { color: #fff; text-decoration: underline; }
+.footer-legal span { color: rgba(255,255,255,.3); }
+.footer-copy { font-size: 13px; opacity: .5; }
+
+/* ===== FLOATING WHATSAPP ===== */
+.whatsapp-float {
+  position: fixed; bottom: 24px; left: 24px; z-index: 90;
+  width: 56px; height: 56px; border-radius: 50%;
+  background: #25D366; color: #fff; font-size: 28px;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 16px rgba(37,211,102,.35);
+  transition: all var(--tr); cursor: pointer;
+}
+.whatsapp-float:hover { transform: scale(1.1); box-shadow: 0 6px 24px rgba(37,211,102,.5); }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .nav-cta { display: none; }
+  .hamburger { display: flex; }
+  .stats-bar { gap: 30px; padding: 30px 20px; margin-top: -20px; }
+  .stat-num { font-size: 28px; }
+  .contact-grid { grid-template-columns: 1fr; }
+  .pricing-grid { grid-template-columns: 1fr; max-width: 380px; }
+  .price-card.featured { transform: none; }
+  .price-card.featured:hover { transform: translateY(-3px); }
+  .hero-btns { flex-direction: column; align-items: center; }
+  .btn { width: 100%; max-width: 300px; justify-content: center; }
+  .about-grid { grid-template-columns: 1fr; text-align: center; }
+  .about-photo-wrap { display: flex; justify-content: center; }
+  .about-photo { width: 220px; height: 270px; }
+  .about-photo-placeholder { font-size: 80px; }
+  .about-badge { right: 50%; transform: translateX(50%); bottom: -10px; }
+  .about-highlights { justify-content: center; }
+  .about-links { justify-content: center; }
+  .about-quote { text-align: right; }
+  .services-grid { grid-template-columns: 1fr 1fr; }
+  .service-brief { display: none; }
+  .service-card { padding: 18px 16px; }
+  .service-icon { width: 42px; height: 42px; font-size: 20px; border-radius: 12px; }
+  .service-icon svg { width: 22px; height: 22px; }
+  .service-header { gap: 10px; }
+  .service-card h3 { font-size: 15px; }
+  .service-toggle { width: 28px; height: 28px; font-size: 12px; }
+  .blog-grid { grid-template-columns: 1fr; }
+  .portfolio-grid { grid-template-columns: 1fr; }
+  .why-grid { grid-template-columns: 1fr; }
+  .audience-grid { grid-template-columns: 1fr 1fr; }
+  .section-title { font-size: clamp(24px, 5vw, 36px); }
+  .hero h1 { font-size: clamp(28px, 7vw, 48px); }
+  .hero { padding: clamp(50px, 10vw, 90px) 16px clamp(60px, 8vw, 80px); }
+}
+@media (max-width: 480px) {
+  .section { padding: 50px 16px; }
+  .stats-bar { flex-direction: column; gap: 16px; }
+  .services-grid { grid-template-columns: 1fr; }
+  .service-brief { display: block; }
+  .audience-grid { grid-template-columns: 1fr; }
+  .process-steps { grid-template-columns: 1fr 1fr; gap: 20px; }
+  .about-photo { width: 180px; height: 220px; }
+  .about-photo-placeholder { font-size: 64px; }
+  .hero-sub { font-size: 15px; }
+  .nav-inner { padding: 0 16px; }
+  .logo { font-size: 20px; }
+  .price-amount { font-size: 34px; }
+  .faq-q { padding: 16px 18px; font-size: 15px; }
+  .contact-form { padding: 20px; }
+  .about-content h2 { font-size: 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="logo" onclick="scrollToTop()">
+      <img src="logo.png" alt="הטכנולוגית" style="height:38px;width:auto;border-radius:6px;">
+      הטכנולוגית
+    </div>
+    <div class="nav-links">
+      <a class="nav-link active" href="#services">שירותים</a>
+      <a class="nav-link" href="#about">עליי</a>
+      <a class="nav-link" href="#portfolio">פרויקטים</a>
+      <a class="nav-link" href="#audience">למי מתאים</a>
+      <a class="nav-link" href="#process">איך זה עובד</a>
+      <a class="nav-link" href="#pricing">תוכניות</a>
+      <a class="nav-link" href="#faq">שאלות נפוצות</a>
+    </div>
+    <a class="nav-cta" href="#contact">צרו קשר ←</a>
+    <div class="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a class="nav-link" href="#services" onclick="closeMenu()">שירותים</a>
+  <a class="nav-link" href="#about" onclick="closeMenu()">עליי</a>
+  <a class="nav-link" href="#portfolio" onclick="closeMenu()">פרויקטים</a>
+  <a class="nav-link" href="#audience" onclick="closeMenu()">למי מתאים</a>
+  <a class="nav-link" href="#process" onclick="closeMenu()">איך זה עובד</a>
+  <a class="nav-link" href="#pricing" onclick="closeMenu()">תוכניות</a>
+  <a class="nav-link" href="#faq" onclick="closeMenu()">שאלות נפוצות</a>
+  <a class="nav-link" href="#contact" onclick="closeMenu()">צרו קשר</a>
+</div>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-content" data-aos="fade-up">
+    <div class="hero-badge">💡 הדרכה טכנולוגית אישית ומקצועית</div>
+    <h1>הטכנולוגיה לא חייבת<br>להיות <em>מסובכת</em></h1>
+    <p class="hero-sub">
+      הדרכה טכנולוגית אישית לכל הגילאים, תמיכה טכנית מרחוק, וייעוץ חכם לעסקים קטנים.
+      <strong>אנחנו כאן כדי לפשט לכם את החיים הדיגיטליים.</strong>
+    </p>
+    <div class="hero-btns">
+      <a class="btn btn-primary" href="#contact">בואו נתחיל →</a>
+      <a class="btn btn-outline" href="#services">מה אנחנו מציעים</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== STATS BAR ===== -->
+<div class="stats-bar">
+  <div class="stat">
+    <div class="stat-num">5+</div>
+    <div class="stat-label">שנות ניסיון</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">24/7</div>
+    <div class="stat-label">תמיכה זמינה</div>
+  </div>
+</div>
+
+<!-- ===== SERVICES ===== -->
+<section class="section" id="services">
+  <div class="section-inner">
+    <h2 class="section-title" data-aos="fade-up">השירותים שלנו</h2>
+    <p class="section-sub">פתרונות טכנולוגיים מותאמים אישית — מלמידה בסיסית ועד ייעוץ עסקי מתקדם</p>
+    <div class="services-grid">
+
+      <div class="service-card" data-aos="fade-up" onclick="toggleService(this)">
+        <div class="service-header">
+          <div class="service-icon"><i data-lucide="smartphone" stroke-width="1.5"></i></div>
+          <div class="service-header-text">
+            <h3>הדרכות טכנולוגיה</h3>
+            <p class="service-brief">מחשב, טלפון, מדפסת וכל כלי טכנולוגי</p>
+          </div>
+          <div class="service-toggle"><i data-lucide="chevron-down" stroke-width="2"></i></div>
+        </div>
+        <div class="service-details">
+          <p>שיעורים פרטיים מותאמים לקצב שלכם</p>
+          <ul class="service-list">
+            <li>שימוש בסמארטפון ואפליקציות</li>
+            <li>עבודה עם מחשב נייד ונייח</li>
+            <li>חיבור והפעלת מדפסות וסורקים</li>
+            <li>שיחות וידאו, מייל ולוח שנה</li>
+            <li>רשתות חברתיות ותקשורת דיגיטלית</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="service-card" data-aos="fade-up" onclick="toggleService(this)">
+        <div class="service-header">
+          <div class="service-icon"><i data-lucide="clipboard-list" stroke-width="1.5"></i></div>
+          <div class="service-header-text">
+            <h3>משימות יומיומיות דיגיטליות</h3>
+            <p class="service-brief">כל מה שצריך לעשות אונליין, צעד אחר צעד</p>
+          </div>
+          <div class="service-toggle"><i data-lucide="chevron-down" stroke-width="2"></i></div>
+        </div>
+        <div class="service-details">
+          <p>נלמד אתכם לבצע כל משימה דיגיטלית בביטחון</p>
+          <ul class="service-list">
+            <li>אפליקציות קופת חולים ותורים</li>
+            <li>הזמנת מוצרים ושירותים אונליין</li>
+            <li>תשלומים, העברות והוראות קבע</li>
+            <li>מילוי טפסים דיגיטליים וביטוחים</li>
+            <li>ניהול חשבונות ומשימות אדמיניסטרטיביות</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="service-card" data-aos="fade-up" onclick="toggleService(this)">
+        <div class="service-header">
+          <div class="service-icon"><i data-lucide="monitor" stroke-width="1.5"></i></div>
+          <div class="service-header-text">
+            <h3>תמיכה טכנית מרחוק</h3>
+            <p class="service-brief">עזרה ישירות למסך שלכם, בלי לצאת מהבית</p>
+          </div>
+          <div class="service-toggle"><i data-lucide="chevron-down" stroke-width="2"></i></div>
+        </div>
+        <div class="service-details">
+          <p>עזרה מהירה ויעילה לכל תקלה טכנית</p>
+          <ul class="service-list">
+            <li>פתרון תקלות מחשב ואינטרנט</li>
+            <li>התקנה והגדרת תוכנות</li>
+            <li>גיבוי ואבטחת מידע</li>
+            <li>חיבור מדפסות וציוד היקפי מרחוק</li>
+            <li>ליווי מרצים ומרצות בהדרכה מרחוק</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="service-card" data-aos="fade-up" onclick="toggleService(this)">
+        <div class="service-header">
+          <div class="service-icon"><i data-lucide="brain" stroke-width="1.5"></i></div>
+          <div class="service-header-text">
+            <h3>הדרכות AI ובינה מלאכותית</h3>
+            <p class="service-brief">שימוש בכלים החכמים שיש היום</p>
+          </div>
+          <div class="service-toggle"><i data-lucide="chevron-down" stroke-width="2"></i></div>
+        </div>
+        <div class="service-details">
+          <p>העולם משתנה — תדעו להשתמש בכלים שחוסכים זמן</p>
+          <ul class="service-list">
+            <li>שימוש ב-ChatGPT וכלי AI לחיי היומיום</li>
+            <li>AI לכתיבה, תמונות ותוכן</li>
+            <li>כלי AI שחוסכים זמן לעסקים</li>
+            <li>אבטחה ופרטיות בשימוש ב-AI</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="service-card" data-aos="fade-up" onclick="toggleService(this)">
+        <div class="service-header">
+          <div class="service-icon"><i data-lucide="store" stroke-width="1.5"></i></div>
+          <div class="service-header-text">
+            <h3>ליווי עסקים קטנים ועצמאיים</h3>
+            <p class="service-brief">פתרונות חכמים שחוסכים זמן וכסף</p>
+          </div>
+          <div class="service-toggle"><i data-lucide="chevron-down" stroke-width="2"></i></div>
+        </div>
+        <div class="service-details">
+          <p>ליווי טכנולוגי מלא לעסק שלכם</p>
+          <ul class="service-list">
+            <li>מיפוי צרכים ובחירת כלים דיגיטליים</li>
+            <li>הקמת נוכחות דיגיטלית לעסק</li>
+            <li>אוטומציה ופתרונות טכנולוגיים יעילים</li>
+            <li>אבטחה וגיבוי עסקי</li>
+            <li>ליווי שוטף ותמיכה מתמשכת</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="service-card" data-aos="fade-up" onclick="toggleService(this)">
+        <div class="service-header">
+          <div class="service-icon"><i data-lucide="shopping-cart" stroke-width="1.5"></i></div>
+          <div class="service-header-text">
+            <h3>ייעוץ ברכישת טכנולוגיה</h3>
+            <p class="service-brief">נעזור לבחור את המוצר הנכון בתקציב הנכון</p>
+          </div>
+          <div class="service-toggle"><i data-lucide="chevron-down" stroke-width="2"></i></div>
+        </div>
+        <div class="service-details">
+          <p>לפני שקונים — שואלים</p>
+          <ul class="service-list">
+            <li>ייעוץ בקניית מחשב נייד/נייח</li>
+            <li>בחירת טלפון חכם מתאים</li>
+            <li>המלצות על מדפסות, טאבלטים ועוד</li>
+            <li>השוואת מחירים ומפרטים</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="service-card" data-aos="fade-up" onclick="toggleService(this)">
+        <div class="service-header">
+          <div class="service-icon"><i data-lucide="graduation-cap" stroke-width="1.5"></i></div>
+          <div class="service-header-text">
+            <h3>ליווי מרצים מרחוק</h3>
+            <p class="service-brief">תמיכה למרצים שעובדים עם פלטפורמות דיגיטליות</p>
+          </div>
+          <div class="service-toggle"><i data-lucide="chevron-down" stroke-width="2"></i></div>
+        </div>
+        <div class="service-details">
+          <p>ליווי טכנולוגי מלא למרצים ומדריכים</p>
+          <ul class="service-list">
+            <li>הכנת סביבת הדרכה מרחוק</li>
+            <li>שימוש בכלי הוראה דיגיטליים</li>
+            <li>פתרון תקלות בזמן אמת</li>
+            <li>ייעול תהליכי הוראה ולמידה</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="service-card" data-aos="fade-up" onclick="toggleService(this)">
+        <div class="service-header">
+          <div class="service-icon"><i data-lucide="settings" stroke-width="1.5"></i></div>
+          <div class="service-header-text">
+            <h3>יצירת פתרונות טכנולוגיים</h3>
+            <p class="service-brief">פתרונות מותאמים — יעילים, חכמים, בדיוק מה שצריך</p>
+          </div>
+          <div class="service-toggle"><i data-lucide="chevron-down" stroke-width="2"></i></div>
+        </div>
+        <div class="service-details">
+          <p>אוטומציה ופתרונות מותאמים אישית</p>
+          <ul class="service-list">
+            <li>אוטומציה של תהליכים ידניים</li>
+            <li>חיבור בין מערכות וכלים</li>
+            <li>פתרונות AI לעסקים</li>
+            <li>ייעול זרימת עבודה דיגיטלית</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== AUDIENCE ===== -->
+<section class="section" id="audience" style="background: var(--primary-bg);">
+  <div class="section-inner">
+    <h2 class="section-title" data-aos="fade-up">למי מתאימים השירותים?</h2>
+    <p class="section-sub">אנחנו עובדים עם כולם — כל גיל, כל רמה, בלי שיפוטיות</p>
+    <div class="audience-grid">
+
+      <div class="audience-card" data-aos="fade-up">
+        <span class="audience-emoji">👵</span>
+        <h3>מבוגרים וגיל הזהב</h3>
+        <p>הדרכה סבלנית ומותאמת — לשלוט בטלפון, לשמור על קשר עם המשפחה, ולדעת מה קורה בעולם הדיגיטלי</p>
+      </div>
+
+      <div class="audience-card" data-aos="fade-up">
+        <span class="audience-emoji">👨‍👩‍👧</span>
+        <h3>הורים ומשפחות</h3>
+        <p>הגנה על הילדים ברשת, ניהול מסכים, שימוש מושכל בטכנולוגיה לכל המשפחה</p>
+      </div>
+
+      <div class="audience-card" data-aos="fade-up">
+        <span class="audience-emoji">💼</span>
+        <h3>בעלי עסקים קטנים</h3>
+        <p>ייעוץ טכנולוגי שמותאם לתקציב שלכם — כלים חכמים שעובדים בשבילכם</p>
+      </div>
+
+      <div class="audience-card" data-aos="fade-up">
+        <span class="audience-emoji">🌟</span>
+        <h3>כל מי שרוצה ללמוד</h3>
+        <p>לא משנה הגיל או הרמה — אם יש רצון ללמוד, אנחנו כאן ללוות אתכם</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROCESS ===== -->
+<section class="section" id="process">
+  <div class="section-inner">
+    <h2 class="section-title" data-aos="fade-up">איך זה עובד?</h2>
+    <p class="section-sub">תהליך פשוט ונוח — מהשיחה הראשונה ועד הפתרון</p>
+    <div class="process-steps">
+
+      <div class="step" data-aos="fade-up">
+        <div class="step-num">1</div>
+        <h3>שיחת היכרות</h3>
+        <p>נבין מה אתם צריכים, מה הרמה שלכם, ונתאים לכם את המסלול המושלם</p>
+      </div>
+
+      <div class="step" data-aos="fade-up">
+        <div class="step-num">2</div>
+        <h3>תוכנית אישית</h3>
+        <p>נבנה תוכנית מותאמת בדיוק לצרכים שלכם — בקצב שלכם, בזמן שנוח לכם</p>
+      </div>
+
+      <div class="step" data-aos="fade-up">
+        <div class="step-num">3</div>
+        <h3>למידה או תמיכה</h3>
+        <p>שיעור פרונטלי, תמיכה מרחוק, או ייעוץ — הכל באווירה נעימה ובסבלנות</p>
+      </div>
+
+      <div class="step" data-aos="fade-up">
+        <div class="step-num">4</div>
+        <h3>ליווי מתמשך</h3>
+        <p>לא נעלמים אחרי השיעור — תמיד אפשר לשלוח שאלה, ואנחנו כאן לעזור</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== WHY US ===== -->
+<section class="section" style="background: var(--primary-bg);">
+  <div class="section-inner">
+    <h2 class="section-title" data-aos="fade-up">למה דווקא הטכנולוגית?</h2>
+    <p class="section-sub">כי אנחנו לא סתם מלמדים — אנחנו באמת אכפת לנו שתצליחו</p>
+    <div class="why-grid">
+
+      <div class="why-item" data-aos="fade-up">
+        <div class="why-icon"><i data-lucide="target" stroke-width="1.5"></i></div>
+        <div class="why-text">
+          <h3>התאמה אישית מלאה</h3>
+          <p>כל שיעור מותאם בדיוק לכם — לרמה, לקצב, ולמטרה שלכם</p>
+        </div>
+      </div>
+
+      <div class="why-item" data-aos="fade-up">
+        <div class="why-icon"><i data-lucide="heart" stroke-width="1.5"></i></div>
+        <div class="why-text">
+          <h3>סבלנות אינסופית</h3>
+          <p>אין שאלות טיפשיות. מסבירים שוב ושוב עד שזה ברור</p>
+        </div>
+      </div>
+
+      <div class="why-item" data-aos="fade-up">
+        <div class="why-icon"><i data-lucide="home" stroke-width="1.5"></i></div>
+        <div class="why-text">
+          <h3>מהנוחות של הבית</h3>
+          <p>שיעורים ותמיכה מרחוק — לא צריך לנסוע לשום מקום</p>
+        </div>
+      </div>
+
+      <div class="why-item" data-aos="fade-up">
+        <div class="why-icon"><i data-lucide="coins" stroke-width="1.5"></i></div>
+        <div class="why-text">
+          <h3>מחירים הוגנים</h3>
+          <p>פתרונות לכל כיס — בלי עלויות נסתרות ובלי התחייבויות</p>
+        </div>
+      </div>
+
+      <div class="why-item" data-aos="fade-up">
+        <div class="why-icon"><i data-lucide="shield-check" stroke-width="1.5"></i></div>
+        <div class="why-text">
+          <h3>אבטחה ובטיחות</h3>
+          <p>מלמדים אתכם לזהות הונאות ולשמור על עצמכם ברשת</p>
+        </div>
+      </div>
+
+      <div class="why-item" data-aos="fade-up">
+        <div class="why-icon"><i data-lucide="zap" stroke-width="1.5"></i></div>
+        <div class="why-text">
+          <h3>זמינות גבוהה</h3>
+          <p>תקועים עם משהו? שלחו הודעה ונחזור אליכם מהר</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== ABOUT ME ===== -->
+<section class="section about-section" id="about">
+  <div class="section-inner">
+    <div class="about-grid">
+
+      <div class="about-photo-wrap">
+        <div class="about-photo">
+          <!-- החליפי את האימוג'י בתמונה שלך: -->
+          <!-- <img src="merav.jpg" alt="מירב טלר ושדי"> -->
+          <div class="about-photo-placeholder">👩‍💻</div>
+        </div>
+        <div class="about-badge">+10 שנות ניסיון</div>
+      </div>
+
+      <div class="about-content">
+        <h2>מירב טלר ושדי</h2>
+        <div class="about-subtitle">מדריכה טכנולוגית, גיקית מלידה, בת 31</div>
+
+        <p class="about-story">
+          כבר מגיל צעיר ידעתי שטכנולוגיה זה הדבר שלי. בזמן שכולם שיחקו בחוץ, אני פירקתי מחשבים והרכבתי אותם מחדש.<br><br>
+          <strong>מעל עשור אני מלווה אנשים בעולם הטכנולוגיה</strong> — מסבתות שרצו לדבר עם הנכדים בוידאו, דרך בעלי עסקים שהבינו שהם חייבים דיגיטל, ועד מרצים שעברו להוראה מרחוק ולא ידעו מאיפה להתחיל.<br><br>
+          מה שמניע אותי? <strong>הרגע שמישהו אומר ״וואו, לא ידעתי שזה כל כך פשוט!״</strong><br>
+          אני מאמינה שכל אחד יכול — צריך רק מישהי שתסביר בשפה שלכם, בסבלנות, ובלי להרגיש שאתם מפריעים.
+        </p>
+
+        <div class="about-highlights">
+          <span class="about-tag">🎓 מדריכה טכנולוגית מוסמכת</span>
+          <span class="about-tag">💻 מומחית לפתרונות חכמים</span>
+          <span class="about-tag">🏪 ייעוץ לעסקים קטנים</span>
+          <span class="about-tag">🌍 הדרכה פרונטלית ומרחוק</span>
+          <span class="about-tag">❤️ סבלנות אינסופית</span>
+          <span class="about-tag">🤖 חובבת AI וחדשנות</span>
+        </div>
+
+        <div class="about-links">
+          <a class="about-link about-link-primary" href="tel:054-246-4448">📞 חייגו אליי</a>
+          <a class="about-link about-link-outline" href="https://il.linkedin.com/in/merav-taler" target="_blank">💼 לינקדאין</a>
+        </div>
+
+        <div class="about-quote">
+          ״אני לא רק מלמדת טכנולוגיה — אני נותנת ביטחון. כי ברגע שאתם מבינים שאתם יכולים, הכל נפתח.״
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== PORTFOLIO ===== -->
+<section class="section" id="portfolio" style="background: var(--primary-bg);">
+  <div class="section-inner">
+    <h2 class="section-title" data-aos="fade-up">פרויקטים שבנינו</h2>
+    <p class="section-sub">הצצה לפתרונות טכנולוגיים שיצרנו — מאפליקציות ועד מערכות ניהול שלמות</p>
+    <div class="portfolio-grid">
+
+      <div class="portfolio-card" data-aos="fade-up">
+        <div class="portfolio-thumb" style="background:linear-gradient(135deg,#6366F1,#8B5CF6);">
+          <div class="portfolio-thumb-placeholder">
+            <span class="portfolio-emoji">💰</span>
+          </div>
+        </div>
+        <div class="portfolio-body">
+          <div class="portfolio-tags">
+            <span class="portfolio-tag">Firebase</span>
+            <span class="portfolio-tag">גרפים</span>
+            <span class="portfolio-tag accent">ניהול פיננסי</span>
+          </div>
+          <h3>תקציב משפחתי</h3>
+          <p>אפליקציית ניהול תקציב למשפחה — מעקב הוצאות והכנסות, חסכונות, דשבורד אינטראקטיבי עם גרפים, ייבוא דפי חשבון מאקסל, ותמיכה בריבוי משתמשים בזמן אמת.</p>
+          <span class="portfolio-link">צרו קשר לפתרון דומה ←</span>
+        </div>
+      </div>
+
+      <div class="portfolio-card" data-aos="fade-up">
+        <div class="portfolio-thumb" style="background:linear-gradient(135deg,#FF6B35,#FF8F60);">
+          <div class="portfolio-thumb-placeholder">
+            <span class="portfolio-emoji">📦</span>
+          </div>
+        </div>
+        <div class="portfolio-body">
+          <div class="portfolio-tags">
+            <span class="portfolio-tag">Firebase</span>
+            <span class="portfolio-tag">WhatsApp</span>
+            <span class="portfolio-tag accent">מערכת הזמנות</span>
+          </div>
+          <h3>OrderFlow — מערכת הזמנות</h3>
+          <p>מערכת הזמנות חכמה למפעלים ומאפיות — ניהול מוצרים וקטגוריות, קטלוג אונליין ללקוחות, שליחת הזמנות בוואטסאפ, וניהול כל התהליך מקצה לקצה.</p>
+          <span class="portfolio-link">צרו קשר לפתרון דומה ←</span>
+        </div>
+      </div>
+
+      <div class="portfolio-card" data-aos="fade-up">
+        <div class="portfolio-thumb" style="background:linear-gradient(135deg,#1a8a7d,#3dc4b5);">
+          <div class="portfolio-thumb-placeholder">
+            <span class="portfolio-emoji">🏙️</span>
+          </div>
+        </div>
+        <div class="portfolio-body">
+          <div class="portfolio-tags">
+            <span class="portfolio-tag">Telegram Bot</span>
+            <span class="portfolio-tag">Scraper</span>
+            <span class="portfolio-tag accent">קהילה</span>
+          </div>
+          <h3>בת ים היום — מעקב פעילויות</h3>
+          <p>פלטפורמה קהילתית שמרכזת פעילויות לילדים ומשפחות — סינון לפי גיל ותחום, מעקב אוטומטי על מקומות פנויים, בוט טלגרם עם התראות, ומחולל הודעות וואטסאפ.</p>
+          <span class="portfolio-link">צרו קשר לפתרון דומה ←</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="portfolio-cta">
+      <p><strong>צריכים פתרון טכנולוגי מותאם?</strong><br>אפליקציה, מערכת ניהול, דף נחיתה, או כלי אוטומציה — נשמח לשמוע על הצורך שלכם ולבנות פתרון בדיוק בשבילכם.</p>
+      <a class="btn btn-purple" href="#contact">בואו נדבר על הפרויקט שלכם →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TESTIMONIALS ===== -->
+<section class="section">
+  <div class="section-inner">
+    <h2 class="section-title" data-aos="fade-up">לקוחות ממליצים</h2>
+    <p class="section-sub">שמענו את זה מאות פעמים — ועדיין מתרגשים כל פעם מחדש</p>
+    <div class="swiper testimonials-swiper" data-aos="fade-up">
+      <div class="swiper-wrapper">
+
+        <div class="swiper-slide"><div class="testimonial">
+          <p>״לפני חצי שנה לא ידעתי לשלוח הודעה בוואטסאפ. היום אני מזמינה תורים לרופא מהטלפון, עושה שיחות וידאו עם הנכדים, ומרגישה שהעולם נפתח לי.״</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">ר</div>
+            <div><div class="testimonial-name">רחל, 72</div><div class="testimonial-role">הדרכה אישית</div></div>
+          </div>
+        </div></div>
+
+        <div class="swiper-slide"><div class="testimonial">
+          <p>״יש לי חנות קטנה ולא ידעתי איך להגיע ללקוחות באונליין. תוך חודש הייתה לי נוכחות דיגיטלית ומערכת ניהול לקוחות שחוסכת לי שעות ביום.״</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">מ</div>
+            <div><div class="testimonial-name">מוטי</div><div class="testimonial-role">ליווי עסקי</div></div>
+          </div>
+        </div></div>
+
+        <div class="swiper-slide"><div class="testimonial">
+          <p>״ההורים שלי חיו בפחד מהטכנולוגיה. אחרי כמה שיעורים הם עצמאיים לגמרי — ואני כבר לא צריכה לבוא כל שבוע לסדר להם את המחשב.״</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">ש</div>
+            <div><div class="testimonial-name">שירה</div><div class="testimonial-role">בת של לקוחות</div></div>
+          </div>
+        </div></div>
+
+        <div class="swiper-slide"><div class="testimonial">
+          <p>״אני מרצה באוניברסיטה ועברתי להוראה מרחוק. בלי הליווי הטכנולוגי לא הייתי מצליחה. היום אני מעבירה שיעורים בזום ברמה מקצועית.״</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">ד</div>
+            <div><div class="testimonial-name">ד״ר דנה</div><div class="testimonial-role">ליווי מרצים</div></div>
+          </div>
+        </div></div>
+
+        <div class="swiper-slide"><div class="testimonial">
+          <p>״הקמתי עסק עצמאי של אפייה ולא ידעתי מאיפה להתחיל דיגיטלית. היום יש לי דף אינסטגרם מטורף, אתר, ומערכת הזמנות אוטומטית. הכל בזכות הליווי.״</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">נ</div>
+            <div><div class="testimonial-name">נועה</div><div class="testimonial-role">עצמאית, עסק קטן</div></div>
+          </div>
+        </div></div>
+
+        <div class="swiper-slide"><div class="testimonial">
+          <p>״קיבלתי מדפסת חדשה במתנה ולא הצלחתי לחבר אותה. בשיחה אחת מרחוק הכל עבד. ומאז אני יודע גם לסרוק ולשלוח מסמכים במייל. תודה!״</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">י</div>
+            <div><div class="testimonial-name">יוסי, 68</div><div class="testimonial-role">תמיכה מרחוק</div></div>
+          </div>
+        </div></div>
+
+      </div>
+      <div class="swiper-pagination"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PRICING ===== -->
+<section class="section" id="pricing" style="background: var(--primary-bg);">
+  <div class="section-inner">
+    <h2 class="section-title" data-aos="fade-up">תוכניות עבודה</h2>
+    <p class="section-sub">כל התוכניות כוללות התאמה אישית מלאה — ביחד נבנה בדיוק את מה שמתאים לכם</p>
+    <p style="text-align:center;color:var(--text-sec);font-size:15px;line-height:1.8;max-width:600px;margin:0 auto 36px;">
+      תמיכה מרחוק · הדרכות על כלי ענן ואופיס · רשתות חברתיות · כלי AI · ייעוץ ברכישת ציוד · ועוד
+    </p>
+    <div class="pricing-grid">
+
+      <div class="price-card" data-aos="fade-up">
+        <span class="price-emoji">📱</span>
+        <h3>מפגש אישי</h3>
+        <p class="price-desc">פגישה חד-פעמית — מרחוק או פרונטלי</p>
+        <ul class="price-features">
+          <li>הדרכה, תמיכה טכנית, או ייעוץ</li>
+          <li>מותאם לנושא ולרמה שלכם</li>
+          <li>סיכום כתוב אחרי המפגש</li>
+        </ul>
+        <a class="btn btn-purple" href="#contact" style="width:100%;justify-content:center">לתיאום מפגש</a>
+      </div>
+
+      <div class="price-card featured">
+        <span class="price-emoji">⭐</span>
+        <h3>חבילת הדרכות</h3>
+        <p class="price-desc">סדרת מפגשים עם ליווי אישי מתמשך</p>
+        <ul class="price-features">
+          <li>תוכנית למידה מותאמת בקצב שלכם</li>
+          <li>תמיכה בוואטסאפ בין מפגשים</li>
+          <li>סיכום ומעקב התקדמות</li>
+        </ul>
+        <a class="btn btn-purple" href="#contact" style="width:100%;justify-content:center">בואו נתחיל</a>
+      </div>
+
+      <div class="price-card" data-aos="fade-up">
+        <span class="price-emoji">🏪</span>
+        <h3>ליווי עסקי שוטף</h3>
+        <p class="price-desc">מעטפת טכנולוגית מלאה לעסק שלכם</p>
+        <ul class="price-features">
+          <li>זמינות גבוהה ועדיפות בתגובה</li>
+          <li>דוח המלצות וליווי בהטמעה</li>
+          <li>תמיכה שוטפת בכל נושא טכנולוגי</li>
+        </ul>
+        <a class="btn btn-purple" href="#contact" style="width:100%;justify-content:center">לפגישת היכרות</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section class="section" id="faq">
+  <div class="section-inner">
+    <h2 class="section-title" data-aos="fade-up">שאלות נפוצות</h2>
+    <p class="section-sub">תשובות לשאלות שכולם שואלים</p>
+    <div class="faq-list">
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span>אין לי מושג בטכנולוגיה — זה בכלל מתאים לי?</span>
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-a">בהחלט! רוב הלקוחות שלנו מתחילים מאפס. אנחנו מתאימים את הקצב והתוכן בדיוק לרמה שלכם, בלי הנחות מראש ובלי שיפוטיות.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span>איך עובדת התמיכה מרחוק?</span>
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-a">אנחנו מתחברים למחשב או לטלפון שלכם בצורה מאובטחת (בהסכמה שלכם כמובן) ופותרים את הבעיה ביחד. אתם רואים הכל על המסך ולומדים תוך כדי.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span>יש לי עסק קטן — מה תוכלו לעשות בשבילי?</span>
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-a">נמפה את הצרכים הטכנולוגיים של העסק, נמליץ על כלים שיחסכו לכם זמן וכסף, ונלווה אתכם בהטמעה. מנוכחות דיגיטלית ועד ניהול לקוחות ואוטומציה.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span>האם אפשר לקבל שיעורים גם בערב או בשישי?</span>
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-a">כן! אנחנו גמישים בשעות. נתאם יחד זמנים שנוחים לכם — כולל ערבים וימי שישי בבוקר.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">
+          <span>כמה שיעורים צריך בדרך כלל?</span>
+          <span class="faq-arrow">▼</span>
+        </button>
+        <div class="faq-a">זה תלוי במטרות שלכם. יש כאלה שמספיק להם 2-3 שיעורים כדי להרגיש בנוח, ויש כאלה שאוהבים ליווי שוטף. אנחנו מתאימים את הכמות לצרכים שלכם.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== BLOG PREVIEW ===== -->
+<section class="section" id="blog">
+  <div class="section-inner">
+    <h2 class="section-title" data-aos="fade-up">טיפים וידע</h2>
+    <p class="section-sub">מאמרים קצרים שיעזרו לכם להבין טכנולוגיה בלי סיבוכים</p>
+    <div class="blog-grid">
+
+      <div class="blog-card">
+        <div class="blog-thumb">🔒</div>
+        <div class="blog-body">
+          <span class="blog-tag">אבטחה</span>
+          <h3><a href="blog.html#phishing">איך מזהים הודעת הונאה (פישינג)?</a></h3>
+          <p class="blog-excerpt">קיבלתם SMS מ״הבנק״ שמבקש לעדכן פרטים? כנראה שזה לא הבנק. הנה 5 סימנים שיעזרו לכם לזהות הודעות מזויפות ולהגן על עצמכם.</p>
+          <div class="blog-meta">
+            <span>📅 מרץ 2026</span>
+            <span>⏱️ 3 דקות קריאה</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="blog-card">
+        <div class="blog-thumb">🤖</div>
+        <div class="blog-body">
+          <span class="blog-tag">AI</span>
+          <h3><a href="blog.html#chatgpt">מה זה ChatGPT ולמה כולם מדברים על זה?</a></h3>
+          <p class="blog-excerpt">בינה מלאכותית נשמע מפחיד? בכלל לא. הנה הסבר פשוט על מה זה, איך משתמשים בזה, ואיך זה יכול לעזור לכם בחיי היומיום.</p>
+          <div class="blog-meta">
+            <span>📅 מרץ 2026</span>
+            <span>⏱️ 4 דקות קריאה</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="blog-card">
+        <div class="blog-thumb">📱</div>
+        <div class="blog-body">
+          <span class="blog-tag">טיפים</span>
+          <h3><a href="blog.html#phone-tips">5 דברים שכל אחד חייב לדעת לעשות בטלפון</a></h3>
+          <p class="blog-excerpt">מצילום מסך ועד גיבוי תמונות — הדברים הפשוטים שיהפכו את הטלפון שלכם מכשיר מבלבל לחבר הכי טוב שלכם.</p>
+          <div class="blog-meta">
+            <span>📅 פברואר 2026</span>
+            <span>⏱️ 3 דקות קריאה</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div style="text-align:center">
+      <a class="blog-more" href="blog.html">כל המאמרים ←</a>
+    </div>
+      <div class="blog-card" style="border-color:var(--accent-light);">
+        <div class="blog-thumb" style="background:linear-gradient(135deg,var(--accent),var(--accent-light));">🏙️</div>
+        <div class="blog-body">
+          <span class="blog-tag" style="background:var(--accent-bg);color:var(--accent);">פרויקט קהילתי</span>
+          <h3><a href="https://batyamtoday.meravtech.com/" target="_blank">BatYam Today — מה קורה היום בבת ים?</a></h3>
+          <p class="blog-excerpt">פלטפורמה שפיתחנו לקהילת ההורים בבת ים — מרכזת את כל הפעילויות מאתר קוינג, עם מעקב אוטומטי, התראות בטלגרם, ומחולל הודעות וואטסאפ למנהלות קהילה.</p>
+          <div class="blog-meta">
+            <span>🔗 <a href="https://batyamtoday.meravtech.com/" target="_blank">לאתר</a></span>
+            <span>🤖 <a href="https://t.me/BatYamTodayBot" target="_blank">בוט טלגרם</a></span>
+          </div>
+        </div>
+      </div>
+
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="cta-section">
+  <h2>מוכנים לקחת שליטה על הטכנולוגיה?</h2>
+  <p>שיחת ההיכרות הראשונה חינם — בואו נבין יחד מה אתם צריכים</p>
+  <div class="cta-btns">
+    <a class="btn btn-primary" href="#contact">לשיחת היכרות חינם →</a>
+    <a class="btn btn-outline" href="https://wa.me/972542464448" target="_blank">💬 שלחו לנו וואטסאפ</a>
+  </div>
+</section>
+
+<!-- ===== CONTACT ===== -->
+<section class="section" id="contact">
+  <div class="section-inner">
+    <h2 class="section-title" data-aos="fade-up">צרו קשר</h2>
+    <p class="section-sub">השאירו פרטים ונחזור אליכם תוך זמן קצר</p>
+    <div class="contact-grid">
+
+      <div class="contact-info">
+        <div class="contact-item">
+          <div class="contact-icon">📞</div>
+          <div>
+            <h3>טלפון</h3>
+            <p id="phone-placeholder">054-246-4448</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📧</div>
+          <div>
+            <h3>אימייל</h3>
+            <p id="email-placeholder">merav.tech@gmail.com</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">💬</div>
+          <div>
+            <h3>וואטסאפ</h3>
+            <p>שלחו הודעה ונחזור מהר</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">🕐</div>
+          <div>
+            <h3>שעות פעילות</h3>
+            <p>ראשון-חמישי 9:00-20:00 | שישי 9:00-13:00</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-form">
+        <h3>השאירו פרטים</h3>
+        <form onsubmit="handleSubmit(event)">
+          <div class="form-group">
+            <label>שם מלא</label>
+            <input type="text" placeholder="איך קוראים לכם?" required>
+          </div>
+          <div class="form-group">
+            <label>טלפון</label>
+            <input type="tel" placeholder="054-246-4448" required>
+          </div>
+          <div class="form-group">
+            <label>מה מעניין אתכם?</label>
+            <select>
+              <option value="">בחרו נושא...</option>
+              <option>הדרכה טכנולוגית אישית</option>
+              <option>תמיכה טכנית מרחוק</option>
+              <option>ייעוץ לעסק קטן</option>
+              <option>סדנה או קורס</option>
+              <option>אחר</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>ספרו לנו קצת</label>
+            <textarea placeholder="מה אתם מחפשים? איך נוכל לעזור?"></textarea>
+          </div>
+          <button type="submit" class="btn btn-purple" style="width:100%;justify-content:center;font-size:17px;padding:16px">
+            שלחו פנייה →
+          </button>
+        </form>
+        <div id="formSuccess" style="display:none;text-align:center;padding:30px 0;">
+          <div style="font-size:48px;margin-bottom:12px;">✅</div>
+          <h3 style="color:var(--success);margin-bottom:6px;">הפנייה נשלחה בהצלחה!</h3>
+          <p style="color:var(--text-sec);">נחזור אליכם בהקדם</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-logo">💡 הטכנולוגית</div>
+    <p class="footer-desc">הדרכה טכנולוגית אישית, תמיכה מרחוק, וייעוץ חכם לעסקים — הטכנולוגיה בשבילכם.</p>
+    <div class="footer-links">
+      <a href="#services">שירותים</a>
+      <a href="#about">עליי</a>
+      <a href="#portfolio">פרויקטים</a>
+      <a href="#audience">למי מתאים</a>
+      <a href="#process">איך זה עובד</a>
+      <a href="#pricing">תוכניות</a>
+      <a href="#faq">שאלות נפוצות</a>
+      <a href="#contact">צרו קשר</a>
+    </div>
+    <div class="footer-divider"></div>
+    <div class="footer-legal">
+      <a href="/privacy.html">מדיניות פרטיות</a>
+      <span>|</span>
+      <a href="/accessibility.html">הצהרת נגישות</a>
+    </div>
+    <p class="footer-copy">© 2026 הטכנולוגית — כל הזכויות שמורות</p>
+  </div>
+</footer>
+
+<!-- WhatsApp Float -->
+<a class="whatsapp-float" href="https://wa.me/972542464448" target="_blank" title="שלחו לנו וואטסאפ">
+  💬
+</a>
+
+<script>
+/* ===== NAVIGATION ===== */
+function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+
+function toggleMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+function closeMenu() {
+  document.getElementById('mobileMenu').classList.remove('open');
+}
+
+function toggleService(card) {
+  const wasOpen = card.classList.contains('open');
+  card.classList.toggle('open');
+  if (!wasOpen) {
+    setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 100);
+  }
+}
+
+/* Active nav link on scroll */
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-link');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 100) current = s.getAttribute('id');
+  });
+  navLinks.forEach(l => {
+    l.classList.remove('active');
+    if (l.getAttribute('href') === '#' + current) l.classList.add('active');
+  });
+});
+
+/* ===== FAQ ===== */
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  const wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!wasOpen) item.classList.add('open');
+}
+
+/* ===== FORM ===== */
+function handleSubmit(e) {
+  e.preventDefault();
+  const form = e.target;
+  form.style.display = 'none';
+  document.getElementById('formSuccess').style.display = 'block';
+}
+
+/* ===== STATS COUNTER ===== */
+const statsObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      document.querySelectorAll('.stat-num').forEach(el => {
+        const text = el.textContent;
+        const num = parseInt(text.replace(/[^0-9]/g, ''));
+        if (isNaN(num)) return;
+        const prefix = text.match(/^[^0-9]*/)[0];
+        const suffix = text.match(/[^0-9]*$/)[0];
+        let current = 0;
+        const step = Math.ceil(num / 40);
+        const timer = setInterval(() => {
+          current += step;
+          if (current >= num) { current = num; clearInterval(timer); }
+          el.textContent = prefix + current + suffix;
+        }, 30);
+      });
+      statsObserver.disconnect();
+    }
+  });
+}, { threshold: 0.5 });
+statsObserver.observe(document.querySelector('.stats-bar'));
+</script>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+AOS.init({ duration: 700, once: true, offset: 60 });
+lucide.createIcons();
+new Swiper('.testimonials-swiper', {
+  slidesPerView: 1,
+  spaceBetween: 20,
+  autoplay: { delay: 5000, disableOnInteraction: true },
+  pagination: { el: '.swiper-pagination', clickable: true },
+  breakpoints: {
+    640: { slidesPerView: 2 },
+    960: { slidesPerView: 3 }
+  }
+});
+</script>
+
+<!-- Privacy/Cookie Consent Banner -->
+<div id="privacyBanner" style="display:none;position:fixed;bottom:0;left:0;right:0;background:rgba(26,43,60,0.97);color:#fff;padding:14px 16px;z-index:99998;backdrop-filter:blur(10px);font-size:13px;line-height:1.6;direction:rtl;box-shadow:0 -4px 20px rgba(0,0,0,0.2);max-height:40vh;overflow-y:auto;">
+    <div style="max-width:600px;margin:0 auto;text-align:center;">
+        <div style="margin-bottom:10px;">
+            <strong>🔒 פרטיות</strong> — האתר משתמש בעוגיות (cookies) ו-Google Analytics לשיפור חוויית הגלישה.
+            <a href="/privacy.html" style="color:#93c5fd;font-weight:600;">מדיניות פרטיות מלאה</a>
+        </div>
+        <button onclick="document.getElementById('privacyBanner').style.display='none';localStorage.setItem('meravtech_privacy_ok','1');" style="background:#fff;color:#1a2b3c;border:none;padding:10px 32px;border-radius:8px;font-weight:700;font-size:14px;cursor:pointer;font-family:inherit;">הבנתי ומאשר/ת</button>
+    </div>
+</div>
+<script>if(!localStorage.getItem('meravtech_privacy_ok'))document.getElementById('privacyBanner').style.display='block';</script>
+
+<!-- Accessibility Widget -->
+<script>
+(function(){
+    var btn = document.createElement('button');
+    btn.setAttribute('aria-label','תפריט נגישות');
+    btn.style.cssText = 'position:fixed;bottom:calc(28px + env(safe-area-inset-bottom));right:16px;width:48px;height:48px;border-radius:50%;background:var(--primary, #2a6f8a);color:#fff;border:3px solid #fff;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,0.35);z-index:99999;font-size:22px;display:flex;align-items:center;justify-content:center;transition:transform 0.2s;';
+    btn.innerHTML = '♿';
+    btn.onmouseenter = function(){ this.style.transform='scale(1.12)'; };
+    btn.onmouseleave = function(){ this.style.transform='scale(1)'; };
+
+    var panel = document.createElement('div');
+    panel.style.cssText = 'position:fixed;bottom:calc(86px + env(safe-area-inset-bottom));right:12px;background:#fff;border-radius:16px;box-shadow:0 8px 40px rgba(0,0,0,0.25);padding:20px;z-index:99999;display:none;direction:rtl;width:min(280px,85vw);max-height:60vh;overflow-y:auto;';
+    panel.innerHTML = '<div style="font-weight:700;font-size:17px;margin-bottom:14px;color:#1a2b3c;display:flex;justify-content:space-between;align-items:center;">הגדרות נגישות <span id="acc-close" style="cursor:pointer;font-size:20px;opacity:0.5;">✕</span></div>' +
+        '<button class="acc-btn" data-action="font-up">🔠 הגדל טקסט</button>' +
+        '<button class="acc-btn" data-action="font-down">🔡 הקטן טקסט</button>' +
+        '<button class="acc-btn" data-action="contrast">🌗 ניגודיות גבוהה</button>' +
+        '<button class="acc-btn" data-action="links">🔗 הדגש קישורים</button>' +
+        '<button class="acc-btn" data-action="spacing">📏 מרווח שורות</button>' +
+        '<button class="acc-btn" data-action="grayscale">🔲 גווני אפור</button>' +
+        '<button class="acc-btn acc-reset" data-action="reset">↩️ איפוס הכל</button>';
+
+    var style = document.createElement('style');
+    style.textContent = '.acc-btn{display:block;width:100%;text-align:right;padding:12px 16px;margin:5px 0;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;cursor:pointer;font-family:inherit;font-size:14px;font-weight:500;transition:all 0.2s;}.acc-btn:hover{background:#e2e8f0;transform:translateX(-2px);}.acc-btn:active{transform:scale(0.98);}.acc-btn.active-opt{background:#dbeafe;border-color:#1a56db;}.acc-reset{background:#fee2e2!important;border-color:#fca5a5!important;}.acc-reset:hover{background:#fecaca!important;}.high-contrast *{color:#000!important;background-color:#fff!important;border-color:#000!important;}.high-contrast a,.high-contrast button{color:#00f!important;text-decoration:underline!important;}.highlight-links a{outline:3px solid #ff0!important;outline-offset:2px!important;}.grayscale section,.grayscale .hero,.grayscale .footer{filter:grayscale(1)!important;}';
+    document.head.appendChild(style);
+
+    var zoomLevel = 100;
+    function applyZoom(){ document.documentElement.style.zoom = (zoomLevel/100); }
+
+    panel.addEventListener('click', function(e){
+        var t = e.target.closest('[data-action]');
+        if(!t) return;
+        var action = t.getAttribute('data-action');
+        var body = document.body;
+        if(action==='font-up'){ zoomLevel = Math.min(zoomLevel+10, 150); applyZoom(); }
+        else if(action==='font-down'){ zoomLevel = Math.max(zoomLevel-10, 70); applyZoom(); }
+        else if(action==='contrast'){ body.classList.toggle('high-contrast'); t.classList.toggle('active-opt'); }
+        else if(action==='links'){ body.classList.toggle('highlight-links'); t.classList.toggle('active-opt'); }
+        else if(action==='spacing'){ var cur = getComputedStyle(body).lineHeight; body.style.lineHeight = body.style.lineHeight==='2.2' ? '' : '2.2'; t.classList.toggle('active-opt'); }
+        else if(action==='grayscale'){ body.classList.toggle('grayscale'); t.classList.toggle('active-opt'); }
+        else if(action==='reset'){ zoomLevel=100; applyZoom(); body.style.lineHeight=''; body.classList.remove('high-contrast','highlight-links','grayscale'); panel.querySelectorAll('.active-opt').forEach(function(b){b.classList.remove('active-opt');}); }
+    });
+
+    function togglePanel(){ panel.style.display = panel.style.display==='none' ? 'block' : 'none'; }
+    btn.addEventListener('click', function(e){ e.stopPropagation(); togglePanel(); });
+    panel.querySelector('#acc-close').addEventListener('click', function(){ panel.style.display='none'; });
+    document.addEventListener('click', function(e){ if(!panel.contains(e.target) && e.target!==btn) panel.style.display='none'; });
+
+    document.body.appendChild(btn);
+    document.body.appendChild(panel);
+})();
+</script>
+
+</body>
+</html>

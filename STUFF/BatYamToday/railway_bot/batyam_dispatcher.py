@@ -55,7 +55,7 @@ def build_whatsapp_share_url(event):
     # Credit travels with every share — plain text so it survives any platform.
     lines.append("")
     lines.append("✍️ נוצר ע\"י מירב טלר ושדי | הטכנולוגית")
-    lines.append("כל הפעילויות בבת ים: https://meravtech.com/batyam/")
+    lines.append("כל הפעילויות בבת ים: https://batyamtoday.meravtech.com/")
 
     text = "\n".join(lines)
     return f"https://wa.me/?text={urllib.parse.quote(text)}"
@@ -287,7 +287,7 @@ def format_batch_message(user_name, events_with_keywords):
 
     if truncated:
         parts.append(f"<i>...ועוד {truncated} פעילויות נוספות. ראו את כולן באתר:</i>")
-        parts.append('<a href="https://meravtech.com/batyam/">meravtech.com/batyam</a>')
+        parts.append('<a href="https://batyamtoday.meravtech.com/">batyamtoday.meravtech.com</a>')
 
     parts.append("")
     parts.append('<i>✍️ נוצר על ידי <a href="https://meravtech.com">מירב טלר ושדי | הטכנולוגית</a></i>')

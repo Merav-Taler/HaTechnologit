@@ -14,6 +14,7 @@ import re
 import os
 import json
 import time
+import html as html_lib
 import datetime
 import zoneinfo
 
@@ -36,11 +37,54 @@ KNOWN_SECTIONS = [
     {"slug": "BatYam_culture", "name": "תרבות ופנאי", "cid": 4605},
     {"slug": "BatYam_south", "name": "רובע דרום", "cid": 3591},
     {"slug": "BatYam_Kehilot", "name": "רשת הקהילות", "cid": 4126},
+    # קהילות שנמצאו במיפוי מלא של קוינג (24.9.2026). רובן משכפלות ל-plusi_all,
+    # אבל לא כולן (למשל "צו 8" מפרסמת רק אצלה) — לכן סורקים כל אחת ישירות.
+    {"slug": "BatYam_North", "name": "רובע צפון", "cid": 2316},
+    {"slug": "BatYam_RamatYosef", "name": "רמת יוסף ולב העיר", "cid": 2919},
+    {"slug": "BatYam_HaNassi", "name": "רמת הנשיא", "cid": 3593},
+    {"slug": "BatYam_Amidar", "name": "עמידר", "cid": 3594},
+    {"slug": "BatYam_MoBY", "name": "MoBY — מוזיאוני בת ים", "cid": 3288},
+    {"slug": "BatYam_Taf", "name": "Born in Bat Yam — הגיל הרך", "cid": 2918},
+    {"slug": "BatYam_Main_zav8", "name": "בת ים צו 8 — משפחות המילואים", "cid": 9412},
+    {"slug": "BatYam_Tarbutek", "name": "תרבוטק", "cid": 3280},
+    {"slug": "BatYam_Batya", "name": "בתיה — מרכז הצעירים", "cid": 5844},
+    {"slug": "BatYam_Kehilot_Parenthood", "name": "הורות בת ים", "cid": 5880},
+    {"slug": "plusi_bat_yam_russian", "name": "הקהילה לדוברי רוסית וצרפתית", "cid": 7573},
+    {"slug": "BatYam_Gadi", "name": "גרעין גדי", "cid": 2998},
+    {"slug": "BatYam_Torah", "name": "האגף התורני", "cid": 4066},
+    {"slug": "BatYam_Teens", "name": "נוער בת ים", "cid": 5066},
+    {"slug": "BatYam_Volunteers_SOS", "name": "מתנדבים בשעת חירום", "cid": 3399},
+    {"slug": "batyam_BatYam_Zahav", "name": "זהב — האזרחים הוותיקים", "cid": 10221},
+    {"slug": "batyam_Bat_Yam_RinatIsRight", "name": "רינת בת ים", "cid": 10722},
 ]
 
-# Slugs we never treat as discoverable sections (UI/utility paths on coing.co).
+# Slugs we never treat as discoverable sections (UI/utility paths on coing.co),
+# plus קהילות בקוינג שאינן פעילויות (נמצאו במיפוי המלא 24.9.2026): מדריכי עסקים,
+# קבוצות וואטסאפ, בתים מארחים, חוברת מתכונים, השאלת כלים, טפסים/סקרים, חנות המוזיאון.
 SECTION_BLACKLIST = {"events", "calendar", "map", "subcommunities", "whosin",
-                     "site", "static", "static-icons", "login", "register"}
+                     "site", "static", "static-icons", "login", "register",
+                     "BatYam_MoBy_Shop", "Batyam_North_Businesses", "Batyam_RamatYosef_Businesses",
+                     "BatYam_WhatsApp", "BatYam_CityResponse_openhouses", "batyam_BatYam_Community",
+                     "BatYam_ToolsRent", "BatYam_ParkinglotAndShelters", "BatYam_Birthday",
+                     "bat_yam_plusi_up60", "BatYam_Main_Form_Shagririm",
+                     "BatYam_Main_zav8_Introduction_Form", "batyam_plusi_pele_survey",
+                     "BatYam_Smile4life"}
+# תבניות slug שמסמנות "לא פעילויות" — לקהילות עתידיות באותו סגנון.
+SECTION_BLACKLIST_PATTERNS = ("business", "_form", "survey", "whatsapp", "shop", "_up60")
+
+
+def is_blacklisted_slug(slug):
+    if slug in SECTION_BLACKLIST:
+        return True
+    low = slug.lower()
+    return any(p in low for p in SECTION_BLACKLIST_PATTERNS)
+
+# גילוי קהילות חדשות — פעם ביום. ראו discover_communities().
+COMMUNITY_DISCOVERY_HOURS = 24
+CID_PROBE_FORWARD_MAX = 300      # כמה מספרי cid לבדוק מעל הסמן העליון בכל ריצה
+CID_PROBE_BACKFILL_WINDOW = 200  # חלון מתגלגל להשלמה אחורה (1..top) — מכסה הכול תוך ~50 יום
+CID_PROBE_404_STREAK = 15        # כמה 404 רצופים = הגענו לקצה מרחב ה-cid של קוינג
+MAX_MULTIDAY_DAYS = 14           # מעבר לזה data-ends הוא "רישום פתוח עד", לא אירוע רב-יומי
 
 # Seed gids per section. coing.co's main API call (gid=0) only returns *direct*
 # children of a community. Sections like BatYam_Kehilot (רשת הקהילות) are
@@ -619,6 +663,37 @@ def parse_event(html_item):
     date_match = re.search(r'(\d{1,2}/\d{2}/\d{4})', text)
     event_date = date_match.group(1) if date_match else ""
 
+    # coing מצרף ל-<li> חותמות זמן: data-date (התחלה) ו-data-ends (סיום).
+    # אירוע רב-יומי (שוק, פסטיבל) מתחיל בתאריך שכבר עבר אבל עדיין פעיל —
+    # בלי data-ends היינו מסמנים אותו כ"עבר" ביום השני שלו.
+    # קוינג משתמשת ב-data-ends גם כ"רישום פתוח עד" (קורס של 3 חודשים, כרטיס קהילה
+    # עם סיום ב-2027). לכן "רב-יומי" = טווח של עד MAX_MULTIDAY_DAYS מההתחלה; מעבר לזה
+    # התאריך היחיד שמוצג הוא ההתחלה, כמו קודם.
+    ends_at_iso = None
+    li = soup_item.find("li")
+    if li is not None:
+        start_ts = 0
+        try:
+            start_ts = int(li.get("data-date") or 0)
+            if start_ts > 0 and not event_date:
+                event_date = datetime.datetime.fromtimestamp(start_ts, IL_TZ).strftime("%d/%m/%Y")
+        except (TypeError, ValueError):
+            pass
+        try:
+            ends_ts = int(li.get("data-ends") or 0)
+            if ends_ts > 0:
+                ends_day = datetime.datetime.fromtimestamp(ends_ts, IL_TZ).strftime("%Y-%m-%d")
+                # רק לפי תאריך, לא לפי שעה — אירוע של היום שכבר נגמר נשאר "היום" באתר.
+                if ends_day < datetime.datetime.now(IL_TZ).strftime("%Y-%m-%d"):
+                    is_past = True
+                start_iso = db.parse_date_to_iso(event_date) if event_date else None
+                if start_iso:
+                    span = (datetime.date.fromisoformat(ends_day) - datetime.date.fromisoformat(start_iso)).days
+                    if 0 <= span <= MAX_MULTIDAY_DAYS:
+                        ends_at_iso = ends_day
+        except (TypeError, ValueError):
+            pass
+
     # Capacity: look for "רשומים (X/Y)" pattern on the event page
     # Note: "הצטרפו X Y" in list view is NOT capacity — it's "joined X, minimum Y"
     registered = 0
@@ -680,6 +755,7 @@ def parse_event(html_item):
         "event_time": event_time,
         "location": location,
         "image_url": image_url,
+        "ends_at_iso": ends_at_iso,
     }
 
 
@@ -793,6 +869,202 @@ def load_extra_sections_from_json():
                 continue
             SECTION_SEED_GIDS.setdefault(slug, set()).add(gid_int)
     return out
+
+
+def _api_headers_for(session, slug):
+    """Fetch a section page to obtain the CSRF token coing's groups API requires."""
+    url = f"{BASE_URL}/{CITY_SLUG}/{slug}"
+    resp = session.get(url, headers={"User-Agent": UA}, timeout=30)
+    resp.raise_for_status()
+    resp.encoding = "utf-8"
+    m = re.search(r'name="csrf-token" content="([^"]+)"', resp.text)
+    return {
+        "User-Agent": UA,
+        "X-Requested-With": "XMLHttpRequest",
+        "X-CSRF-Token": m.group(1) if m else "",
+        "Accept": "*/*",
+        "Referer": url,
+    }
+
+
+def _groups_api(session, headers, cid, typ, max_pages=30):
+    """Paginate /site/communities/groups for one cid + type ('regular' / 'subcommunities').
+
+    Returns (items, status): items = list of HTML snippets, status = 404 if coing says
+    the community does not exist, else the last HTTP status.
+    """
+    items = []
+    status = 200
+    for page in range(1, max_pages + 1):
+        resp = session.get(
+            f"{BASE_URL}/site/communities/groups",
+            params={"cid": cid, "type": typ, "view": "auto", "gid": 0, "page": page},
+            headers=headers, timeout=15,
+        )
+        status = resp.status_code
+        if status == 404:
+            break
+        try:
+            data = resp.json()
+        except ValueError:
+            break
+        if not data.get("success") or not data.get("items"):
+            break
+        items.extend(data["items"])
+        time.sleep(0.25)
+    return items, status
+
+
+def _community_title(session, slug):
+    """og:title of a community page (e.g. 'בת ים צו 8'), or '' on failure."""
+    try:
+        resp = session.get(f"{BASE_URL}/{CITY_SLUG}/{slug}", headers={"User-Agent": UA}, timeout=20)
+        if resp.status_code != 200:
+            return ""
+        resp.encoding = "utf-8"
+        m = re.search(r'property="og:title" content="([^"]*)"', resp.text)
+        return html_lib.unescape(m.group(1)).strip() if m else ""
+    except Exception:
+        return ""
+
+
+def _all_section_slugs():
+    conn = db.get_db()
+    try:
+        return {r["slug"] for r in conn.execute("SELECT slug FROM sections").fetchall()}
+    finally:
+        conn.close()
+
+
+def _register_community(session, slug, source, items=None):
+    """Add a newly found coing community to `sections` (+ admin alert). Returns True if added.
+
+    `items` = the community's page-1 listing, when the caller already has it. A community
+    whose every item is "אירוע שחלף" (e.g. BatYam_hanukkah_2022) is dormant: we skip it
+    (no section, no alert) so the 2-minute scrape stays lean. The rolling cid backfill
+    re-probes it every ~50 days, so if it wakes up it gets registered then.
+    """
+    if is_blacklisted_slug(slug) or slug in _all_section_slugs():
+        return False
+    if items:
+        texts = [BeautifulSoup(it, "html.parser").get_text(" ", strip=True) for it in items]
+        if all("אירוע שחלף" in t for t in texts):
+            if db.get_meta(f"dormant:{slug}") is None:
+                log(f"  קהילה רדומה (רק אירועים שחלפו): {slug} — לא נרשמת")
+            db.set_meta(f"dormant:{slug}", datetime.datetime.now(IL_TZ).isoformat())
+            return False
+    cid = fetch_section_cid(session, slug)
+    if not cid:
+        log(f"  קהילה {slug} נמצאה ({source}) אבל אין cid — מדלגת")
+        return False
+    name = _community_title(session, slug) or slug
+    db.upsert_section(slug, name, cid, CITY_SLUG)
+    log(f"  🆕 קהילה חדשה: {name} ({slug}, cid={cid}) — {source}")
+    _admin_alert(f"🆕 קהילה חדשה בקוינג נוספה לסריקה: <b>{name}</b>\n{slug} (cid={cid})\nמקור: {source}")
+    return True
+
+
+def discover_communities(session):
+    """גילוי קהילות (tenants) חדשות בקוינג. רץ לכל היותר פעם ב-COMMUNITY_DISCOVERY_HOURS.
+
+    למה זה נחוץ: קוינג לא מפרסם רשימת קהילות. הדף הראשי מקשר רק ל-plusi_all,
+    ורוב הקהילות (BatYam_Taf, BatYam_Main_zav8...) לא מקושרות משום מקום. חלקן
+    משכפלות את האירועים ל-plusi_all — אבל לא כולן ("צו 8" פרסמה 3 אירועים שלא
+    הגיעו לאתר). שני מנגנונים:
+
+    1. עץ תת-קהילות: type=subcommunities לכל סקציה פעילה (זול, תופס קהילות מקושרות).
+    2. סריקת cid: קוינג מקצה מספר cid רץ לכל קהילה בכל הערים. ה-API מחזיר לכל cid
+       את הפריטים שלו עם קישורי /<עיר>/<slug>/ — כך מזהים קהילות של בת ים בלי
+       לדעת את ה-slug מראש. סורקים חלון מעל הסמן העליון (קהילות שנולדו מאז) +
+       חלון מתגלגל מ-1 שמשלים אחורה קהילות ותיקות שאינן מקושרות.
+    """
+    now = datetime.datetime.now(IL_TZ)
+    last = db.get_meta("community_discovery_at")
+    if last:
+        try:
+            last_dt = datetime.datetime.fromisoformat(last)
+            if last_dt.tzinfo is None:
+                last_dt = last_dt.replace(tzinfo=IL_TZ)
+            if (now - last_dt).total_seconds() < COMMUNITY_DISCOVERY_HOURS * 3600:
+                return
+        except ValueError:
+            pass
+    # Stamp first so a crash mid-way doesn't retry every 2 minutes.
+    db.set_meta("community_discovery_at", now.isoformat())
+    log("גילוי קהילות: מתחיל (עץ תת-קהילות + סריקת cid)")
+
+    added = 0
+    link_re = re.compile(rf'/{CITY_SLUG}/([A-Za-z0-9_]+)/\d+')
+
+    # --- 1. sub-community tree ---
+    try:
+        headers = _api_headers_for(session, "plusi_all")
+    except Exception as e:
+        log(f"  גילוי קהילות: אין CSRF ({e}) — מדלגת")
+        return
+    sections = [s for s in db.get_active_sections(CITY_SLUG) if s["cid"]]
+    for sec in sections:
+        try:
+            items, _ = _groups_api(session, headers, sec["cid"], "subcommunities", max_pages=10)
+        except Exception as e:
+            log(f"  עץ תת-קהילות {sec['slug']}: {e}")
+            continue
+        for slug in sorted(set(link_re.findall(" ".join(items)))):
+            if _register_community(session, slug, f"תת-קהילה של {sec['slug']}"):
+                added += 1
+
+    # --- 2. cid probing ---
+    known_cids = {int(s["cid"]) for s in sections}
+    top = int(db.get_meta("cid_probe_top", max(known_cids) if known_cids else 0) or 0)
+    probes = 0
+
+    def probe(cid):
+        nonlocal added
+        items, status = _groups_api(session, headers, cid, "regular", max_pages=1)
+        time.sleep(0.2)
+        if status == 404:
+            return False
+        for slug in sorted(set(link_re.findall(" ".join(items)))):
+            if _register_community(session, slug, f"סריקת cid {cid}", items=items):
+                added += 1
+        return True
+
+    # 2a. forward: from the highest cid we know upward, until coing's id space ends.
+    misses = 0
+    cid = top + 1
+    highest_alive = top
+    while probes < CID_PROBE_FORWARD_MAX and misses < CID_PROBE_404_STREAK:
+        try:
+            alive = probe(cid)
+        except Exception as e:
+            log(f"  סריקת cid {cid}: {e}")
+            break
+        probes += 1
+        if alive:
+            highest_alive = cid
+            misses = 0
+        else:
+            misses += 1
+        cid += 1
+    if highest_alive > top:
+        db.set_meta("cid_probe_top", highest_alive)
+
+    # 2b. backfill: rolling window over 1..top for old, unlinked communities.
+    cursor = int(db.get_meta("cid_backfill_cursor", "1") or 1)
+    if cursor > highest_alive:
+        cursor = 1
+    end = min(cursor + CID_PROBE_BACKFILL_WINDOW, highest_alive)
+    for cid in range(cursor, end + 1):
+        if cid in known_cids:
+            continue
+        try:
+            probe(cid)
+        except Exception as e:
+            log(f"  השלמת cid {cid}: {e}")
+            break
+    db.set_meta("cid_backfill_cursor", end + 1)
+
+    log(f"גילוי קהילות: הסתיים — {added} חדשות, סמן עליון {highest_alive}, השלמה עד {end}")
 
 
 def discover_sections(session):
@@ -1029,12 +1301,25 @@ def _main_inner():
                 log(f"  מרחב חדש נמצא: {sec['name']} ({sec['slug']}, cid={cid})")
                 _admin_alert(f"🆕 סקציה חדשה התגלתה: <b>{sec['name']}</b> ({sec['slug']})")
 
+    # גילוי קהילות (tenants) חדשות — עץ תת-קהילות + סריקת מספרי cid. פעם ביום.
+    try:
+        discover_communities(session)
+    except Exception as e:
+        log(f"  שגיאה בגילוי קהילות: {e}")
+
     # Auto-cleanup: mark past events
     today_iso = datetime.date.today().strftime("%Y-%m-%d")
     cleanup_conn = db.get_db()
+    # ends_at_iso ארוך מדי (נשמר לפני הגבלת MAX_MULTIDAY_DAYS, או "רישום פתוח עד") — מאפסים,
+    # אחרת קורס של 3 חודשים / כרטיס קהילה מ-2025 מוצגים כ"פעילים היום" כל יום.
+    cleanup_conn.execute(
+        "UPDATE events SET ends_at_iso=NULL WHERE ends_at_iso IS NOT NULL AND event_date_iso IS NOT NULL "
+        "AND julianday(ends_at_iso) - julianday(event_date_iso) > ?", (MAX_MULTIDAY_DAYS,))
+    # אירוע רב-יומי (ends_at_iso בעתיד) נשאר פעיל גם אם תאריך ההתחלה עבר.
     cleaned = cleanup_conn.execute(
-        "UPDATE events SET is_past=1 WHERE is_past=0 AND event_date_iso < ? AND event_date_iso IS NOT NULL",
-        (today_iso,)).rowcount
+        "UPDATE events SET is_past=1 WHERE is_past=0 AND event_date_iso < ? AND event_date_iso IS NOT NULL "
+        "AND (ends_at_iso IS NULL OR ends_at_iso < ?)",
+        (today_iso, today_iso)).rowcount
     cleanup_conn.commit()
     cleanup_conn.close()
     # No-date entries: keep visible — they are ongoing/permanent activities
@@ -1118,6 +1403,7 @@ def _main_inner():
                 end_time=ev.get("end_time"),
                 location=ev["location"],
                 image_url=ev.get("image_url"),
+                ends_at_iso=ev.get("ends_at_iso"),
             )
 
             total_events += 1
@@ -1133,6 +1419,26 @@ def _main_inner():
 
         db.mark_section_scraped(section["id"])
         time.sleep(2)  # courtesy delay between sections
+
+    # ניקוי "רפאים": אירוע שקוינג הפסיק להציג ברשימות (הוסר/הסתיים/data-ends עבר)
+    # לא מתעדכן יותר ב-upsert ולכן last_checked שלו מתיישן. בלי זה, אירועים בלי
+    # תאריך ("פתוח להרשמה תמיד") נשארים באתר לנצח — נמצאו 40+ כאלה מאפריל.
+    # רץ רק אחרי סריקה מוצלחת (אף סקציה לא קרסה) כדי לא למחוק בגלל תקלה זמנית.
+    if total_events > 0 and not failed_sections:
+        try:
+            gconn = db.get_db()
+            ghosts = gconn.execute("""
+                UPDATE events SET is_past=1
+                WHERE is_past=0
+                  AND datetime(last_checked) < datetime('now','localtime','-72 hours')
+                  AND section_id != (SELECT id FROM sections WHERE slug='manual')
+            """).rowcount
+            gconn.commit()
+            gconn.close()
+            if ghosts:
+                log(f"  ניקוי רפאים: {ghosts} אירועים שלא הופיעו בקוינג 72 שעות הוסתרו")
+        except Exception as e:
+            log(f"  שגיאת ניקוי רפאים: {e}")
 
     stats = db.get_stats()
     log(f"סיום: {total_events} אירועים נסרקו, {total_available} עם מקום פנוי")
@@ -1242,10 +1548,10 @@ def _main_inner():
         events = [dict(r) for r in conn.execute("""
             SELECT e.*, s.name as section_name FROM events e
             LEFT JOIN sections s ON e.section_id = s.id
-            WHERE e.is_past = 0 AND (e.event_date_iso >= ? OR e.event_date_iso IS NULL)
+            WHERE e.is_past = 0 AND (e.event_date_iso >= ? OR e.event_date_iso IS NULL OR e.ends_at_iso >= ?)
             ORDER BY CASE WHEN e.event_date_iso IS NULL THEN 1 ELSE 0 END,
                      e.event_date_iso, e.event_time
-        """, (today,)).fetchall()]
+        """, (today, today)).fetchall()]
         locations = sorted(set(e["location"] for e in events if e.get("location")))
         conn.close()
 

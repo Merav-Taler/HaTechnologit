@@ -1,0 +1,15 @@
+# Railway build & deploy config
+# https://docs.railway.com/reference/config-as-code
+
+[build]
+builder = "NIXPACKS"
+
+[deploy]
+# Single worker so APScheduler runs once. Threads handle concurrent webhook
+# requests while background scraper threads do I/O. Timeout 240s covers a
+# slow coing.co fetch.
+startCommand = "gunicorn main:app --bind 0.0.0.0:$PORT --workers 1 --threads 4 --timeout 240 --access-logfile - --error-logfile -"
+healthcheckPath = "/healthz"
+healthcheckTimeout = 30
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 3

@@ -223,7 +223,7 @@ def init_db():
             event_time TEXT,                     -- HH:MM start
             end_time TEXT,                       -- HH:MM end
             location TEXT,                       -- מיקום (מתנ"ס, בי"ס וכו')
-            image_url TEXT                       -- תמונת האירוע
+            image_url TEXT,                      -- תמונת האירוע
             first_seen TEXT NOT NULL DEFAULT (datetime('now','localtime')),
             last_checked TEXT NOT NULL DEFAULT (datetime('now','localtime'))
         );
@@ -301,6 +301,7 @@ def init_db():
     for col, defn in [
         ("was_full", "INTEGER DEFAULT 0"),
         ("last_enriched", "TEXT"),
+        ("ends_at_iso", "TEXT"),        # YYYY-MM-DD — סיום אירוע רב-יומי (data-ends של coing)
     ]:
         try:
             conn.execute(f"ALTER TABLE events ADD COLUMN {col} {defn}")
@@ -318,6 +319,27 @@ def init_db():
             conn.execute(f"ALTER TABLE sections ADD COLUMN {col} {defn}")
         except:
             pass
+    # מפתח/ערך כללי — מצב של תהליכים ארוכי-טווח (למשל סמן סריקת cid לגילוי קהילות)
+    conn.execute("CREATE TABLE IF NOT EXISTS meta (key TEXT PRIMARY KEY, value TEXT)")
+    conn.commit()
+    conn.close()
+
+
+# ===== META (key/value) =====
+
+def get_meta(key, default=None):
+    conn = get_db()
+    try:
+        row = conn.execute("SELECT value FROM meta WHERE key=?", (key,)).fetchone()
+        return row["value"] if row else default
+    finally:
+        conn.close()
+
+
+def set_meta(key, value):
+    conn = get_db()
+    conn.execute("INSERT INTO meta (key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value=excluded.value",
+                 (key, str(value)))
     conn.commit()
     conn.close()
 
@@ -433,14 +455,16 @@ def get_recently_enriched_ids(event_ids, max_age_hours=2):
 
 def upsert_event(event_id, section_id, title, event_date, registered, capacity,
                  is_full, is_past, link, raw_text="", neighborhood=None, age_group=None,
-                 event_time=None, end_time=None, location=None, image_url=None):
+                 event_time=None, end_time=None, location=None, image_url=None,
+                 ends_at_iso=None):
     conn = get_db()
     event_date_iso = parse_date_to_iso(event_date) if event_date else None
     conn.execute("""
         INSERT INTO events (event_id, section_id, title, event_date, event_date_iso,
                            registered, capacity, is_full, is_past, link, raw_text,
-                           neighborhood, age_group, event_time, end_time, location, image_url)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                           neighborhood, age_group, event_time, end_time, location, image_url,
+                           ends_at_iso)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ON CONFLICT(event_id) DO UPDATE SET
             title=CASE WHEN length(events.title) <= 45 AND events.title IS NOT NULL THEN events.title ELSE excluded.title END,
             -- registered / capacity / is_full come from the enrichment step,
@@ -464,6 +488,7 @@ def upsert_event(event_id, section_id, title, event_date, registered, capacity,
             end_time=COALESCE(NULLIF(excluded.end_time, ''), events.end_time),
             location=COALESCE(NULLIF(excluded.location, ''), events.location),
             image_url=COALESCE(NULLIF(excluded.image_url, ''), events.image_url),
+            ends_at_iso=COALESCE(NULLIF(excluded.ends_at_iso, ''), events.ends_at_iso),
             -- age_group ו-neighborhood — תמיד נסונכרן מהזיהוי החדש (גם אל NULL).
             -- זה קריטי: אם הזיהוי הישן ייצר תיוג שגוי (למשל "0-1" מהמילה "תינוקות")
             -- והקוד החדש זיהה שאין גיל מפורש בטקסט, חייבים לנקות את הערך הישן
@@ -474,7 +499,8 @@ def upsert_event(event_id, section_id, title, event_date, registered, capacity,
             last_checked=datetime('now','localtime')
     """, (event_id, section_id, title, event_date, event_date_iso,
           registered, capacity, is_full, is_past, link, raw_text,
-          neighborhood, age_group, event_time, end_time, location, image_url))
+          neighborhood, age_group, event_time, end_time, location, image_url,
+          ends_at_iso))
     conn.commit()
     conn.close()
 
@@ -487,12 +513,27 @@ def clear_was_full(event_id):
     conn.close()
 
 
+def _ongoing_as_day(rows, day_iso):
+    """אירוע רב-יומי שהתחיל לפני `day_iso` ועדיין רץ (ends_at_iso >= day_iso) מוצג
+    לבוט/דייג'סט כאילו הוא של אותו יום — אחרת הוא נופל לכותרת תאריך שכבר עבר."""
+    out = []
+    for r in rows:
+        d = dict(r)
+        if d.get("event_date_iso") and d["event_date_iso"] < day_iso and (d.get("ends_at_iso") or "") >= day_iso:
+            d["event_date_iso"] = day_iso
+            y, m, dd = day_iso.split("-")
+            d["event_date"] = f"{dd}/{m}/{y}"
+        out.append(d)
+    return out
+
+
 def get_available_events(section_id=None):
     """Get events with available space (not full, not past, today or future only)."""
     conn = get_db()
     today_iso = _today_il().strftime("%Y-%m-%d")
-    sql = "SELECT * FROM events WHERE is_full=0 AND is_past=0 AND (event_date_iso >= ? OR event_date_iso IS NULL)"
-    params = [today_iso]
+    sql = ("SELECT * FROM events WHERE is_full=0 AND is_past=0 "
+           "AND (event_date_iso >= ? OR event_date_iso IS NULL OR ends_at_iso >= ?)")
+    params = [today_iso, today_iso]
     if section_id:
         sql += " AND section_id=?"
         params.append(section_id)
@@ -503,18 +544,19 @@ def get_available_events(section_id=None):
 
 
 def get_today_events():
-    """Get all events happening today."""
+    """Get all events happening today (incl. multi-day events that started earlier and still run)."""
     today_iso = _today_il().strftime("%Y-%m-%d")
     conn = get_db()
     rows = conn.execute("""
         SELECT e.*, s.name as section_name, s.slug as section_slug
         FROM events e
         LEFT JOIN sections s ON e.section_id = s.id
-        WHERE e.event_date_iso = ? AND e.is_past = 0
+        WHERE e.is_past = 0
+          AND (e.event_date_iso = ? OR (e.event_date_iso < ? AND e.ends_at_iso >= ?))
         ORDER BY e.title
-    """, (today_iso,)).fetchall()
+    """, (today_iso, today_iso, today_iso)).fetchall()
     conn.close()
-    return [dict(r) for r in rows]
+    return _ongoing_as_day(rows, today_iso)
 
 
 def get_upcoming_events(days=7):
@@ -525,13 +567,15 @@ def get_upcoming_events(days=7):
         SELECT e.*, s.name as section_name, s.slug as section_slug
         FROM events e
         LEFT JOIN sections s ON e.section_id = s.id
-        WHERE e.event_date_iso >= ? AND e.is_past = 0
+        WHERE e.is_past = 0 AND (e.event_date_iso >= ? OR e.ends_at_iso >= ?)
         ORDER BY e.event_date_iso, e.title
-    """, (today_iso,)).fetchall()
+    """, (today_iso, today_iso)).fetchall()
     conn.close()
-    # Filter to N days
+    # Filter to N days (ongoing multi-day events are presented as today)
     max_date = (_today_il() + timedelta(days=days)).strftime("%Y-%m-%d")
-    return [dict(r) for r in rows if r["event_date_iso"] and r["event_date_iso"] <= max_date]
+    out = _ongoing_as_day(rows, today_iso)
+    out.sort(key=lambda r: (r.get("event_date_iso") or "", r.get("title") or ""))
+    return [r for r in out if r["event_date_iso"] and r["event_date_iso"] <= max_date]
 
 
 # ===== USERS =====
@@ -845,11 +889,12 @@ def get_events_by_date(date_iso):
     rows = conn.execute("""
         SELECT e.*, s.name as section_name FROM events e
         LEFT JOIN sections s ON e.section_id = s.id
-        WHERE e.event_date_iso = ? AND e.is_past = 0
+        WHERE e.is_past = 0
+          AND (e.event_date_iso = ? OR (e.event_date_iso < ? AND e.ends_at_iso >= ?))
         ORDER BY e.event_time, e.title
-    """, (date_iso,)).fetchall()
+    """, (date_iso, date_iso, date_iso)).fetchall()
     conn.close()
-    return [dict(r) for r in rows]
+    return _ongoing_as_day(rows, date_iso)
 
 
 def get_all_events_for_matching():

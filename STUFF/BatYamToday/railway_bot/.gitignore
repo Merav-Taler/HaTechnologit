@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+
+# Secrets — NEVER commit
+.env
+batyam_secrets.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Logs (we don't write to disk anyway, but just in case)
+*.log
+
+# Local SQLite — production DB lives on Railway's /data volume
+*.db
+*.db-shm
+*.db-wal
+.batyam_scraper.lock
+.dash_last

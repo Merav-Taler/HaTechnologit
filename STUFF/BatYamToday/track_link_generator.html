@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>מחולל לינקים — BatYamToday</title>
+<style>
+  :root {
+    --bg: #fafaf7;
+    --card: #fff;
+    --primary: #2d6cdf;
+    --primary-dark: #1d54ba;
+    --wa: #25d366;
+    --wa-dark: #1ebd5a;
+    --tg: #229ED9;
+    --text: #1d1d1f;
+    --muted: #6b6b6b;
+    --border: #e2e2e0;
+    --accent: #fff8e1;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Heebo", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding: 24px 16px;
+    min-height: 100vh;
+  }
+  .container { max-width: 640px; margin: 0 auto; }
+  h1 {
+    font-size: 26px;
+    margin: 0 0 6px;
+    text-align: center;
+  }
+  .subtitle {
+    text-align: center;
+    color: var(--muted);
+    margin: 0 0 24px;
+    font-size: 14px;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 15px;
+  }
+  input[type="text"] {
+    width: 100%;
+    padding: 14px 16px;
+    font-size: 17px;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    font-family: inherit;
+    direction: rtl;
+    transition: border-color 0.15s;
+  }
+  input[type="text"]:focus {
+    outline: none;
+    border-color: var(--primary);
+  }
+  .hint {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+  .quick-words {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .chip {
+    background: var(--accent);
+    border: 1px solid #f0d97a;
+    padding: 6px 12px;
+    border-radius: 18px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .chip:hover { background: #ffe8a3; }
+  .output {
+    background: #f5f5f3;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+    font-family: ui-monospace, "SF Mono", monospace;
+    font-size: 13px;
+    direction: ltr;
+    text-align: left;
+    word-break: break-all;
+    user-select: all;
+    margin-bottom: 12px;
+  }
+  .buttons { display: flex; gap: 10px; flex-wrap: wrap; }
+  button {
+    flex: 1;
+    min-width: 130px;
+    padding: 13px 16px;
+    border-radius: 10px;
+    border: none;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.15s;
+  }
+  .btn-copy {
+    background: var(--primary);
+    color: #fff;
+  }
+  .btn-copy:hover { background: var(--primary-dark); }
+  .btn-wa {
+    background: var(--wa);
+    color: #fff;
+  }
+  .btn-wa:hover { background: var(--wa-dark); }
+  .btn-tg {
+    background: var(--tg);
+    color: #fff;
+  }
+  .btn-tg:hover { background: #1c87b6; }
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: #1d1d1f;
+    color: #fff;
+    padding: 12px 22px;
+    border-radius: 24px;
+    font-size: 14px;
+    opacity: 0;
+    transition: all 0.25s;
+    z-index: 100;
+  }
+  .toast.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+  .empty-state {
+    text-align: center;
+    color: var(--muted);
+    padding: 30px 20px;
+    font-size: 14px;
+  }
+  details {
+    margin-top: 14px;
+    font-size: 14px;
+  }
+  summary {
+    cursor: pointer;
+    color: var(--primary);
+    font-weight: 600;
+    padding: 6px 0;
+  }
+  details p {
+    color: var(--muted);
+    line-height: 1.6;
+    margin: 8px 0;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>🔗 מחולל לינקים למעקב</h1>
+  <p class="subtitle">צרי לינק לשליחה — הלוחצת תירשם אוטומטית למעקב בבוט</p>
+
+  <div class="card">
+    <label for="kw">מה לעקוב אחריו?</label>
+    <input type="text" id="kw" placeholder="לדוגמה: גימבורי, סדנה, שמרטפייה" autofocus>
+    <div class="hint">אפשר גם שם של פעילות, מקום, גיל, או נושא</div>
+
+    <div class="quick-words" id="chips">
+      <span class="chip" data-w="גימבורי">גימבורי</span>
+      <span class="chip" data-w="יצירה">יצירה</span>
+      <span class="chip" data-w="סדנה">סדנה</span>
+      <span class="chip" data-w="שמרטפייה">שמרטפייה</span>
+      <span class="chip" data-w="ספורט">ספורט</span>
+      <span class="chip" data-w="פעוטות">פעוטות</span>
+      <span class="chip" data-w="ילדים">ילדים</span>
+      <span class="chip" data-w="מוזיקה">מוזיקה</span>
+      <span class="chip" data-w="תרבות">תרבות</span>
+      <span class="chip" data-w="גיל 0-3">גיל 0-3</span>
+      <span class="chip" data-w="גיל 3-6">גיל 3-6</span>
+      <span class="chip" data-w="גיל 6-12">גיל 6-12</span>
+    </div>
+  </div>
+
+  <div class="card" id="resultCard">
+    <div class="empty-state" id="emptyState">
+      ✏️ הקלידי מילה למעלה כדי לקבל לינק
+    </div>
+    <div id="resultContent" style="display:none;">
+      <label>הלינק שלך:</label>
+      <div class="output" id="linkOutput"></div>
+      <div class="buttons">
+        <button class="btn-copy" id="btnCopy">📋 העתיקי</button>
+        <button class="btn-wa" id="btnWa">💬 שלחי בוואטסאפ</button>
+        <button class="btn-tg" id="btnOpen">🤖 פתחי בבוט</button>
+      </div>
+      <details>
+        <summary>מה יקרה כשהיא תלחץ?</summary>
+        <p id="explainer"></p>
+      </details>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">הועתק ללוח ✓</div>
+
+<script>
+  const BOT = "BatYamTodayBot";
+  const kw = document.getElementById("kw");
+  const linkOutput = document.getElementById("linkOutput");
+  const emptyState = document.getElementById("emptyState");
+  const resultContent = document.getElementById("resultContent");
+  const explainer = document.getElementById("explainer");
+  const toast = document.getElementById("toast");
+
+  // URL-safe base64 encoding of UTF-8 (matches Python's urlsafe_b64encode + bot's decoder).
+  // The bot at batyam_bot.py:1123 does: replace('-','+').replace('_','/') + '==' then b64decode.
+  // So we must use URL-safe base64 (- and _, not + and /).
+  function encodeKeyword(text) {
+    const utf8 = new TextEncoder().encode(text);
+    let binary = "";
+    utf8.forEach(b => binary += String.fromCharCode(b));
+    return btoa(binary)
+      .replace(/\+/g, "-")
+      .replace(/\//g, "_")
+      .replace(/=+$/, "");
+  }
+
+  function buildLink(keyword) {
+    const encoded = encodeKeyword(keyword);
+    return `https://t.me/${BOT}?start=track_${encoded}`;
+  }
+
+  function update() {
+    const word = kw.value.trim();
+    if (!word) {
+      emptyState.style.display = "block";
+      resultContent.style.display = "none";
+      return;
+    }
+    const link = buildLink(word);
+    linkOutput.textContent = link;
+    explainer.textContent = `הבוט ייפתח, יזהה את המילה "${word}", ויוסיף אותה אוטומטית למעקבים שלה. בכל פעם שתעלה פעילות חדשה שמכילה את המילה הזו (או יתפנה בה מקום) — היא תקבל התראה.`;
+    emptyState.style.display = "none";
+    resultContent.style.display = "block";
+  }
+
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add("show");
+    setTimeout(() => toast.classList.remove("show"), 1800);
+  }
+
+  kw.addEventListener("input", update);
+
+  document.querySelectorAll(".chip").forEach(c => {
+    c.addEventListener("click", () => {
+      kw.value = c.dataset.w;
+      update();
+      kw.focus();
+    });
+  });
+
+  document.getElementById("btnCopy").addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(linkOutput.textContent);
+      showToast("הלינק הועתק ✓");
+    } catch {
+      const r = document.createRange();
+      r.selectNode(linkOutput);
+      window.getSelection().removeAllRanges();
+      window.getSelection().addRange(r);
+      document.execCommand("copy");
+      showToast("הלינק הועתק ✓");
+    }
+  });
+
+  document.getElementById("btnWa").addEventListener("click", () => {
+    const word = kw.value.trim();
+    const link = linkOutput.textContent;
+    const msg = `היי! יצרתי לך לינק למעקב על "${word}" בבוט של בת ים — לוחצת על הלינק ומקבלת התראה כשתעלה פעילות מתאימה או יתפנה מקום:\n\n${link}`;
+    window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, "_blank");
+  });
+
+  document.getElementById("btnOpen").addEventListener("click", () => {
+    window.open(linkOutput.textContent, "_blank");
+  });
+
+  kw.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      document.getElementById("btnCopy").click();
+    }
+  });
+</script>
+</body>
+</html>

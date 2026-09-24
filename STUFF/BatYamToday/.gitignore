@@ -1,0 +1,22 @@
+# secrets — never commit
+batyam_secrets.json
+DASHBOARD_PASSWORD.txt
+railway_bot/batyam_secrets.json
+railway_bot/.env
+# live/derived data
+*.db
+*.db-shm
+*.db-wal
+*.log
+*.jsonl
+.batyam_scraper.lock
+dashboard_data.js
+preview_data.js
+latest_digest.txt
+# derived upload copies (rebuilt from preview.html / dashboard.html)
+deploy/upload/
+deploy/*.zip
+# junk
+__pycache__/
+.DS_Store
+backup/

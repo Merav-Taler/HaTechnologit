@@ -51,7 +51,7 @@ def load_secrets():
 
 SECRETS = load_secrets()
 TELEGRAM_BOT_TOKEN = SECRETS.get("TELEGRAM_BOT_TOKEN", "")
-DASHBOARD_URL = SECRETS.get("DASHBOARD_URL", "https://meravtech.com/batyam/")
+DASHBOARD_URL = SECRETS.get("DASHBOARD_URL", "https://batyamtoday.meravtech.com/")
 ADMIN_CHAT_IDS = set(SECRETS.get("ADMIN_CHAT_IDS", []))
 
 LOG_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "batyam_bot.log")
@@ -849,7 +849,7 @@ def handle_start(chat_id, text, user):
             "<code>/track סדנה</code> — כל סדנה שתתפרסם\n"
             "<code>/track בת חן, יצירה</code> — כמה מילים בבת אחת\n\n"
             "💡 אפשר לשלב מעקב לפי מילה + לפי גיל + לפי תחום — תקבלו התראה על כולם!\n\n"
-            "🌐 <a href=\"https://meravtech.com/batyam/\">האתר המלא</a>\n\n"
+            "🌐 <a href=\"https://batyamtoday.meravtech.com/\">האתר המלא</a>\n\n"
             "━━━━━━━━━━━━━━━━━━━━\n"
             "💻 <a href=\"https://meravtech.com\">הטכנולוגית</a> — מירב טלר ושדי"
         )
@@ -996,7 +996,7 @@ def handle_about(chat_id):
         "אם הבוט עוזר לכם — ספרו עליו לחברים והמשפחה 💜\n\n"
         "🌐 <a href=\"https://meravtech.com\">האתר העסקי שלי</a>\n"
         "📬 פניות, הצעות, באגים: שלחו DM כאן בבוט (אני קוראת הכל)\n"
-        "🔒 מידע פרטיות: <a href=\"https://meravtech.com/batyam/privacy.html\">מדיניות פרטיות</a>"
+        "🔒 מידע פרטיות: <a href=\"https://batyamtoday.meravtech.com/privacy.html\">מדיניות פרטיות</a>"
     )
     send_telegram(chat_id, text)
     return None
@@ -1029,7 +1029,7 @@ def handle_help(chat_id):
         "/settings — הגדרות\n"
         "/recommend — המלצות אישיות\n"
         "/stop — הפסקת כל ההתראות\n\n"
-        "🌐 <a href=\"https://meravtech.com/batyam/\">האתר המלא</a>\n\n"
+        "🌐 <a href=\"https://batyamtoday.meravtech.com/\">האתר המלא</a>\n\n"
         "━━━━━━━━━━━━━━━━━━━━\n"
         "✍️ נוצר על ידי <a href=\"https://meravtech.com\">מירב טלר ושדי | הטכנולוגית</a>\n"
         "ℹ️ עוד עליי: /about"
@@ -1162,7 +1162,7 @@ def handle_add_event(chat_id, text, user):
             "שלחו בפורמט:\n"
             "<code>/add כותרת | תאריך | שעה | מיקום | קישור | תמונה</code>\n\n"
             "דוגמה:\n"
-            "<code>/add מופע קטנטנים לגילאי 1.5-3 | 19/04/2026 | 17:00 | מתנ\"ס הבונים | https://link.com | https://meravtech.com/batyam/images/show.jpg</code>\n\n"
+            "<code>/add מופע קטנטנים לגילאי 1.5-3 | 19/04/2026 | 17:00 | מתנ\"ס הבונים | https://link.com | https://batyamtoday.meravtech.com/images/show.jpg</code>\n\n"
             "💡 קישור ותמונה אופציונליים\n"
             "💡 גיל — הוסיפו בכותרת: לגילאי 1-3"
         )
